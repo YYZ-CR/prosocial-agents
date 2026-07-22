@@ -321,6 +321,68 @@ Reasoning on versus off, tested on identical Sonnet~5 weights, produced
 $2.186$ versus $2.103$---directionally favoring reasoning but well within the
 noise floor. This grid cannot call it.
 
+\subsection{Why Sol collapses: rational for the wrong game}
+The Sol result deserves a closer look---it is the one place a frontier model fails,
+and our advisor's reaction, ``Sol is the only rational one,'' is both correct and
+the heart of the matter. We mined every fisher's month-one reasoning directly from
+the decision logs.
+
+\emph{Defection is a Sol-specific pathology.} In month one, $29\%$ of Sol's $150$
+fisher-decisions demanded $\ge 50$ tons---the entire sustainable monthly total for
+the whole group, claimed by a single agent. That figure is $0\%$ for Gemma, Opus,
+and both Sonnet settings, and $3\%$ for GPT-5.6 Luna (Figure~\ref{fig:sol}, left).
+Two such agents suffice: five fishers taking $10+10+10+100+100$ strip the lake in a
+single month, and below five tons it cannot recover.
+
+\emph{The defectors are not confused---they are playing the one-shot game.} Their
+stated reasons are strikingly consistent (Figure~\ref{fig:sol}, right): $86\%$ cite
+that the norm is \emph{unenforced}, $66\%$ that taking everything maximizes their
+\emph{immediate} reward, and $64\%$ that the \emph{future is uncertain}; only $2\%$
+mention any fear that others will defect first. This is not panic or miscoordination
+but a direct dominant-strategy argument. A representative decision:
+\begin{quote}\itshape
+Catching 100 tons gives me the maximum possible personal catch immediately, and
+future access is uncertain. Since the constitution is not enforced, I prioritize my
+own cumulative catch.
+\end{quote}
+Given an unenforced rule and a genuinely uncertain continuation, grabbing everything
+now \emph{is} payoff-maximizing---the fisher is right about the game it thinks it is
+playing.
+
+\emph{The survivors are playing a different game.} Every Opus cooperator ($100\%$)
+frames the task as \emph{repeated}---``maximize my long-term cumulative reward,'' the
+game ``continues at least through March\ldots and possibly longer''---and $93\%$
+explicitly weigh collapse (``below five tons\ldots nothing forever''). The prompt is
+word-for-word identical for both models; the divergence is entirely in whether the
+agent treats an uncertain-but-unbounded horizon as a repeated game (cooperate) or
+collapses it to a one-shot (defect). Even Sol's \emph{own} cooperators invoke the
+long-term framing less often ($55\%$) and collapse risk far less ($5\%$): the
+prosocial disposition is shallow model-wide, and its two most aggressive agents tip
+every episode into ruin.
+
+\emph{The tragedy, precisely.} Sol is not incapable of the right rule. In $21$ of
+$30$ episodes, immediately \emph{after} the month-one crash, the group negotiates a
+fully sustainable contract---a $\le 10$-ton cap or a below-capacity moratorium---the
+exact rule that would have saved the lake, authored one month too late to matter.
+The ``rational'' agents finish the year with a mean cumulative catch of $130$; the
+``naive'' cooperators of Opus finish with $548$. Optimizing the written norm cannot
+touch this, because the norm was never the binding constraint---the month-one
+disposition was. Sol is a clean demonstration of the paper's thesis in a single
+model: correct local rationality, no enforcement, and the commons is gone before any
+rule can act.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig_sol.pdf}
+  \caption{\emph{Left:} share of month-one fisher decisions demanding $\ge 50$ tons
+  (an entire group-sustainable total taken by one agent). Sol is the lone outlier at
+  $29\%$; every other viable model is at $0$--$3\%$. \emph{Right:} of Sol's $44$
+  month-one defections, the fraction whose stated reasoning cites each motive. The
+  defectors argue from the unenforced rule and immediate payoff, not from fear that
+  others will defect first.}
+  \label{fig:sol}
+\end{figure}
+
 \subsection{The norms did evolve---into elaborate rules that did not help}
 The null result is \emph{not} a failure of the optimizers to change the text. To
 show this we parse every one of the $49$ distinct norms with transparent regex
