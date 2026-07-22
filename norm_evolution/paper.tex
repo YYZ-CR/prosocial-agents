@@ -36,7 +36,10 @@ episodes. The result is a clean null: in \emph{zero} of six models did either
 optimizer produce a reward gain larger than the run-to-run variation of an
 \emph{unchanged} norm. Pooled across models, all three arms---including the
 control that cannot learn---trace the same iteration curve, confirming the
-apparent ``improvements'' are measurement noise. What did move outcomes was the
+apparent ``improvements'' are measurement noise. Decomposing the reward into its
+GovSim components sharpens the finding: for every non-collapse model, survival and
+over-usage are already saturated (no headroom) and total gain is swamped by
+evaluation noise, so no single metric moves either. What did move outcomes was the
 \emph{agent}: mean reward ranged from $+2.42$ (Claude Opus~4.8, at the theoretical
 ceiling) to $-0.18$ (GPT-5.6 Sol, which liquidated the fishery within one month
 under every rule tried). The optimizers wrote visibly more sophisticated rules;
@@ -198,6 +201,60 @@ small relative to the model effect.
   \label{tab:main}
 \end{table}
 
+\subsection{Reading each metric, not the composite}
+A single scalar can hide \emph{where} an intervention acts, and a reviewer's
+natural question is whether the composite reward is simply the wrong lens. We
+therefore decompose every episode into the three GovSim components the reward
+combines---total gain $R$, survival months $m$, and over-usage $o$ (equality $e$ is
+shown for completeness)---and test each one on its own against the fixed-norm noise
+floor (Figure~\ref{fig:components}, Table~\ref{tab:components}).
+
+The decomposition sharpens the null rather than dissolving it. For every model that
+does not collapse, two of the three components have no room to move: survival is
+pinned at $12/12$ months and over-usage sits at or near its floor of $0$ (Opus is
+exactly $0$ in all fifteen of its episodes). The reward's $m/12$ and $-o$ terms are
+thus near-constant across the interesting cells, so the composite was, for those
+cells, almost entirely a function of the one component with any variance---total
+gain $R$. And $R$ is dominated by evaluation noise: the fixed-norm baseline alone
+swings by up to $248$ tons across its five re-evaluations (GPT-5.6 Luna), larger
+than any optimizer's mean shift over that baseline. Applying the noise-floor test
+metric-by-metric---three components $\times$ six models $\times$ two optimizers,
+$36$ tests---an optimizer cleared its own noise floor in \emph{two}, and in
+\emph{zero} once the collapse model (Sol) is removed. Both Sol ``hits'' are the same
+iteration-$0$ artifact identified below.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig_components.pdf}
+  \caption{Component metrics by agent model and optimizer, with error bars showing
+  the standard deviation across the five optimization iterations. For every
+  non-collapse model the three optimizer bars sit inside one another's error bars on
+  every metric; survival $m$ and over-usage $o$ are already at ceiling/floor. Only
+  GPT-5.6 Sol has headroom, and no optimizer reliably uses it.}
+  \label{fig:components}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \small
+  \begin{tabular}{lccccc}
+    \toprule
+    Metric & Dir. & Baseline (non-collapse) & Noise floor & Largest $|\bar\Delta|$ & Cleared noise \\
+    \midrule
+    Total gain $R$ & $\uparrow$   & $394$--$556$   & $95$--$248$  & $125$  & $0/10$ \\
+    Survival $m$   & $\uparrow$   & $\ge 12$ (4/5) & $0$--$5.5$   & $3.3$  & $0/10$ \\
+    Over-usage $o$ & $\downarrow$ & $\approx 0$    & $0$--$0.5$   & $0.31$ & $0/10$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Per-metric noise-floor test over the five non-collapse models. For each
+  metric: the range of baseline means, the range of per-model noise floors
+  (baseline across-iteration spread), the largest optimizer mean-shift $|\bar\Delta|$
+  observed, and how many of the $10$ (model~$\times$~optimizer) shifts cleared their
+  own noise floor. None did---and the largest shifts are as often in the wrong
+  direction as the right one.}
+  \label{tab:components}
+\end{table}
+
 \subsection{The optimizer gains are noise}
 Because the baseline arm holds the norm fixed, its spread across iterations
 measures how loud the evaluation is. Figure~\ref{fig:noise} plots each optimizer's
@@ -240,13 +297,16 @@ three of six---a coin flip.
 Figure~\ref{fig:gainsurv} reports total gain and survival months per model.
 Opus~4.8 essentially solves the commons---mean survival $12.0$ of $12$ months and
 mean gain $548$, near the sustainable optimum of $600$. GPT-5.6 Sol does the
-opposite: mean survival $1.6$ months and mean gain $130$. Inspection of Sol's
-episodes shows two to three of its five agents demanding the \emph{entire} lake in
-month one---collective demand reaching $6.4\times$ the sustainable level---across
-every seed and under every norm the optimizers produced, including elaborate
-stock-conditional quota systems with floor triggers and public reporting.
-Sol's agents could find the sustainable action (two of five reliably requested
-exactly $10$); others simultaneously went for everything.
+opposite: mean survival $1.6$ months and mean gain $130$. Inspection of Sol's episodes shows
+agents routinely demanding the \emph{entire} lake in month one: across its $30$
+episodes, $29\%$ of all agent-decisions ($44$ of $150$) requested the full
+$100$-ton pool, month-one collective demand averaged $182$ tons---$3.6\times$ the
+sustainable $50$, and up to $8.2\times$---and in $13$ of $30$ episodes two or more
+of the five agents grabbed for the whole lake simultaneously. This held under every
+seed and under every norm the optimizers produced, including elaborate
+stock-conditional quota systems with floor triggers and public reporting. Sol's
+agents could find the sustainable action---$10$ tons was the single most common
+request---yet others in the same month went for everything.
 
 \begin{figure}[H]
   \centering
