@@ -322,19 +322,60 @@ $2.186$ versus $2.103$---directionally favoring reasoning but well within the
 noise floor. This grid cannot call it.
 
 \subsection{The norms did evolve---into elaborate rules that did not help}
-The null result is \emph{not} a failure of the optimizers to change the text.
-Eleven of twelve optimizer runs found their best norm at a later iteration, and
-the texts changed dramatically: from a single vague sentence to graduated,
-state-contingent institutions. The starting norm was
+The null result is \emph{not} a failure of the optimizers to change the text. To
+show this we parse every one of the $49$ distinct norms with transparent regex
+heuristics (clause count, explicit numeric caps, and---critically---catch rules
+conditioned on the \emph{measured} stock level; the extractor is released with the
+code). Three facts follow.
+
+\emph{The text moved, and only in the learning arms.} All $30$ baseline slots are
+the unchanged seed norm; the two optimizers grow it monotonically
+(Figure~\ref{fig:normevo}). The starting norm was a single vague sentence,
 \begin{quote}\itshape
 Fishers should be mindful of the shared lake and avoid taking so much that the
 fish cannot recover. Take a reasonable, fair share.
 \end{quote}
-The highest-scoring norm in the entire grid (Opus, TextGrad, reward $2.500$) was a
-seven-clause rule with a public stock measurement, a piecewise catch schedule
-conditioned on current stock, a total moratorium below the break-even point, an
-equal-split requirement, a four-of-five amendment threshold, and an explicit
-appeal to incentive compatibility. It out-scored the vague one-sentence norm by
+while the mean optimized norm reached $1{,}178$ characters and $6.6$ clauses.
+
+\emph{``State-contingent'' is a real property, not a synonym for ``longer.''} Of
+the $48$ distinct optimized norms, $42$ ($88\%$) condition the allowed catch on the
+current stock; $32$ carry explicit numeric caps, $33$ a below-threshold moratorium,
+and $44$ an amendment rule. The count of stock-conditional clauses
+climbs every iteration---from $0$ to $4.2$ (TextGrad) and $5.7$ (ACE) on average
+(Figure~\ref{fig:normevo}, right)---so the optimizers are not padding text, they are
+building genuine feedback rules.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig_norm_evolution.pdf}
+  \caption{Norm evolution pooled across all six models. \emph{Left:} norm length in
+  words by iteration. \emph{Right:} number of clauses that condition catch on the
+  measured stock. The fixed-norm baseline stays flat at the seed; both optimizers
+  grow longer and more state-contingent every iteration. None of this growth moved
+  the reward (Sec.~3.2--3.3).}
+  \label{fig:normevo}
+\end{figure}
+
+\emph{The best norm is a fully-specified institution.} The highest-scoring norm in
+the entire grid (Opus, TextGrad, reward $2.500$) is these seven clauses verbatim:
+\begin{quote}\small\itshape
+\begin{enumerate}\setlength{\itemsep}{0pt}
+  \item Before fishing each month, measure the current stock $S$.
+  \item If $S \ge 100$: each fisher may catch up to $10$ fish (total cap $50$),
+  preserving the sustainable yield.
+  \item If $50 < S < 100$: each fisher may catch up to $(S-50)/20$ fish, ensuring
+  at least $3/4$ of the stock above $50$ remains to regenerate.
+  \item If $S \le 50$: no fishing is allowed that month, so the stock can rebuild.
+  \item Catches must be equal across all fishers; no one takes another's unused share.
+  \item Any change to these rules requires agreement from at least $4$ of the $5$ fishers.
+  \item Fishers should recognize that following this graduated rule keeps the fishery
+  productive\ldots making it in everyone's interest to keep it rather than renegotiate.
+\end{enumerate}
+\end{quote}
+It has a public stock measurement (1), a piecewise catch schedule conditioned on
+stock (2--3), a total moratorium below the break-even point (4), an equal-split
+requirement (5), a four-of-five amendment threshold (6), and an explicit appeal to
+incentive compatibility (7). Yet it out-scored the vague one-sentence norm by only
 $0.022$, against a noise floor of $0.167$.
 
 The interpretation we defend: for a capable model, an elaborate norm is worth
