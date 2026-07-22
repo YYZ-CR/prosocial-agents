@@ -126,6 +126,9 @@ celerybeat.pid
 
 # Environments
 .env
+.env.*
+!.env_example
+!.env.public
 .venv
 env/
 venv/
@@ -179,3 +182,17 @@ subskills/results/
 .~lock.*
 
 launch*.sh
+
+first_paper.pdf
+test_paper_on_qwen
+
+# LaTeX build artifacts
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+norm_evolution/*.aux
+norm_evolution/*.log
+norm_evolution/*.out
+
+# Vite dev cache
+.vite/
