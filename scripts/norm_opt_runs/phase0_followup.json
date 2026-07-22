@@ -1,0 +1,62 @@
+[
+  {
+    "label": "sol-seed2",
+    "model": "openai/gpt-5.6-sol",
+    "seed": 2,
+    "ok": true,
+    "survival_m": 1,
+    "calls": 66,
+    "prompt_tokens": 36401,
+    "completion_tokens": 4283,
+    "episode_cost": 0.3105,
+    "cell_cost_30ep": 9.31,
+    "metrics": {
+      "survival_time_m": 1,
+      "total_gain_R": 100.0,
+      "efficiency_u": 1.0,
+      "equality_e": 0.6799999999999999,
+      "over_usage_o": 1.0,
+      "gain_R_over_full_pool_survival_baseline": 2.0
+    }
+  },
+  {
+    "label": "sol-seed1",
+    "model": "openai/gpt-5.6-sol",
+    "seed": 1,
+    "ok": true,
+    "survival_m": 1,
+    "calls": 75,
+    "prompt_tokens": 40023,
+    "completion_tokens": 5210,
+    "episode_cost": 0.3564,
+    "cell_cost_30ep": 10.69,
+    "metrics": {
+      "survival_time_m": 1,
+      "total_gain_R": 100.0,
+      "efficiency_u": 1.0,
+      "equality_e": 0.78,
+      "over_usage_o": 1.0,
+      "gain_R_over_full_pool_survival_baseline": 2.0
+    }
+  },
+  {
+    "label": "opus48-seed0",
+    "model": "anthropic/claude-opus-4.8",
+    "seed": 0,
+    "ok": true,
+    "survival_m": 12,
+    "calls": 1097,
+    "prompt_tokens": 983815,
+    "completion_tokens": 73650,
+    "episode_cost": 6.7603,
+    "cell_cost_30ep": 202.81,
+    "metrics": {
+      "survival_time_m": 12,
+      "total_gain_R": 600.0,
+      "efficiency_u": 1.0,
+      "equality_e": 1.0,
+      "over_usage_o": 0.0,
+      "gain_R_over_full_pool_survival_baseline": 1.0
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "baseline": {
+    "best_reward": 0.9,
+    "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+    "final_reward": 0.9,
+    "llm_calls": 0,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\trajectory_baseline.json"
+  },
+  "textgrad": {
+    "best_reward": 1.6916666666666667,
+    "best_norm": "Each fisher may catch at most 7 fish per month. Exceeding the cap forfeits the excess to restock the lake. Shares are equal across all five fishers so the lake regenerates each month.",
+    "final_reward": 1.6916666666666667,
+    "llm_calls": 6,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\trajectory_textgrad.json"
+  },
+  "ace": {
+    "best_reward": 1.6916666666666667,
+    "best_norm": "Each fisher may catch at most 7 fish per month. Exceeding the cap forfeits the excess to restock the lake. Shares are equal across all five fishers so the lake regenerates each month.",
+    "final_reward": 1.6916666666666667,
+    "llm_calls": 5,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\trajectory_ace.json"
+  }
+}

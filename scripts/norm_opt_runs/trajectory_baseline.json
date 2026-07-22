@@ -1,0 +1,64 @@
+{
+  "optimizer": "baseline",
+  "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+  "best_reward": 0.9,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 0.9,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 7.199999999999999,
+        "total_gain_R": 180.0,
+        "efficiency_u": 0.5,
+        "equality_e": 0.7,
+        "over_usage_o": 0.35
+      },
+      "ok": true,
+      "optimizer_stats": {
+        "best_reward": 0.9
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 0.9,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 7.199999999999999,
+        "total_gain_R": 180.0,
+        "efficiency_u": 0.5,
+        "equality_e": 0.7,
+        "over_usage_o": 0.35
+      },
+      "ok": true,
+      "optimizer_stats": {
+        "best_reward": 0.9
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 0.9,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 7.199999999999999,
+        "total_gain_R": 180.0,
+        "efficiency_u": 0.5,
+        "equality_e": 0.7,
+        "over_usage_o": 0.35
+      },
+      "ok": true,
+      "optimizer_stats": {
+        "best_reward": 0.9
+      }
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "optimizer": "textgrad",
+  "best_norm": "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 80: each fisher may catch up to S/10 (full sustainable share).\n- If 50 \u2264 S < 80: each fisher may catch up to S/13.5 (~7.4% of stock), keeping total catch close to the sustainable yield while still favoring rebuilding.\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must:\n1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable),\n2. Change any single tier's rate by no more than 10% at a time,\n3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100.",
+  "best_reward": 2.398469123811923,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "textgrad",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.1246310252786937,
+      "reward_std": 0.07447951012717846,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 460.0,
+        "efficiency_u": 0.7666666666666666,
+        "equality_e": 0.965928717224054,
+        "over_usage_o": 0.125
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Rule: Fishers dynamically scale their catch to the lake's current stock level to maximize long-term sustainable yield, replacing fixed thresholds: 1. Each month, before fishing, the current stock S is observed. 2. Each fisher's individual quota = (S/2)/5 tons if S \u2265 80 (i.e., near full capacity), enabling total catch \u2264 S/2, which is the max sustainable offtake at regeneration rate 2.0. 3. If S < 80 tons, each fisher's quota is capped at (S/5)*0.2 tons (i.e., total catch \u2264 20% of current stock), allowing the lake to regrow substantially toward 100 tons before returning to full 10-ton/fisher harvests. 4. No fisher may catch more than their computed quota in any month. 5. If the lake stock ever falls below 5 tons, all fishing stops permanently. 6. These quotas will be recalculated and publicly stated at the start of each month based on the observed stock level.",
+        "Each month, every fisher may catch at most 5 tons of fish (25 tons total among the 5 of us), as long as the lake's stock stays at or above 50 tons at the start of the month. If the stock is lower, we will renegotiate a lower cap proportionally so the lake can recover, and never let the total catch bring the lake below 10 tons after harvest. This keeps the lake stable at a sustainable equilibrium (50 tons before fishing, 50 tons after harvest since 50-25=25, then 25*2=50 regenerated) while ensuring fair, equal shares for everyone."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.1246310252786937,
+        "last_gradient": "The current norm's vagueness (\"reasonable, fair share\") leaves catch levels undefined, forcing fishers to renegotiate almost immediately (rewrite by round 0) and causing 12.5% over-usage that caps efficiency at 0.767. Replace it with an explicit, stock-contingent formula from the start: each fisher's quota = (current stock S)/10 (i.e., total catch = S/2, the sustainable offtake at regeneration rate 2.0), with an automatic reduction rule (e.g., quota = S/20 per fisher) if S falls below 50, so the norm is self-enforcing and requires no mid-game amendment. Specifying exact numeric thresholds up front should raise efficiency toward the ~0.9+ range while preserving the high equality already achieved.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, measure the current stock S.\n- If S \u2265 50: each of the 5 fishers may catch up to S/10 (total catch = S/2, the sustainable yield).\n- If S < 50: each fisher's quota is halved to S/20 (total catch = S/4), allowing the stock to rebuild.\nNo fisher may exceed their quota, and no side deals or unequal shares are permitted. This formula is self-enforcing and automatically adjusts to the lake's condition, so it should remain in force unchanged rather than being renegotiated.",
+      "changed": true,
+      "reward": 1.8878872147386938,
+      "reward_std": 0.37860401333148164,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 474.5,
+        "efficiency_u": 0.7908333333333333,
+        "equality_e": 0.9441077628107207,
+        "over_usage_o": 0.375
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, measure the current stock S.\n- If S \u2265 50: each of the 5 fishers may catch up to S/10 (total catch = S/2, the sustainable yield).\n- If S < 50: each fisher's quota is halved to S/20 (total catch = S/4), allowing the stock to rebuild.\nNo fisher may exceed their quota, and no side deals or unequal shares are permitted. This formula is self-enforcing and automatically adjusts to the lake's condition, so it should remain in force unchanged rather than being renegotiated.",
+        "Each month, before fishing, measure the current stock S.\n- If S \u2265 50: each of the 5 fishers may catch up to S/10 (total catch = S/2, the sustainable yield).\n- If S < 50: each fisher's quota is halved to S/20 (total catch = S/4), allowing the stock to rebuild.\nNo fisher may exceed their quota, and no side deals or unequal shares are permitted. This formula is self-enforcing and automatically adjusts to the lake's condition, so it should remain in force unchanged rather than being renegotiated."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.1246310252786937,
+        "last_gradient": "The over-usage figure (0.375) shows fishers are consistently catching above what's actually sustainable even while following the letter of the rule\u2014likely because the S\u226550 threshold lets quotas stay at S/10 even when S is only marginally above 50, preventing the stock from ever rebuilding toward the 100 cap where full 50/month yield is possible. Add a stricter rebuilding trigger: when S<80 (not just S<50), cut quotas to S/20 to let stock climb back toward capacity, and only allow full S/10 quotas when S\u226580, which should raise average stock levels, total gain, and lower over-usage simultaneously. Also permit a narrow renegotiation clause (e.g., quotas adjustable by \u00b110% if 4/5 agree) so fishers retain some flexibility and ownership of the rule rather than it being purely mechanical, which can improve compliance and perceived legitimacy.",
+        "n_reverts": 1
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "textgrad",
+      "norm": "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 80: each fisher may catch up to S/10 (full sustainable share).\n- If 50 \u2264 S < 80: each fisher may catch up to S/20 (reduced, rebuilding share) to let the stock climb back toward capacity.\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted (up or down by no more than 10%) only if 4 of the 5 fishers agree, and any change must be reviewed again the following month to confirm it still supports rebuilding toward S=100.",
+      "changed": true,
+      "reward": 2.272988614800759,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 527.0,
+        "efficiency_u": 0.8783333333333333,
+        "equality_e": 0.955977229601518,
+        "over_usage_o": 0.08333333333333333
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 1,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 1
+      },
+      "final_norms": [
+        "Each month, measure the lake's stock S before fishing: - If S \u2265 80: each fisher may catch up to S/10 (full sustainable share). - If 50 \u2264 S < 80: each fisher may catch up to S/20 (reduced, rebuilding share). - If S < 50: no fishing is allowed that month; all fishers must let the stock recover. All shares are split equally among the 5 fishers. No fisher may exceed their allotted share. Enforcement: If a fisher's actual catch in a month is later found to exceed their allotted share, that fisher's allotted share for the following month is reduced by twice the excess amount (down to a minimum of 0), with the reduction redistributed equally among the fishers who stayed within their limits. Renegotiation: the quota formula may be adjusted (up or down by no more than 10%) only if 4 of the 5 fishers agree, and any change must be reviewed again the following month to confirm it still supports rebuilding toward S=100."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.272988614800759,
+        "last_gradient": "The main inefficiency is the harsh 50\u2264S<80 tier (S/20 share), which nearly halves catch versus the sustainable S/10 rate even though the lake at S=60-79 can support close to full harvest \u2014 this is likely why fishers rewrote the rule almost immediately (round 1) to loosen it. Raise the reduced-tier rate from S/20 to roughly S/13\u2013S/14 (i.e., ~7-7.5% of stock per fisher) so total catch stays near the ~50-fish sustainable yield even in the rebuilding band, boosting efficiency without reintroducing collapse risk. Also tighten the renegotiation clause to require the amended formula to still guarantee total catch \u2264 0.5\u00d7S (sustainability cap), so future amendments can't be exploited to overfish while still allowing minor tuning.",
+        "n_reverts": 1
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "textgrad",
+      "norm": "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 80: each fisher may catch up to S/10 (full sustainable share).\n- If 50 \u2264 S < 80: each fisher may catch up to S/13.5 (~7.4% of stock), keeping total catch close to the sustainable yield while still favoring rebuilding.\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must:\n1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable),\n2. Change any single tier's rate by no more than 10% at a time,\n3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100.",
+      "changed": true,
+      "reward": 2.398469123811923,
+      "reward_std": 0.03002322012211711,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 549.5,
+        "efficiency_u": 0.9158333333333333,
+        "equality_e": 0.9652715809571795,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 80: each fisher may catch up to S/10 (full sustainable share).\n- If 50 \u2264 S < 80: each fisher may catch up to S/13.5 (~7.4% of stock), keeping total catch close to the sustainable yield while still favoring rebuilding.\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must:\n1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable),\n2. Change any single tier's rate by no more than 10% at a time,\n3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100.",
+        "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 80: each fisher may catch up to S/10 (full sustainable share).\n- If 50 \u2264 S < 80: each fisher may catch up to S/13.5 (~7.4% of stock), keeping total catch close to the sustainable yield while still favoring rebuilding.\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must:\n1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable),\n2. Change any single tier's rate by no more than 10% at a time,\n3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.398469123811923,
+        "last_gradient": "The norm is already stable and sustainable (o=0.000, m=12/12), but efficiency (u=0.916) is being left on the table because the S\u226580 tier only allows S/10 even when stock is well above 80, and the middle tier's S/13.5 rate is overly conservative once stock is safely rebuilding. Raise the top tier to allow catch up to S/9 when S\u226590 (still under the 0.5\u00d7S sustainability cap) to capture more surplus when the lake is near full capacity, and loosen the middle tier from S/13.5 to S/12 for 60\u2264S<80, since the strict 0.5\u00d7S cap already prevents overfishing regardless of tier rate. This should push total gain R and efficiency u higher while keeping equality and survival intact, since fishers have shown they\u2019ll comply with the rule as written rather than defect.",
+        "n_reverts": 1
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "textgrad",
+      "norm": "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 90: each fisher may catch up to S/9 (~11.1% of stock, elevated yield near full capacity).\n- If 80 \u2264 S < 90: each fisher may catch up to S/10 (full sustainable share).\n- If 60 \u2264 S < 80: each fisher may catch up to S/12 (~8.3% of stock, favoring continued rebuilding).\n- If 50 \u2264 S < 60: each fisher may catch up to S/13.5 (~7.4% of stock, cautious approach near threshold).\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must:\n1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable),\n2. Change any single tier's rate by no more than 10% at a time,\n3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100.",
+      "changed": true,
+      "reward": 2.125861837692824,
+      "reward_std": 0.04913816230717649,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 501.0,
+        "efficiency_u": 0.835,
+        "equality_e": 0.9983903420523139,
+        "over_usage_o": 0.20833333333333331
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 5,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, measure the lake's stock S before fishing: - If S \u2265 90: each fisher may catch up to S/9. - If 80 \u2264 S < 90: each fisher may catch up to S/10. - If 60 \u2264 S < 80: each fisher may catch up to S/12. - If 50 \u2264 S < 60: each fisher may catch up to S/13.5. - If S < 50: no fishing is allowed that month; all fishers must let the stock recover. All shares are split equally among the 5 fishers. No fisher may exceed their allotted share. Enforcement: Each fisher's catch is publicly revealed at month-end. If a fisher's revealed catch exceeds their allotted share for that month, their allotted share for the following month is reduced by twice the excess amount (as a penalty), down to a minimum of 0. If a fisher exceeds their quota in two consecutive months, they receive a quota of 0 for the third month regardless of stock level. Renegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must: 1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable), 2. Change any single tier's rate by no more than 10% at a time, 3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100.",
+        "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 90: each fisher may catch up to S/9 (~11.1% of stock, elevated yield near full capacity).\n- If 80 \u2264 S < 90: each fisher may catch up to S/10 (full sustainable share).\n- If 60 \u2264 S < 80: each fisher may catch up to S/12 (~8.3% of stock, favoring continued rebuilding).\n- If 50 \u2264 S < 60: each fisher may catch up to S/13.5 (~7.4% of stock, cautious approach near threshold).\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must:\n1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable),\n2. Change any single tier's rate by no more than 10% at a time,\n3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.398469123811923,
+        "last_gradient": "The over-usage of 0.208 despite full survival suggests the tiers near/at full stock (S\u226590: S/9, and S 80-90: S/10) are still allowing catch rates above the true sustainable 50% regeneration offset, causing stock to hover below 100 rather than stabilizing there \u2014 tighten the top tier from S/9 to something like S/10.5 (~9.5%) and add a new S\u226595 tier at S/10 so fishers aren't incentivized to draw down stock from full capacity. Also add an explicit hysteresis/anti-gaming clause preventing fishers from voting to raise rates when S is trending downward, since the single rewrite (~round 5) likely coincided with a stock dip that then had to self-correct \u2014 this costs efficiency. Finally, tie the quota more directly to a rolling average stock rather than instantaneous S to reduce oscillation and push utilization u closer to 1 while keeping the 0.5S sustainability cap intact.",
+        "n_reverts": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "label": "gpt56-sol",
+    "model": "openai/gpt-5.6-sol",
+    "reasoning": null,
+    "ok": true,
+    "calls": 66,
+    "prompt_tokens": 36286,
+    "completion_tokens": 4399,
+    "episode_cost": 0.3134,
+    "cell_cost_30ep": 9.4,
+    "error": null
+  },
+  {
+    "label": "sonnet5-off",
+    "model": "anthropic/claude-sonnet-5",
+    "reasoning": "off",
+    "ok": true,
+    "calls": 985,
+    "prompt_tokens": 866927,
+    "completion_tokens": 67691,
+    "episode_cost": 2.4108,
+    "cell_cost_30ep": 72.32,
+    "error": null
+  },
+  {
+    "label": "gpt56-luna",
+    "model": "openai/gpt-5.6-luna",
+    "reasoning": null,
+    "ok": true,
+    "calls": 1043,
+    "prompt_tokens": 688507,
+    "completion_tokens": 66101,
+    "episode_cost": 1.0851,
+    "cell_cost_30ep": 32.55,
+    "error": null
+  },
+  {
+    "label": "sonnet5-on",
+    "model": "anthropic/claude-sonnet-5",
+    "reasoning": "on",
+    "ok": true,
+    "calls": 1034,
+    "prompt_tokens": 1016777,
+    "completion_tokens": 114095,
+    "episode_cost": 3.1745,
+    "cell_cost_30ep": 95.24,
+    "error": null
+  },
+  {
+    "label": "gemma-4-31b",
+    "model": "google/gemma-4-31b-it",
+    "reasoning": null,
+    "ok": true,
+    "calls": 841,
+    "prompt_tokens": 711808,
+    "completion_tokens": 49016,
+    "episode_cost": 0.1036,
+    "cell_cost_30ep": 3.11,
+    "error": null
+  }
+]

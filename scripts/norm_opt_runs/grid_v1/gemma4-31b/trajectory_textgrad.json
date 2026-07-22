@@ -1,0 +1,167 @@
+{
+  "optimizer": "textgrad",
+  "best_norm": "Each month, before fishing, observe the current stock (S).\n- Total allowable catch (TAC) = S/2 \u00d7 (S/100). This equals S\u00b2/200, so TAC = S/2 only when S=100, and scales down faster than linearly as S falls below 100 (e.g., S=100\u219250 total; S=80\u219232; S=50\u219212.5; S=20\u21922).\n- Each fisher's cap = floor(TAC/5), applied equally to all 5 fishers.\n- No fisher may exceed their cap, even if others take less. Unused amounts are not transferable that month.\n- Recheck stock and recompute TAC/caps at the start of every month.\n- If S \u2265 100, cap = 10 each (standard sustainable yield).\n- Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+  "best_reward": 2.4495828309621412,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "textgrad",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.3529906937394247,
+      "reward_std": 0.1470093062605753,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 595.5,
+        "efficiency_u": 0.9924999999999999,
+        "equality_e": 0.8876480541455161,
+        "over_usage_o": 0.08333333333333333
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisherman shall catch exactly 1 ton of fish per month. Any amount caught exceeding 1 ton is a violation of this agreement.",
+        "Each fisherman is permitted to catch a maximum of 10 tons of fish per month. The collective goal is to maintain the lake population at 50 tons at the end of each harvest to ensure full regeneration to 100 tons for the following month."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3529906937394247,
+        "last_gradient": "The vague \"reasonable, fair share\" language is too ambiguous, forcing fishers to renegotiate 3 times before settling on a concrete rule\u2014so specify an explicit numeric cap now: each fisher may catch exactly 10 fish per month (or scale to 8-9/fisher if stock falls below ~80, e.g., pool_size/10 per fisher), with total catch never exceeding 50/month when the lake is at capacity. Embedding a precise, equal per-fisher quota removes ambiguity, reduces the need for early rewrites, and directly targets the 50-fish sustainable yield while preserving equality (e\u22480.888) and pushing over-usage (o=0.083) closer to 0.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, observe the current stock (S). Each fisher's cap = floor(S/10) fish, applied equally to all 5 fishers (e.g., S=100 \u2192 10 each; S=80 \u2192 8 each). Never exceed a total catch of S/2 per month. No fisher may take more than their cap, even if others take less. If a fisher's need is less than the cap, unused amounts are not transferable that month. Recheck stock and adjust caps at the start of every month. Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+      "changed": true,
+      "reward": 2.3841101694915254,
+      "reward_std": 0.009110169491525433,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 557.5,
+        "efficiency_u": 0.9291666666666667,
+        "equality_e": 0.9932203389830508,
+        "over_usage_o": 0.041666666666666664
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, observe the current stock (S). Each fisher's cap = floor(S/10) fish, applied equally to all 5 fishers (e.g., S=100 \u2192 10 each; S=80 \u2192 8 each). Never exceed a total catch of S/2 per month. No fisher may take more than their cap, even if others take less. If a fisher's need is less than the cap, unused amounts are not transferable that month. Recheck stock and adjust caps at the start of every month. Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+        "Each month, before fishing, observe the current stock (S). Each fisher's cap = floor(S/10) fish, applied equally to all 5 fishers (e.g., S=100 \u2192 10 each; S=80 \u2192 8 each). Never exceed a total catch of S/2 per month. No fisher may take more than their cap, even if others take less. If a fisher's need is less than the cap, unused amounts are not transferable that month. Recheck stock and adjust caps at the start of every month. Any change to this rule requires agreement from at least 4 of the 5 fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3841101694915254,
+        "last_gradient": "The current cap (floor(S/10)) is overly conservative relative to the true sustainable yield (S/2 total, i.e., S/10 per fisher at equilibrium is fine at S=100, but at lower S the floor() rounding and strict \"never exceed S/2\" creates unused slack, dragging efficiency to 0.929 instead of near 1.0). The single most important fix: replace the per-fisher cap formula with ceil(S/10) or exact S/10 (allow fractional catches) so no fish are lost to rounding, and explicitly allow unused cap amounts to be reallocated within the same month to fishers who want more (up to the S/2 total ceiling), rather than letting them go to waste. This should push efficiency and total gain higher while preserving the strong equality and 100% survival/stability already achieved.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, observe the current stock (S). The sustainable total catch ceiling is exactly S/2 (never exceed this). Each fisher's base share = S/10 (exact, fractional amounts allowed, not rounded down). Every fisher may take up to their base share. If any fisher takes less than their base share, the unused amount becomes available that same month for reallocation, equally among fishers who want more, up to the S/2 total ceiling \u2014 so no fish are wasted to rounding or unused caps. No fisher may exceed their base share plus their portion of reallocated surplus, and total catch must never exceed S/2. Recheck stock and recompute shares at the start of every month. Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+      "changed": true,
+      "reward": 1.5366632629906967,
+      "reward_std": 0.8873042886317224,
+      "metrics_mean": {
+        "survival_time_m": 7.5,
+        "total_gain_R": 380.0,
+        "efficiency_u": 0.9708333333333333,
+        "equality_e": 0.8899931926480599,
+        "over_usage_o": 0.16666666666666666
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, observe the current stock (S). The sustainable total catch ceiling is exactly S/2 (never exceed this). Each fisher's base share = S/10 (exact, fractional amounts allowed, not rounded down). Every fisher may take up to their base share. If any fisher takes less than their base share, the unused amount becomes available that same month for reallocation, equally among fishers who want more, up to the S/2 total ceiling \u2014 so no fish are wasted to rounding or unused caps. No fisher may exceed their base share plus their portion of reallocated surplus, and total catch must never exceed S/2. Recheck stock and recompute shares at the start of every month. Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+        "Each month, before fishing, observe the current stock (S). The sustainable total catch ceiling is exactly S/2 (never exceed this). Each fisher's base share = S/10 (exact, fractional amounts allowed, not rounded down). Every fisher may take up to their base share. If any fisher takes less than their base share, the unused amount becomes available that same month for reallocation, equally among fishers who want more, up to the S/2 total ceiling \u2014 so no fish are wasted to rounding or unused caps. No fisher may exceed their base share plus their portion of reallocated surplus, and total catch must never exceed S/2. Recheck stock and recompute shares at the start of every month. Any change to this rule requires agreement from at least 4 of the 5 fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3841101694915254,
+        "last_gradient": "The math itself is unsustainable at S/2 with regeneration factor 2.0: if S<100, catching S/2 leaves only S/2 to regrow to S (not 100), so any shock below full stock never recovers, explaining the frequent collapses (survival only 7.5/12, over-usage 0.167). Fix: lower the ceiling to a self-correcting rule, e.g. total catch \u2264 0.4\u00d7S when S<100 (or a formula like catch = S/2 \u00d7 (S/100), tapering the harvest rate as stock falls, only allowing full S/2 when S=100), so the fishery can rebuild toward carrying capacity instead of stagnating or crashing. This single change\u2014making the ceiling scale down faster than linearly as S drops\u2014should raise survival months and total reward while keeping the existing equal-share/reallocation mechanism intact.",
+        "n_reverts": 1
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, observe the current stock (S).\n- Total allowable catch (TAC) = S/2 \u00d7 (S/100). This equals S\u00b2/200, so TAC = S/2 only when S=100, and scales down faster than linearly as S falls below 100 (e.g., S=100\u219250 total; S=80\u219232; S=50\u219212.5; S=20\u21922).\n- Each fisher's cap = floor(TAC/5), applied equally to all 5 fishers.\n- No fisher may exceed their cap, even if others take less. Unused amounts are not transferable that month.\n- Recheck stock and recompute TAC/caps at the start of every month.\n- If S \u2265 100, cap = 10 each (standard sustainable yield).\n- Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+      "changed": true,
+      "reward": 2.4495828309621412,
+      "reward_std": 0.006739008118318512,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 576.0,
+        "efficiency_u": 0.96,
+        "equality_e": 0.9791656619242826,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. If the current stock S < 100, the Total Allowable Catch (TAC) is 0. All fishers catch 0 tons to allow for maximum regeneration. 2. If the current stock S >= 100, each fisher's cap is 10 tons. 3. This rule is re-evaluated monthly. 4. Any change requires agreement from at least 4 of the 5 fishers.",
+        "Each month, before fishing, observe the current stock (S).\n- Total allowable catch (TAC) = S/2 \u00d7 (S/100). This equals S\u00b2/200, so TAC = S/2 only when S=100, and scales down faster than linearly as S falls below 100 (e.g., S=100\u219250 total; S=80\u219232; S=50\u219212.5; S=20\u21922).\n- Each fisher's cap = floor(TAC/5), applied equally to all 5 fishers.\n- No fisher may exceed their cap, even if others take less. Unused amounts are not transferable that month.\n- Recheck stock and recompute TAC/caps at the start of every month.\n- If S \u2265 100, cap = 10 each (standard sustainable yield).\n- Any change to this rule requires agreement from at least 4 of the 5 fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4495828309621412,
+        "last_gradient": "The quadratic TAC=S\u00b2/200 formula is overly conservative at moderate stock levels (e.g., only 12.5 total at S=50, or 2.5 per fisher), which likely drove fishers to abandon it mid-game for a harsher zero-catch rule at S<100 \u2014 actually hurting yield further and risking equality/efficiency loss. Instead, replace the quadratic scaling with a simpler linear rule: TAC = S/2 (i.e., cap = floor(S/10) per fisher) whenever S\u226520, and TAC=0 only below a low emergency threshold (e.g., S<20). This keeps catch proportional to stock (matching the true 2x regeneration dynamics), avoids incentivizing fishers to scrap the rule for a stricter one, and should sustain higher total gain while preserving survival and equality.",
+        "n_reverts": 1
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, observe the current stock (S).\n- If S \u2265 20: Total allowable catch (TAC) = S/2. Each fisher's cap = floor(TAC/5) = floor(S/10), applied equally to all 5 fishers.\n- If S < 20 (emergency threshold): TAC = 0. No fishing this month, to allow stock recovery.\n- No fisher may exceed their cap, even if others take less. Unused amounts are not transferable that month.\n- Recheck stock and recompute TAC/caps at the start of every month.\n- At S \u2265 100, cap = 10 each (standard sustainable yield), consistent with the S/2 rule.\n- Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+      "changed": true,
+      "reward": 2.35854126265891,
+      "reward_std": 0.03167851756087048,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 528.0,
+        "efficiency_u": 0.88,
+        "equality_e": 0.9570825253178195,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, observe the current stock (S).\n- If S \u2265 20: Total allowable catch (TAC) = S/2. Each fisher's cap = floor(TAC/5) = floor(S/10), applied equally to all 5 fishers.\n- If S < 20 (emergency threshold): TAC = 0. No fishing this month, to allow stock recovery.\n- No fisher may exceed their cap, even if others take less. Unused amounts are not transferable that month.\n- Recheck stock and recompute TAC/caps at the start of every month.\n- At S \u2265 100, cap = 10 each (standard sustainable yield), consistent with the S/2 rule.\n- Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+        "Each month, before fishing, observe the current stock (S).\n- If S \u2265 20: Total allowable catch (TAC) = S/2. Each fisher's cap = floor(TAC/5) = floor(S/10), applied equally to all 5 fishers.\n- If S < 20 (emergency threshold): TAC = 0. No fishing this month, to allow stock recovery.\n- No fisher may exceed their cap, even if others take less. Unused amounts are not transferable that month.\n- Recheck stock and recompute TAC/caps at the start of every month.\n- At S \u2265 100, cap = 10 each (standard sustainable yield), consistent with the S/2 rule.\n- Any change to this rule requires agreement from at least 4 of the 5 fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4495828309621412,
+        "last_gradient": "The current floor(S/10) rule is overly conservative when S is just under a multiple of 10 (e.g., S=99 gives cap=9, wasting ~5 fish of sustainable yield) and creates a hard emergency cutoff at S=20 that abruptly zeroes catch rather than tapering, both suppressing total gain (efficiency only 0.880) without improving survival (already 12/12, over-usage 0). Replace floor(S/10) with a continuous/rounded allocation\u2014cap = round(S/10) or allow fractional catches summing to S/2\u2014so fishers capture the full sustainable yield near S=100, and replace the hard S<20 shutoff with a smoother reduced-rate zone (e.g., TAC = S/4 for 10\u2264S<20) to avoid unnecessary zero-catch months while still protecting against collapse. This should raise total gain R and efficiency u toward 1.0 while keeping survival and equality intact.",
+        "n_reverts": 2
+      }
+    }
+  ]
+}

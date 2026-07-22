@@ -1,0 +1,157 @@
+{
+  "optimizer": "baseline",
+  "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+  "best_reward": 2.4775694061408347,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.4775694061408347,
+      "reward_std": 0.0036918551204265793,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 590.0,
+        "efficiency_u": 0.9833333333333334,
+        "equality_e": 0.9884721456150027,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 6,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "When current stock is at or above 90 tons, each fisher may catch up to 10 tons (steady-state sustainable, since regeneration factor 2.0 refills the lake). When current stock is below 90 tons, each fisher may catch at most current_stock / 25 tons, prioritizing rapid regrowth back to 100 tons so we can all resume the higher 10-ton harvest sooner. Revealed catches at month's end serve as the monitoring mechanism; any fisher who exceeds the cap must reduce their next-month catch by the overage amount as penalty, and repeated violations may be sanctioned by the group.",
+        "When the lake is at or below 60 tons at the start of the month, each fisher may catch at most 4 tons (total 20). When the lake is above 60 but at or below 90 tons, each fisher may catch at most 6 tons (total 30). When the lake is above 90 tons, each fisher may catch at most 10 tons (total 50). In all cases, total catch may never reduce post-harvest stock below 30 tons. This lets the stock climb safely to 100 and then sustain the higher 10-ton allowance without any single-month crash."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4775694061408347
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.310249042145594,
+      "reward_std": 0.04136015325670517,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 495.0,
+        "efficiency_u": 0.825,
+        "equality_e": 0.9704980842911877,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisher may catch at most an equal share computed as follows: if the fish stock at the start of the month is at or above 100 tons, each fisher may catch up to 10 tons. If the stock is below 100 tons, the total monthly catch across all fishers must not exceed one quarter of the current stock, divided equally among the five fishers, so the lake grows back toward full capacity. The lake stock must never be drawn below 20 tons in any month. Any fisher who exceeds their share in a given month must reduce their catch by the excess amount in the following month, and repeated violations (two or more months) require forfeiting the entire next month's catch.",
+        "Each month, the five fishers collectively harvest no more than 40% of the fish currently in the lake when the lake is below 80 tons, split equally so each fisher takes an equal share. When the lake reaches 80 tons or more, fishers may collectively harvest up to 50%, split equally. No fisher may exceed their equal share. Enforcement: Each month all catches are revealed. If any fisher exceeds their equal share, they must reduce their next-month allowed catch by twice the amount of the overage (forfeited to lake recovery). Any fisher who under-harvests below their equal share in a given month is credited that shortfall, allowing them to catch that extra amount in a future month on top of their normal share. If the lake ever falls below 20 tons, all harvesting pauses for one month to allow recovery."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4775694061408347
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.3951333189979573,
+      "reward_std": 0.037448840626455926,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 546.0,
+        "efficiency_u": 0.9099999999999999,
+        "equality_e": 0.9702666379959144,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 4,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, the total catch by all fishers combined shall not exceed 50% of the fish currently in the lake at the start of the month, divided equally so each fisher may catch up to (0.5 \u00d7 current lake stock) / 5 tons per month. Additionally, if the lake stock at the start of a month is below 50 tons, the total catch shall not exceed 40% of the stock (each fisher up to (0.4 \u00d7 stock)/5), to allow faster recovery. Surplus from fishers who catch less is not transferable.",
+        "Each fisher may catch an equal share each month, and total catch must never exceed half the fish in the lake at the start of the month. While the lake is below 100 tons, each fisher's cap is (current fish in lake) / 20 tons per month, so the lake recovers toward full capacity. Once the lake is at or above 100 tons, each fisher may catch up to 10 tons per month. If the lake ever drops below 20 tons, all fishing pauses until it recovers above 20 tons."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4775694061408347
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.436645888170517,
+      "reward_std": 0.046965691368549445,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 567.5,
+        "efficiency_u": 0.9458333333333333,
+        "equality_e": 0.9816251096743682,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 6,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Recovery-then-stable rule (v3): - If the lake starts a month below 100 tons: total harvest must not exceed one-quarter of the starting stock, split equally (each fisher takes at most one-twentieth of the starting stock). This lets the stock regenerate toward full capacity. - Once the lake reaches 100 tons at the start of a month: each fisher may catch up to 10 tons (total 50), which maintains the lake at full capacity indefinitely (100 - 50 = 50, times regeneration 2.0 = 100). - No fisher may ever take an amount that would risk dropping the lake below 25 tons at any moment. - Over-harvesting by any fisher is a violation. If any fisher exceeds their allowed share in a month, all other fishers are entitled to match that overage in the following month as a sanction, and the violation is recorded. - All fishers commit to honoring this rule as a condition of continued shared access.",
+        "Recovery and sustainable harvest rule: - If the lake starts the month below 60 tons, all fishers catch 0 that month to allow rapid regeneration. - If the lake starts the month at 60 to 89 tons, each fisher may catch at most 5 tons. - If the lake starts the month at 90 tons or more, each fisher may catch at most 10 tons. This restores the lake quickly and maximizes long-term yield while giving fair, steady catches."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4775694061408347
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.4639880952380953,
+      "reward_std": 0.036011904761904745,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 580.0,
+        "efficiency_u": 0.9666666666666667,
+        "equality_e": 0.9946428571428572,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 6,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, if the lake is at or above 90 tons at the start of the month, each fisher may catch up to 10 tons (total 50 tons removed, keeping the lake sustainable at 100 tons given the 2.0 regeneration). If the lake is between 45 and 90 tons, each fisher may catch up to 2 tons (total 10 tons removed) to allow recovery while still fishing. If the lake is below 45 tons, each fisher catches 0 tons that month to allow rapid recovery. Catches must be reported honestly each month; any fisher exceeding their limit must reduce their next month's catch by the overage, and repeated violations forfeit the next full month's catch.",
+        "Each month, each of the five fishers may catch an equal share such that total catch never reduces the lake below 50 tons pre-regeneration. Specifically: when the lake is at or above 100 tons, each fisher may catch exactly 10 tons (total 50). When the lake is between 50 and 100 tons, each fisher may catch an equal share of (current stock minus 50) divided by 5, so the lake is left at exactly 50 pre-regeneration and returns toward 100. When the lake is below 50 tons, all fishers must catch 0 that month to allow recovery. Any fisher who exceeds their allotment must reduce the following month's catch by the excess, and repeated violations may be penalized by the group."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4775694061408347
+      }
+    }
+  ]
+}

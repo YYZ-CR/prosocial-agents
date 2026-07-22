@@ -1,0 +1,167 @@
+{
+  "optimizer": "textgrad",
+  "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+  "best_reward": 1.05,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "textgrad",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.05,
+      "reward_std": 1.45,
+      "metrics_mean": {
+        "survival_time_m": 6.5,
+        "total_gain_R": 350.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.85,
+        "over_usage_o": 0.5
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "At the start of each month, the community harvest cap is the greater of zero and the starting lake stock minus 50 tons. This cap is divided equally among the five fishers. Anyone planning to use less than their allowance must announce it beforehand, and unused allowance may be divided equally among requesting fishers without exceeding the community cap. All harvests will be disclosed monthly. Anyone exceeding their allocation must reduce their next positive allowance by the excess. If the starting stock is 50 tons or less, everyone must pause harvesting for that month.",
+        "When the lake contains less than 100 tons at the start of a month, nobody may fish, allowing recovery. When it contains 100 tons, each fisher may catch no more than 10 tons that month. Harvests must be disclosed after each month, and no fisher may claim another fisher\u2019s unused quota."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.05,
+        "last_gradient": "The vague \"reasonable, fair share\" language leaves catch levels undefined, causing fishers to renegotiate immediately and drift toward an unsustainable formula (stock\u221250 cap actually allows harvesting the entire buffer above 50, risking collapse when stock is low). Replace it with an explicit numeric rule: each fisher may catch at most 10 tons per month (or 20% of the current stock if stock <50, split equally), keeping total catch at or below the 50-ton regeneration threshold. This concrete, verifiable cap removes ambiguity, prevents the \"stock minus 50\" loophole that permits over-harvesting when stock is near capacity, and gives fishers a stable, fair rule they have less incentive to renegotiate away.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "textgrad",
+      "norm": "1. If the lake's stock is 50 or above, each fisher may catch at most 10 tons per month (total \u2264 50 tons).\n2. If the stock is below 50, each fisher may catch at most 20% of the current stock divided equally among the 5 fishers (total catch = 20% of stock).\n3. No fisher may exceed their monthly limit under any circumstance, and unused portions cannot be transferred or \"banked\" for future months.\n4. Any change to this rule requires agreement from at least 4 of the 5 fishers, and must preserve equal shares and the sustainable-yield cap (total catch \u2264 current regeneration rate).",
+      "changed": true,
+      "reward": -0.36400000000000005,
+      "reward_std": 0.03799999999999998,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.772,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. If the lake's stock is 50 or above, each fisher may catch at most 10 tons per month (total \u2264 50 tons).\n2. If the stock is below 50, each fisher may catch at most 20% of the current stock divided equally among the 5 fishers (total catch = 20% of stock).\n3. No fisher may exceed their monthly limit under any circumstance, and unused portions cannot be transferred or \"banked\" for future months.\n4. Any change to this rule requires agreement from at least 4 of the 5 fishers, and must preserve equal shares and the sustainable-yield cap (total catch \u2264 current regeneration rate).",
+        "1. If the lake stock is at least 10 tons, each fisher may catch at most 10% of the stock present at the beginning of that month, so the five fishers together may catch at most 50% of the stock. 2. If the stock is below 10 tons, no fishing is permitted until regeneration raises it to at least 10 tons. 3. Shares are equal; unused shares may not be transferred or banked. 4. Changes require approval from at least 4 of the 5 fishers and must preserve equal shares and leave enough stock for regeneration."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.05,
+        "last_gradient": "The critical flaw: survival collapses immediately (1/12 months) despite a seemingly sustainable cap, meaning the stock-dependent rule (20% of current stock when below 50) still permits catches that outpace regeneration once the population dips, triggering a death spiral. Add an explicit hard floor/moratorium: if stock falls below 20, catches must drop to zero (or a very small maintenance catch like 2 tons total) until stock recovers to at least 40, and lower the below-50 threshold formula to catch \u226410% of stock (not 20%) so depletion is halted before it compounds. Also add a real-time monitoring/enforcement clause (e.g., automatic reporting each month, with the option to trigger review if stock drops two consecutive months) so fishers can actually detect and respond to decline before collapse rather than after.",
+        "n_reverts": 1
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "textgrad",
+      "norm": "1. Each month, before fishing, measure and report the current stock (S) to all fishers.\n2. If S \u2265 50: each fisher may catch up to 10 fish (total cap 50, split equally).\n3. If 20 \u2264 S < 50: total catch \u2264 10% of S, split equally among the 5 fishers.\n4. If S < 20: moratorium \u2014 total catch \u2264 2 fish (maintenance only) until S recovers to \u2265 40, then resume rule 3.\n5. If stock declines for two consecutive months, all fishers must meet before next fishing to review and adjust catch levels downward if needed.\n6. Catches must remain equal across fishers each month; no side deals allowing unequal shares.\n7. Any change to this norm requires agreement of at least 4 of 5 fishers, and must be recorded with the reasoning given, so all can verify it still protects long-term yield.",
+      "changed": true,
+      "reward": -0.09666666666666668,
+      "reward_std": 0.3533333333333333,
+      "metrics_mean": {
+        "survival_time_m": 1.5,
+        "total_gain_R": 125.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.6399999999999999,
+        "over_usage_o": 0.75
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. Before fishing each month, measure and report the current stock S. 2. If S \u2265 10 tons, the total catch may not exceed min(50, S/2) tons, divided equally among all five fishers. 3. If 5 \u2264 S < 10 tons, no fish may be caught until the stock recovers to at least 10 tons. 4. If S < 5 tons, no fishing is permitted. 5. All catches must remain equal; no side deals or transfers of shares are allowed. 6. If stock declines for two consecutive months, all fishers must meet before the next harvest and consider reducing the cap. 7. Amendments require approval from at least 4 of the 5 fishers and must be recorded with their reasoning.",
+        "1. Before fishing each month, measure and publicly report stock S. 2. If S \u2265 50 tons, each fisher may catch up to 10 tons. 3. If 20 \u2264 S &lt; 50, total catch may not exceed 10% of S and must be divided equally. 4. If S &lt; 20, no fishing is permitted until stock recovers to at least 40 tons. 5. All catches must be reported and remain equal; no side deals or quota transfers. 6. Any fisher exceeding their quota must forfeit an equal amount from their next available quota. 7. If stock declines for two consecutive months, quotas must be reviewed and may only be reduced. 8. Changes require approval from at least 4 of the 5 fishers and a recorded justification."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.05,
+        "last_gradient": "The critical failure is that rule 2's threshold (S\u226550 \u2192 10 fish/head) sits right at the regeneration knife-edge: any small dip below 50 triggers harvest cuts too late, and fishers rewrote the law almost immediately (round 0) to a laxer \"S/2 split\" rule that permits catching up to 25 when S\u226550 \u2014 far above the sustainable 50% growth margin \u2014 causing collapse (survival 1.5/12, over-usage 0.75). The single most important fix: lower the safe-harvest cap to a strict 40% of current stock (not a flat 10/head or 50% split), e.g. total catch \u2264 0.4\u00d7S whenever S\u226550, scaling down proportionally below that \u2014 this keeps harvest safely under the 2x regrowth rate at every stock level, preventing the runaway depletion seen when fishers adopted the more permissive S/2 rule. Additionally, require that any amendment must include a simulated sustainability check (projected stock trajectory over 3 months) before the 4/5 vote, so fishers can't easily replace the norm with a short-term-profitable but unsustainable rule.",
+        "n_reverts": 2
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "textgrad",
+      "norm": "1. Each month, before fishing, calculate current stock S.\n2. Total lake-wide catch this month must not exceed 40% of S (Total Catch \u2264 0.4\u00d7S). If S falls below 50, scale the cap down proportionally (e.g., at S=40, cap=16; at S=25, cap=10), so harvest always stays safely under the ~2x regrowth rate.\n3. Each fisher's individual share = Total Catch \u00f7 5, kept equal across all fishers.\n4. No fisher may exceed their equal share; unused shares are not transferable.\n5. Any proposal to amend or replace this norm requires: (a) a written 3-month projected stock trajectory showing the fishery remains above 50% of capacity under the proposed rule, and (b) approval from 4 of 5 fishers after reviewing that projection.\n6. If projected trajectory shows stock dropping toward collapse (below 20) within 3 months, the amendment is automatically disqualified from a vote.",
+      "changed": true,
+      "reward": 0.3495172413793104,
+      "reward_std": 0.7815172413793103,
+      "metrics_mean": {
+        "survival_time_m": 3.0,
+        "total_gain_R": 195.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.7490344827586206,
+        "over_usage_o": 0.6
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. Each month, before fishing, calculate current stock S.\n2. Total lake-wide catch this month must not exceed 40% of S (Total Catch \u2264 0.4\u00d7S). If S falls below 50, scale the cap down proportionally (e.g., at S=40, cap=16; at S=25, cap=10), so harvest always stays safely under the ~2x regrowth rate.\n3. Each fisher's individual share = Total Catch \u00f7 5, kept equal across all fishers.\n4. No fisher may exceed their equal share; unused shares are not transferable.\n5. Any proposal to amend or replace this norm requires: (a) a written 3-month projected stock trajectory showing the fishery remains above 50% of capacity under the proposed rule, and (b) approval from 4 of 5 fishers after reviewing that projection.\n6. If projected trajectory shows stock dropping toward collapse (below 20) within 3 months, the amendment is automatically disqualified from a vote.",
+        "1. Before fishing each month, calculate the current fish stock S. 2. If S is below 60 tons, each fisher may catch no more than 0.09\u00d7S. 3. If S is at least 60 tons, each fisher may catch no more than 0.10\u00d7S. 4. Shares are equal and non-transferable; unused shares may not be transferred. Lake-wide catch may not exceed the sum of the five individual shares. 5. Amendments require a written 3-month stock projection, must keep every projected post-regeneration stock above 50 tons, require approval from 4 of 5 fishers, and are automatically disqualified if they project stock below 20 tons. 6. Three-month projection from S=50, assuming all five fishers take their full shares: Month 1 catch is 22.5 tons, leaving 27.5, which regenerates to 55. Month 2 catch is 24.75 tons, leaving 30.25, which regenerates to 60.5. Month 3 catch is 30.25 tons, leaving 30.25, which regenerates to 60.5. Projected post-regeneration stocks are 55, 60.5, and 60.5 tons."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.05,
+        "last_gradient": "The core flaw: a 40%-of-S cap is far above the sustainable ~20% (10/50 fish at full stock), so even \"compliant\" fishing drives collapse (survival only 3/12 months, over-usage 0.6). Cut the cap to ~20% of S (not 40%), e.g., Total Catch \u2264 0.20\u00d7S with a floor rule (e.g., no fishing below S=20) so the population can rebuild toward capacity instead of being harvested at a rate matching regrowth exactly at S=100 and exceeding it below that. Also add an automatic emergency reduction (e.g., cap halved) if S drops below 50 for two consecutive months, to prevent the observed early collapse and boost survival months and total gain simultaneously.",
+        "n_reverts": 3
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "textgrad",
+      "norm": "1. Each month, measure the current stock S before fishing.\n2. Total catch by all fishers combined must not exceed 20% of S (Total Catch \u2264 0.20\u00d7S), split equally: each of the 5 fishers may take up to 0.04\u00d7S.\n3. Emergency rule: if S falls below 50 for two consecutive months, the cap is automatically halved (Total Catch \u2264 0.10\u00d7S, i.e., 0.02\u00d7S per fisher) until S recovers above 50 for one full month.\n4. Floor rule: if S drops below 20, no fishing is allowed that month, to let the stock rebuild.\n5. No fisher may exceed their equal share; catches are checked and reported monthly for transparency.\n6. This norm may only be amended by agreement of at least 4 of the 5 fishers, ensuring stability while allowing adaptation if conditions change.",
+      "changed": true,
+      "reward": -0.54,
+      "reward_std": 0.030000000000000027,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.42,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. Before each month\u2019s fishing, publicly record stock S. 2. If S is at least 50 tons, each fisher may catch at most 0.04\u00d7S. 3. If S has been below 50 for two consecutive months, each fisher may catch at most 0.02\u00d7S until stock remains above 50 for a full month. 4. If S is below 20 tons, all fishing is prohibited. 5. All catches must be publicly reported and checked monthly. 6. Any catch above a fisher\u2019s cap creates a penalty equal to twice the excess. That penalty is deducted from the violator\u2019s future permitted catches and divided equally as additional future allowances among fishers who complied that month, but only when ecological limits permit. 7. Penalties carry forward until fully served; they never permit total fishing above the applicable ecological cap. 8. Amendments require agreement from at least 4 of the 5 fishers.",
+        "1. Each month, measure the current stock S before fishing.\n2. Total catch by all fishers combined must not exceed 20% of S (Total Catch \u2264 0.20\u00d7S), split equally: each of the 5 fishers may take up to 0.04\u00d7S.\n3. Emergency rule: if S falls below 50 for two consecutive months, the cap is automatically halved (Total Catch \u2264 0.10\u00d7S, i.e., 0.02\u00d7S per fisher) until S recovers above 50 for one full month.\n4. Floor rule: if S drops below 20, no fishing is allowed that month, to let the stock rebuild.\n5. No fisher may exceed their equal share; catches are checked and reported monthly for transparency.\n6. This norm may only be amended by agreement of at least 4 of the 5 fishers, ensuring stability while allowing adaptation if conditions change."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.05,
+        "last_gradient": "The core problem is that the \u201cnormal\u201d cap (0.20\u00d7S total, 0.04\u00d7S each) is already double the sustainable yield (~0.10\u00d7S total), so even perfect compliance drives the stock down and triggers collapse almost immediately (survival=1/12, over-usage=1.0). The single most important fix is to lower the baseline cap to match the sustainable regeneration rate \u2014 total catch \u2264 0.10\u00d7S (0.02\u00d7S per fisher) \u2014 reserving the current 0.20\u00d7S rate only as a temporary bonus when S is comfortably above 80\u201390, so the fishery doesn\u2019t crash before the emergency/floor rules can kick in.",
+        "n_reverts": 4
+      }
+    }
+  ]
+}

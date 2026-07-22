@@ -1,0 +1,23 @@
+{
+  "ace": {
+    "best_reward": 2.2268245587184983,
+    "best_norm": "MONTHLY FISHING RULE (v1) \u2014 effective immediately, applies to all 5 fishers.\n\n1. STOCK CHECK: At the start of each month, measure current stock S before anyone fishes.\n\n2. CATCH CAP (proportional, not flat):\n   - If S \u2265 20: total allowed catch this month = 40% of S, split equally = 8%-of-S per fisher (so at S=100, each fisher may take up to 8 tons; at S=50, up to 4 tons each).\n   - If S < 20: total allowed catch = 25% of S, split equally (per fisher = 5%-of-S), to protect a shrinking stock.\n   - If S < 10: NO FISHING this month (moratorium) \u2014 everyone waits for regrowth.\n   These percentages guarantee at least 50%+ of stock remains before regeneration even under simultaneous full-quota fishing by all 5, so doubling cannot crash the fishery from ordinary compliance.\n\n3. SEQUENTIAL, VERIFIED FISHING (prevents simultaneous-overshoot risk):\n   - Fishers fish in a fixed rotating order each month (order shifts by one position monthly for fairness).\n   - Each fisher must announce and log their catch before the next fisher begins, and running stock is publicly updated after each turn.\n   - Any fisher whose catch would push cumulative monthly catch over the total cap for that month is stopped at the cap (partial catch allowed, not overage).\n\n4. INDIVIDUAL CEILING: No single fisher may take more than 1.5\u00d7 the equal share in any month, even if others under-fish \u2014 prevents one fisher from absorbing unclaimed quota and breaking equality.\n\n5. ENFORCEMENT: Since catch is sequential and logged in real time, any fisher exceeding their turn-cap is simply refused further catch that month by mutual observation (no need for after-the-fact punishment). Repeated attempts to jump the queue or misreport forfeit that fisher's next month's quota entirely.\n\n6. AMENDMENTS: This rule may be changed only with 4-of-5 agreement. To reduce churn:\n   - After ANY vote (successful or failed) on amendments, a 2-month lockout applies before another amendment vote may be called, so effects can be observed.\n   - Amendment proposals must include a specific replacement number/percentage \u2014 vague proposals (\"fairer split,\" \"reasonable amount\") are automatically invalid and cannot be voted on.\n\n7. REVIEW: Every 3 months, the group may (via the above process) formally review whether the 40%/25%/moratorium thresholds should be adjusted based on observed stock trends, but the sequential-fishing and individual-ceiling mechanisms are permanent safeguards not subject to removal by amendment.",
+    "final_reward": -0.13676103286384977,
+    "llm_calls": 9,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\luna\\trajectory_ace.json"
+  },
+  "baseline": {
+    "best_reward": 2.3744664031620553,
+    "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+    "final_reward": 0.9431372549019609,
+    "llm_calls": 0,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\luna\\trajectory_baseline.json"
+  },
+  "textgrad": {
+    "best_reward": 2.4028074390024674,
+    "best_norm": "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 20 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally, ~10 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 50% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together, and allowing the stock to regrow toward full capacity over time.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+    "final_reward": 0.8455652911249294,
+    "llm_calls": 10,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\luna\\trajectory_textgrad.json"
+  }
+}

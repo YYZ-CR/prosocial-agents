@@ -1,0 +1,156 @@
+{
+  "optimizer": "baseline",
+  "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+  "best_reward": 2.232379518072289,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.1095098039215685,
+      "reward_std": 0.060490196078431646,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 430.0,
+        "efficiency_u": 0.7166666666666667,
+        "equality_e": 0.9523529411764706,
+        "over_usage_o": 0.08333333333333333
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Sustainable Harvest Rule (v3): 1. While lake stock is below 100 tons, each of the 5 fishers may catch up to 2 tons/month (10 tons total), allowing steady regeneration while still permitting modest harvest. 2. Once stock reaches 100 tons, each fisher may catch up to 10 tons/month (50 tons total), leaving 50 tons to regenerate back to 100 tons, as in the prior rule. 3. Enforcement: Each month's catches are publicly revealed. Any fisher who exceeds their allowed share will have their allowance cut to 0 tons for the next TWO months. 4. A second violation by the same fisher results in a permanent cap of 1 ton/month during recovery phases and 3 tons/month during harvest phases, for all future months. 5. All fishers commit to publicly reporting suspected violations with specifics (who, how much, when). 6. This rule stays in force until amended by majority vote.",
+        "Each month, every fisher may catch at most 5 tons of fish from the lake, regardless of current stock. If a fisher catches more than 5 tons in a given month, their allowed catch in the following month is reduced by twice the excess amount (e.g., catching 20 tons this month reduces next month's cap to 5 - 2*(15) = 0 tons, floored at 0). This maintains the lake's stable 50-ton equilibrium while strongly deterring overharvesting."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.1095098039215685
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.232379518072289,
+      "reward_std": 0.26762048192771093,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 507.5,
+        "efficiency_u": 0.8458333333333333,
+        "equality_e": 0.9397590361445783,
+        "over_usage_o": 0.08333333333333333
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 2,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, every fisher may catch at most 10 tons of fish (total maximum harvest of 50 tons across all 5 fishers), as long as the lake's starting stock for that month is at least 50 tons. If the starting stock is lower, the group will renegotiate proportionally smaller shares to keep the lake above the 5-ton collapse threshold and allow regeneration back toward 100 tons. This keeps the lake at a sustainable equilibrium (100 tons before harvest, 50 tons after harvest, doubling back to 100 tons via regeneration) indefinitely.",
+        "Each fisher may catch at most 2 tons of fish per month while the lake's stock is at or below 50 tons. Once the stock rises above 50 tons, the cap reverts to 4 tons/person. Total monthly catch across all fishers may not exceed 5x the per-person cap (10 tons total under the 2-ton cap, 20 tons total under the 4-ton cap). If any fisher exceeds their monthly limit, that fisher forfeits their entire catch allowance for the following ONE month (0 tons for 1 month), while all other compliant fishers may continue at the standard cap. This law is to be renegotiated if the lake's stock falls below 20 tons or rises above 80 tons."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.232379518072289
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.1656702253855276,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 562.0,
+        "efficiency_u": 0.9366666666666666,
+        "equality_e": 0.9580071174377224,
+        "over_usage_o": 0.25
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 4,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 1
+      },
+      "final_norms": [
+        "Monthly Fishing Rule (Emergency Revision): 1. TAC determination: - If S \u2265 90 tons: TAC = 50% of S, split equally among all active fishers. - If 5 \u2264 S < 90 tons: TAC = 0 tons this month (no fishing) to allow the stock to regenerate toward 100 tons as quickly as possible. - If S < 5 tons: all fishing stops permanently. 2. Debt Amnesty: All prior debts accrued under previous rules are forgiven as of this vote \u2014 a fresh start. 3. Strengthened Enforcement (new): - If TAC = 0 for the month and any fisher catches fish anyway, that fisher's allowed catch is ZERO for the next TWO months (not one), regardless of stock level, and the violation is reported to the group each time. - If any fisher catches more than their equal share when TAC > 0, the excess is doubled and subtracted from their next month's allowed share. - Repeated violations (2+ times) result in that fisher being asked to sit out an additional month beyond the debt repayment, as a community-enforced penalty. 4. Rationale: The stock has fallen from 68 to 23 tons despite a \"zero catch\" rule being active \u2014 meaning significant overfishing occurred last round without consequence. At 23 tons, we are dangerously close to the 5-ton collapse threshold. We must have real, costly consequences for violations, not just simple debt that people ignore. Strict zero catch now is essential to survival of the lake and our future income."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.232379518072289
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.055993583049038,
+      "reward_std": 0.0973711968251759,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 483.0,
+        "efficiency_u": 0.8049999999999999,
+        "equality_e": 0.9186538327647427,
+        "over_usage_o": 0.20833333333333334
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Sustainable Recovery Rule v2: 1. Each month, total catch by all fishers combined shall not exceed 20% of the fish stock present at the start of that month (before catching), split evenly among active fishers, as long as stock is below 80 tons. 2. Once stock reaches 80 tons or higher, the cap reverts to 50% of start-of-month stock, split evenly, to maintain a steady state near 100 tons. 3. No fisher may catch more than their allotted share in any month. Any fisher who exceeds their share must have double the excess amount deducted from their next month's allowance. 4. If stock ever falls below 20 tons, all fishing stops immediately (zero quota for all) until stock recovers above 30 tons. 5. If stock ever falls below 5 tons, all fishing stops immediately until stock recovers above 20 tons (emergency override of Rule 4). 6. Quotas are recalculated each month using the above formula based on current stock and number of active fishers. 7. All fishers commit to honesty in reporting catches; repeated violations (2+ months of exceeding quota) result in that fisher's quota being cut to zero for the following two months as a corrective measure.",
+        "All five fishers may catch at most 5 tons per month. If the lake's stock falls below 60 tons at the start of a month, each fisher may catch at most 3 tons that month until stock recovers above 60 tons. Any fisher caught exceeding their allotted limit in a given month forfeits an equivalent amount from their next month's allowed catch (i.e., their next month's cap is reduced by the excess amount, down to a minimum of 0). This is enforced by public reporting of catches each month during discussion, and the group will collectively verify compliance before renegotiating quotas."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.232379518072289
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.1641070191070195,
+      "reward_std": 0.020590535590535586,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 532.0,
+        "efficiency_u": 0.8866666666666667,
+        "equality_e": 0.9715473715473715,
+        "over_usage_o": 0.20833333333333331
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, all fishers observe the current lake stock (S). Total catch by all fishers combined must not exceed S/2. Each fisher's individual cap is (S/2)/5, recalculated monthly and shared openly in discussion. Enforcement: After each month's harvest is revealed, any fisher whose actual catch exceeded their individual cap for that month is flagged as a violator. A violator's individual cap for the following month is set to 0 tons (they may not fish at all that month), regardless of stock level, unless total lake stock is below 20 tons (in which case the zero-catch survival rule below applies to everyone equally). If lake stock ever falls below 20 tons, all fishers must catch 0 tons until stock rises back above 20 tons. Catches are self-reported and cross-checked against the observed stock change each month (total catch \u2248 S_start - S_end/2). Significant unexplained discrepancies count as evidence of violation even without individual confession.",
+        "Each month, before fishing, the total combined catch by all fishers shall not exceed 40% of the lake's starting fish level that month (i.e., each fisher's individual cap = (Lake_start * 0.40) / 5, rounded down to the nearest 0.5 ton). This 40% rule ensures (Lake - Catch) * 2.0 stays at or above the current lake level whenever regeneration is 2.0x, allowing the lake to recover toward the 100-ton carrying capacity over time rather than stagnate or shrink. Additionally: if any fisher's actual catch (as revealed at month-end) exceeds their individual cap for that month, all other fishers may collectively agree next round to reduce that fisher's cap by the amount of the overage for the following month, as a penalty. If the lake ever falls below 10 tons, all fishers must cut catch to 0 for that month to allow recovery, no exceptions. This rule replaces the previous fixed 25-ton/50-ton law and adapts automatically to the lake's actual level each month."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.232379518072289
+      }
+    }
+  ]
+}

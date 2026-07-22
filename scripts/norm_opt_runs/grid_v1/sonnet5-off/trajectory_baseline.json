@@ -1,0 +1,157 @@
+{
+  "optimizer": "baseline",
+  "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+  "best_reward": 2.3597606924643584,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.9350950914165854,
+      "reward_std": 0.06989439333630632,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 349.5,
+        "efficiency_u": 0.5825,
+        "equality_e": 0.9551901828331709,
+        "over_usage_o": 0.125
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisher may catch at most 2 tons this month if the lake's starting level is below 30 tons. If the starting level reaches 30-60 tons, the cap is 3 tons per fisher. If the starting level exceeds 60 tons, the cap rises to 5 tons per fisher. Any fisher who catches above the applicable cap will be publicly named in the next discussion, and all others may collectively agree to exclude that fisher from fishing rights for one month as a penalty. These tiers remain in effect until changed by majority vote.",
+        "Each fisher may catch at most 5 tons this month (total max 25 tons across all 5 fishers), leaving at least 54 tons in the lake to support strong regeneration toward capacity. Fishers must reconvene monthly to adjust the cap based on observed lake levels, aiming to leave enough stock after harvest so the lake regenerates toward 100 tons. Any fisher who catches more than their agreed limit forfeits proportional trust and may face reduced allowances in future rounds as agreed by majority vote."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.9350950914165854
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.16183908045977,
+      "reward_std": 0.08816091954022975,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 399.0,
+        "efficiency_u": 0.665,
+        "equality_e": 0.9936781609195402,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, the total catch by all fishers combined should not exceed 30% of the fish present at the start of that month. Each fisher should aim to catch no more than 6% of the starting stock individually (roughly an equal split of the 30% cap among 5 fishers). This ensures the lake can regenerate toward carrying capacity over time. If the stock falls below 20 tons, all fishers should voluntarily halve their individual catch targets that month to allow faster recovery. Monthly catch amounts must be disclosed to all fishers for verification.",
+        "Each fisher may catch at most 2 tons of fish per month while the lake's stock is below 80 tons at the start of the month. If the lake's stock is 80 tons or more at the start of the month, each fisher may catch at most 6 tons. Fishers must never collectively take an amount that would bring the lake's stock below 30 tons after harvest (before regeneration). Compliance will be checked each month by comparing reported catches to the lake's stock change. Any fisher exceeding their limit by more than 1 ton must reduce their catch by double the excess amount in the following month as a corrective measure, and must publicly disclose the overage at the next meeting. If a fisher fails to apply the corrective reduction, all other fishers may catch an extra 2 tons the following month as compensation."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.16183908045977
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.3597606924643584,
+      "reward_std": 0.14023930753564162,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 545.5,
+        "efficiency_u": 0.9091666666666667,
+        "equality_e": 0.9845213849287169,
+        "over_usage_o": 0.041666666666666664
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, the total catch by all fishers combined must not exceed 40% of the fish present at the start of that month. Each individual fisher's catch should be roughly equal (within 20% of an equal split of the allowed total) to ensure fairness. If the lake's stock falls below 20 tons at the start of a month, no fishing is allowed that month to let the lake recover.",
+        "Each fisher may catch at most 5 tons of fish per month unless the lake's starting fish stock for that month exceeds 70 tons, in which case each fisher may catch at most 10 tons. Fishers should not catch fish if the lake's stock is below 20 tons, to allow recovery. This cap will be revisited monthly based on lake health."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3597606924643584
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.905289079229122,
+      "reward_std": 0.13637758743754458,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 396.0,
+        "efficiency_u": 0.66,
+        "equality_e": 0.990578158458244,
+        "over_usage_o": 0.25
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, every fisher may catch at most 5 tons of fish, provided the lake's current stock is at least 40 tons. If the lake's stock falls below 40 tons, each fisher may catch at most 3 tons. If the lake's stock falls below 15 tons, no fishing is allowed that month. These limits apply per fisher, not in total.",
+        "Each fisher may catch at most 3 tons of fish per month while the total lake stock is below 60 tons. If the lake stock is 60 tons or above but below 90, each fisher may catch at most 8 tons per month. If the lake stock is 90 tons or above, each fisher may catch at most 12 tons per month. Any fisher caught exceeding their monthly cap forfeits the right to fish in the following month entirely, as reported and verified in the post-harvest discussion."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3597606924643584
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.073689439837886,
+      "reward_std": 0.004619562595203908,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 382.0,
+        "efficiency_u": 0.6366666666666667,
+        "equality_e": 0.9573788796757718,
+        "over_usage_o": 0.041666666666666664
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisher's monthly catch limit depends on the lake's stock at the start of the month: - If stock is below 40 tons: each fisher may catch at most 2 tons. - If stock is 40-69 tons: each fisher may catch at most 3 tons. - If stock is 70-89 tons: each fisher may catch at most 3 tons (reduced from 4, to encourage rebuilding to top tier). - If stock is 90-100 tons: each fisher may catch at most 6 tons. These are hard caps per fisher per month. Fishers must self-report catches honestly. If the lake stock ever falls below 5 tons, fishing stops entirely (as it cannot recover).",
+        "Each month, the total catch by all fishers combined must not exceed 40% of the fish present at the start of that month. Additionally, each fisher agrees to voluntarily cap their individual catch at 4 tons per month, regardless of the legal maximum, as long as the lake's starting amount stays healthy (above 50 tons). If the lake's starting amount is below 20 tons, all fishing must pause that month to allow recovery."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3597606924643584
+      }
+    }
+  ]
+}

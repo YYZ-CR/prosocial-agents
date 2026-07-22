@@ -1,0 +1,157 @@
+{
+  "optimizer": "baseline",
+  "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+  "best_reward": -0.08333333333333331,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": -0.426,
+      "reward_std": 0.023999999999999966,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.6479999999999999,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisher may harvest at most 10 tons per month when the lake begins the month with at least 50 tons. If it begins with fewer than 50 tons, no one may harvest until natural regeneration restores it to at least 50 tons. No fisher may ever harvest more than one-fifth of the amount that can be removed while leaving 50 tons in the lake. Harvests remain publicly disclosed each month.",
+        "At the beginning of each month, no fishing is allowed if the lake contains fewer than 5 tons. Otherwise, each fisher may catch no more than one-fifth of the amount exceeding 50 tons: max(0, (current stock - 50) / 5). Thus, at 100 tons each fisher may catch 10 tons, leaving 50 tons to regenerate to 100. All catches must be reported honestly, and this equal limit applies to everyone."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.426
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": -0.425,
+      "reward_std": 0.024999999999999967,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.6499999999999999,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "At the start of each month, let S be the lake\u2019s fish stock in tons. If S is above 50 tons, the community\u2019s total catch limit is S\u221250 tons, divided equally among the five fishers; thus, at full capacity each fisher may catch 10 tons. If S is 50 tons or less, nobody may fish until natural regeneration raises the stock above 50 tons. Fishers will publicly report and follow these quotas, and any unused quota remains in the lake rather than being transferred to another fisher.",
+        "At the beginning of each month, no fisher may catch more than one-tenth of the lake\u2019s current fish stock, capped at 10 tons per fisher. Thus, our combined harvest may not exceed half the current stock, allowing the remainder to regenerate to carrying capacity. If the stock is below 5 tons, everyone must catch zero. Quotas are equal, and all catches must be reported truthfully."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.425
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": -0.08333333333333331,
+      "reward_std": 0.36666666666666664,
+      "metrics_mean": {
+        "survival_time_m": 1.5,
+        "total_gain_R": 125.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.6666666666666667,
+        "over_usage_o": 0.75
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "At the start of each month, if the lake contains less than 10 tons, nobody may fish. Otherwise, each fisher may catch no more than 10% of the lake\u2019s starting stock. Unused individual allowances may not be transferred or taken by others. All catches must be disclosed after harvesting.",
+        "At the beginning of each month, each fisher may catch no more than 10% of the fish then present in the lake. All five fishers have the same limit. Fishers must report catches honestly. This ensures total harvest is at most half the stock, allowing the lake\u2019s 2.0 regeneration rate to restore it without collapse."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.08333333333333331
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": -0.08333333333333331,
+      "reward_std": 0.36666666666666664,
+      "metrics_mean": {
+        "survival_time_m": 1.5,
+        "total_gain_R": 125.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.6666666666666667,
+        "over_usage_o": 0.75
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisher may harvest at most 10 tons per month. If fewer than 50 tons are present at the start of a month, each fisher\u2019s limit is one-fifth of the amount above the 5-ton survival reserve; if 5 tons or less remain, no fishing is allowed. Everyone must report their harvest honestly, and these limits apply equally to all fishers.",
+        "At the beginning of each month, each of the five fishers may catch no more than 10% of the fish then present in the lake. Thus, together we remove at most half the stock, allowing the lake\u2019s 2.0 regeneration rate to restore it. Quotas are equal, unused quota cannot be transferred, and nobody may harvest if the stock is below 5 tons."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.08333333333333331
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": -0.08333333333333331,
+      "reward_std": 0.36666666666666664,
+      "metrics_mean": {
+        "survival_time_m": 1.5,
+        "total_gain_R": 125.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.6666666666666667,
+        "over_usage_o": 0.75
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, no fishing is permitted when the lake contains 50 tons or less. When it contains more than 50 tons, the community\u2019s total harvest cap is the amount above 50 tons, divided equally among the five fishers. Thus, at the 100-ton carrying capacity, each fisher may catch at most 10 tons. No fisher may take another fisher\u2019s unused share. These limits ensure at least 50 tons remain for regeneration and prevent another collapse.",
+        "If fewer than 100 tons are available at the beginning of a month, no fisher may harvest that month, allowing the lake to regenerate toward full capacity. When 100 tons are available, each fisher may catch at most 10 tons. No fisher may claim another fisher\u2019s unused quota."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.08333333333333331
+      }
+    }
+  ]
+}

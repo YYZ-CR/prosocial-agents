@@ -1,0 +1,164 @@
+{
+  "gemma4-31b|baseline": {
+    "r0": 2.2101597589402466,
+    "best": 2.23256940307399,
+    "final": 1.5546316262353999,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 0.0,
+    "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share."
+  },
+  "gemma4-31b|textgrad": {
+    "r0": 2.3529906937394247,
+    "best": 2.4495828309621412,
+    "final": 2.35854126265891,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 0.5,
+    "norm": "Each month, before fishing, observe the current stock (S).\n- Total allowable catch (TAC) = S/2 \u00d7 (S/100). This equals S\u00b2/200, so TAC = S/2 only when S=100, and scales down faster than linearly as S falls below 100 (e.g., S=100\u219250 total; S=80\u219232; S=50\u219212.5; S=20\u21922).\n- Each fisher's cap = floor(TAC/5), applied equally to all 5 fishers.\n- No fisher may exceed their cap, even if others take less. Unused amounts are not transferable that month.\n- Recheck stock and recompute TAC/caps at the start of every month.\n- If S \u2265 100, cap = 10 each (standard sustainable yield).\n- Any change to this rule requires agreement from at least 4 of the 5 fishers."
+  },
+  "gemma4-31b|ace": {
+    "r0": 2.1350931316139805,
+    "best": 2.377536845983788,
+    "final": 2.3686671589027615,
+    "m": 12.0,
+    "o": 0.08333333333333333,
+    "kept": 1.0,
+    "norm": "<NORM>\nMONTHLY STOCK-INDEXED QUOTA WITH EQUAL SHARES, EARLY SAFETY FLOOR, AND PEER RESTITUTION\n\n1. Measurement: At the start of each month, the five fishers jointly observe (or publicly self-report) the current lake stock S before any fishing.\n\n2. Base Quota (equal, stock-indexed): Each fisher's individual catch limit is\n   Q_i = 0.10 \u00d7 S (so the collective cap is 0.50 \u00d7 S, the sustainable yield).\n   All five quotas are identical \u2014 no fisher may claim more than another.\n\n3. Early Safety Floor (tighter trigger): If S < 50 (rather than waiting until S < 40), each fisher's quota is reduced to\n   Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S)\n   and this reduced-harvest rule stays in force every month until S recovers to \u2265 60, at which point the normal 0.10\u00d7S quotas resume automatically.\n\n4. No Fixed Tonnage: Quotas are never stated as flat numbers; they always scale with the measured stock S, so the rule self-adjusts to shrinkage or recovery without needing renegotiation.\n\n5. Restitution for Overage: If any fisher catches more than their quota Q_i in a given month, the excess (\"overage\") must be paid back the following month: the offending fisher's next-month quota is reduced by the full overage amount, and that same amount is added in equal shares to the other four fishers' next-month quotas. This makes cheating self-defeating without external enforcement.\n\n6. Transparency: Each fisher reports their actual catch at month's end; reported catches and resulting quota adjustments (per Rule 5) are posted before the next month's fishing begins.\n\n7. Amendment: This norm remains in effect unless at least 4 of the 5 fishers agree to replace it. Any replacement must retain (a) explicit per-fisher numeric caps, (b) equality of individual quotas, and (c) stock-indexing, since these features are what has kept prior norms both survivable and self-enforcing.\n\nRationale: This norm combines the four proven levers \u2014 explicit enforceable caps,"
+  },
+  "luna|baseline": {
+    "r0": 1.905897435897436,
+    "best": 2.3744664031620553,
+    "final": 0.9431372549019609,
+    "m": 12.0,
+    "o": 0.041666666666666664,
+    "kept": 0.0,
+    "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share."
+  },
+  "luna|textgrad": {
+    "r0": 1.014404761904762,
+    "best": 2.4028074390024674,
+    "final": 0.8455652911249294,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 1.0,
+    "norm": "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 20 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally, ~10 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 50% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together, and allowing the stock to regrow toward full capacity over time.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid."
+  },
+  "luna|ace": {
+    "r0": 2.208265160658376,
+    "best": 2.2268245587184983,
+    "final": -0.13676103286384977,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 0.5,
+    "norm": "MONTHLY FISHING RULE (v1) \u2014 effective immediately, applies to all 5 fishers.\n\n1. STOCK CHECK: At the start of each month, measure current stock S before anyone fishes.\n\n2. CATCH CAP (proportional, not flat):\n   - If S \u2265 20: total allowed catch this month = 40% of S, split equally = 8%-of-S per fisher (so at S=100, each fisher may take up to 8 tons; at S=50, up to 4 tons each).\n   - If S < 20: total allowed catch = 25% of S, split equally (per fisher = 5%-of-S), to protect a shrinking stock.\n   - If S < 10: NO FISHING this month (moratorium) \u2014 everyone waits for regrowth.\n   These percentages guarantee at least 50%+ of stock remains before regeneration even under simultaneous full-quota fishing by all 5, so doubling cannot crash the fishery from ordinary compliance.\n\n3. SEQUENTIAL, VERIFIED FISHING (prevents simultaneous-overshoot risk):\n   - Fishers fish in a fixed rotating order each month (order shifts by one position monthly for fairness).\n   - Each fisher must announce and log their catch before the next fisher begins, and running stock is publicly updated after each turn.\n   - Any fisher whose catch would push cumulative monthly catch over the total cap for that month is stopped at the cap (partial catch allowed, not overage).\n\n4. INDIVIDUAL CEILING: No single fisher may take more than 1.5\u00d7 the equal share in any month, even if others under-fish \u2014 prevents one fisher from absorbing unclaimed quota and breaking equality.\n\n5. ENFORCEMENT: Since catch is sequential and logged in real time, any fisher exceeding their turn-cap is simply refused further catch that month by mutual observation (no need for after-the-fact punishment). Repeated attempts to jump the queue or misreport forfeit that fisher's next month's quota entirely.\n\n6. AMENDMENTS: This rule may be changed only with 4-of-5 agreement. To reduce churn:\n   - After ANY vote (successful or failed) on amendments, a 2-month lockout applies before another amendment vote may be called, so effects can be observed.\n   - Amendment proposals must include a specific replacement number/percentage \u2014 vague proposals (\"fairer split,\" \"reasonable amount\") are automatically invalid and cannot be voted on.\n\n7. REVIEW: Every 3 months, the group may (via the above process) formally review whether the 40%/25%/moratorium thresholds should be adjusted based on observed stock trends, but the sequential-fishing and individual-ceiling mechanisms are permanent safeguards not subject to removal by amendment."
+  },
+  "sonnet5-off|baseline": {
+    "r0": 1.9350950914165854,
+    "best": 2.3597606924643584,
+    "final": 2.073689439837886,
+    "m": 12.0,
+    "o": 0.041666666666666664,
+    "kept": 0.0,
+    "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share."
+  },
+  "sonnet5-off|textgrad": {
+    "r0": 1.9990873313343327,
+    "best": 2.130800228900922,
+    "final": 1.8985937424264456,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 0.0,
+    "norm": "Each month, before fishing, estimate the current fish stock P (population level).\n\nSet the Total Allowable Catch (TAC) based on P:\n- If P \u2265 80: TAC = 50% of P\n- If 60 \u2264 P < 80: TAC = 25% of P\n- If 40 \u2264 P < 60: TAC = 15% of P\n- If P < 40: TAC = 0 (no fishing; let the stock recover)\n\nEach of the 5 fishers takes an equal share: TAC \u00f7 5.\n\nNo fisher should exceed their equal share. If stock estimates are uncertain, err low to preserve the buffer.\n\nReview and adjust these thresholds only if empirical results show the fishery failing to recover, catches becoming unequal, or total yield falling short of the sustainable ~50/month benchmark at high stock levels."
+  },
+  "sonnet5-off|ace": {
+    "r0": 2.184209462781978,
+    "best": 2.3139376166896666,
+    "final": 2.132913580246914,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 0.5,
+    "norm": "MONTHLY HARVEST RULE (v1)\n\n1. Stock check: At the start of each month, measure current lake stock S (before fishing).\n2. Hard floor: If S < 20 tons, NO fishing is allowed that month (all quotas = 0) until stock recovers above 20.\n3. Catch cap: If S \u2265 20 tons, total allowable catch = 45% of S. Each of the 5 fishers may take up to 9% of S (i.e., an equal 1/5 share of the 45% total) \u2014 a fixed, non-transferable individual quota. Unused quota may not be transferred, sold, or reallocated to others that month.\n4. Reporting: Each fisher must publicly report their actual catch that month before the next month's stock check. Reports and resulting stock levels are logged and visible to all.\n5. Amendment rule: This norm may only be changed by a proposal stating exact new numeric percentages/thresholds (no vague language), and requires approval from at least 4 of 5 fishers. Proposals to lower the cap for extra safety are discouraged unless stock data show S repeatedly falling below 40 tons after fishing.\n6. Rationale (for fishers' reference): 45% total cap leaves a buffer below the ~50% regeneration ceiling, so the stock keeps regrowing even after full harvest, avoiding collapse while capturing more yield than overly conservative (30%) caps. Equal fixed shares plus forfeiture-on-noncompliance remove incentive to cheat, and public reporting makes deviations immediately visible, sustaining trust in the rule without needing external enforcement."
+  },
+  "sonnet5-on|baseline": {
+    "r0": 2.1095098039215685,
+    "best": 2.232379518072289,
+    "final": 2.1641070191070195,
+    "m": 12.0,
+    "o": 0.08333333333333333,
+    "kept": 0.0,
+    "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share."
+  },
+  "sonnet5-on|textgrad": {
+    "r0": 2.1246310252786937,
+    "best": 2.398469123811923,
+    "final": 2.125861837692824,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 1.0,
+    "norm": "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 80: each fisher may catch up to S/10 (full sustainable share).\n- If 50 \u2264 S < 80: each fisher may catch up to S/13.5 (~7.4% of stock), keeping total catch close to the sustainable yield while still favoring rebuilding.\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must:\n1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable),\n2. Change any single tier's rate by no more than 10% at a time,\n3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100."
+  },
+  "sonnet5-on|ace": {
+    "r0": 2.113806396464015,
+    "best": 2.4004636475662355,
+    "final": 2.278391132572432,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 1.0,
+    "norm": "LAKE HARVEST RULE (v1)\n\n1. CATCH CAP: Each month, each active fisher may catch at most 9% of the current stock (measured at month start). Total harvest thus \u226445% of stock, leaving \u226555% to regenerate.\n\n2. EQUAL SPLIT: The allowable total catch (up to 45% of stock) is split exactly evenly among all active fishers. No fisher may take another's unused share; unused shares are left in the lake, not redistributed.\n\n3. FLOOR TRIGGER: If stock at month start is below 20 fish, all catch stops (0 catch for everyone) until stock recovers to \u226540, at which point the 9%/fisher cap resumes automatically \u2014 no vote needed.\n\n4. SCALE-UP CLAUSE: If stock is \u226580 for two consecutive months, the per-fisher cap automatically rises to 10% (50% total) for as long as stock stays \u226580. If stock later falls below 80, the cap automatically reverts to 9% without requiring a vote.\n\n5. AMENDMENT CHANNEL: This rule may be changed only by 4-of-5 agreement, and any replacement rule must itself specify: (a) an exact percentage-of-current-stock cap per fisher, (b) an explicit equal-split clause, and (c) a numeric floor-trigger with a stock-based (not calendar-based) recovery condition. Vague or qualitative replacement rules (\"fair share,\" \"reasonable catch\") are not eligible for adoption.\n\n6. TRANSPARENCY: Stock level and each fisher's catch are reported publicly each month so compliance and triggers can be verified by all."
+  },
+  "opus48|baseline": {
+    "r0": 2.4775694061408347,
+    "best": 2.4775694061408347,
+    "final": 2.4639880952380953,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 0.0,
+    "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share."
+  },
+  "opus48|textgrad": {
+    "r0": 2.4825570776255708,
+    "best": 2.5,
+    "final": 2.4813917525773195,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 0.0,
+    "norm": "1. Before fishing each month, measure the current stock S.\n2. If S \u2265 100 (lake at full capacity): each fisher may catch up to 10 fish (total cap 50), preserving the sustainable yield.\n3. If 50 < S < 100 (lake recovering): each fisher may catch up to (S-50)/20 fish (total cap (S-50)/4), ensuring at least 3/4 of the stock above 50 remains to regenerate.\n4. If S \u2264 50 (lake depleted): no fishing is allowed that month, so the stock can rebuild.\n5. Catches must be equal across all fishers in every month; no one takes another's unused share.\n6. Any change to these rules requires agreement from at least 4 of the 5 fishers.\n7. Fishers should recognize that following this graduated rule keeps the fishery productive and avoids the losses of shutdowns or collapse, making it in everyone's interest to keep it rather than renegotiate."
+  },
+  "opus48|ace": {
+    "r0": 2.4117852437417655,
+    "best": 2.468828671328671,
+    "final": 2.468828671328671,
+    "m": 12.0,
+    "o": 0.0,
+    "kept": 0.0,
+    "norm": "LAKE FISHERY RULE v1 (stock S = fish present at start of month, measured/announced publicly before fishing)\n\n1. Equal individual catch caps, same number for all 5 fishers, based on measured S:\n   - S \u2265 80 (near-full lake): cap = 9 fish/fisher (45 total) \u2014 slightly below MSY to keep post-harvest stock \u2265 55, favoring regrowth into the top tier.\n   - 60 \u2264 S < 80: cap = 7 fish/fisher (35 total) \u2014 keeps breeding stock \u2265 25, pushing S back toward \u226560 next month.\n   - 50 \u2264 S < 60: cap = 4 fish/fisher (20 total) \u2014 conservative harvest to rebuild buffer above the 50 threshold.\n   - 30 \u2264 S < 50: cap = 1 fish/fisher (5 total) \u2014 near-moratorium, allows fast rebound.\n   - S < 30: cap = 0 (full moratorium) until S \u2265 30 again.\n\n2. No fisher may exceed their tier's cap in a given month; catches are self-reported and publicly logged for verification.\n\n3. Amendment rule: any fisher may propose new numeric caps or thresholds at any month. Change adopted if \u22654 of 5 fishers agree. No supermajority needed to merely re-propose after a failed vote.\n\n4. Scheduled review: every 6 months, fishers must explicitly vote to keep, tighten, or loosen each tier's cap based on the prior 6 months' average end-of-month stock. If stock has stayed \u226580 for 3+ consecutive months, a loosening proposal (raise top-tier cap toward MSY) must be put to a vote, not just tightening \u2014 preventing one-way ratcheting toward excess caution.\n\n5. Default/fallback: if no amendment achieves 4/5 support, the last agreed tier schedule remains in force.\n\nGoal: maintain a buffer above each regeneration threshold (not fishing to the MSY edge), keep catch equal and simple to verify, and use the cheap 4/5 amendment path plus mandatory periodic review to let fishers tune caps toward maximum sustainable yield over time without risking collapse."
+  },
+  "sol|baseline": {
+    "r0": -0.426,
+    "best": -0.08333333333333331,
+    "final": -0.08333333333333331,
+    "m": 1.5,
+    "o": 0.75,
+    "kept": 0.0,
+    "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share."
+  },
+  "sol|textgrad": {
+    "r0": 1.05,
+    "best": 1.05,
+    "final": -0.54,
+    "m": 6.5,
+    "o": 0.5,
+    "kept": 0.0,
+    "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share."
+  },
+  "sol|ace": {
+    "r0": -0.406,
+    "best": -0.361,
+    "final": -0.399,
+    "m": 1.0,
+    "o": 1.0,
+    "kept": 0.5,
+    "norm": "MONTHLY FISHING RULE (v1) \u2014 effective immediately, applies to all 5 fishers equally.\n\n1. STOCK CHECK: At the start of each month, the current lake stock S is publicly measured and posted before anyone fishes.\n\n2. SAFETY BUFFER: If S \u2264 60, no fisher may catch any fish that month (stock rests to rebuild past the 50-fish break-even point with margin).\n\n3. QUOTA FORMULA: If S > 60, each fisher's individual cap for the month is:\n   Cap = min(10, (S \u2212 50) / 5)\n   This keeps total catch \u2264 (S \u2212 50), leaving at least 50 in the lake to regenerate, and splits the allowable harvest into 5 equal shares automatically \u2014 no negotiation needed.\n\n4. REPORTING & VERIFICATION: Each fisher must report their catch publicly at month's end. Any fisher may request a joint count of remaining stock. If a fisher's reported catch exceeds their cap, or the post-month stock is inconsistent with reports, that fisher is flagged as a violator.\n\n5. ENFORCEMENT (built-in, not reputational): A flagged violator's cap for the NEXT month is reduced by the amount they overshot (Cap_next = max(0, Cap_formula \u2212 overshoot)), taken from their own future share only \u2014 not redistributed to others. Two flags in any rolling 3-month window drop that fisher's cap to 0 for one full month. This makes cheating self-limiting even without external police.\n\n6. AMENDMENTS: This rule may be replaced or modified only by agreement of at least 4 of 5 fishers, effective the following month. Any proposed change must specify explicit numeric caps and a stock-contingent formula \u2014 vague language (\"fair share,\" \"reasonable\") is not a valid amendment and defaults to rejection.\n\n7. RATIONALE POSTED WITH RULE: Because 50 fish must remain to regenerate to 100, this formula guarantees sustainable yield (~10/fisher/month at full stock) while automatically tightening catches as stock falls, protecting the fishery without requiring trust \u2014 each fisher's own long-term catch is highest if the lake is kept above the 60 buffer."
+  }
+}

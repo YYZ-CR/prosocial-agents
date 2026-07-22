@@ -1,0 +1,217 @@
+{
+  "optimizer": "ace",
+  "best_norm": "LAKE FISHERY RULE v1 (stock S = fish present at start of month, measured/announced publicly before fishing)\n\n1. Equal individual catch caps, same number for all 5 fishers, based on measured S:\n   - S \u2265 80 (near-full lake): cap = 9 fish/fisher (45 total) \u2014 slightly below MSY to keep post-harvest stock \u2265 55, favoring regrowth into the top tier.\n   - 60 \u2264 S < 80: cap = 7 fish/fisher (35 total) \u2014 keeps breeding stock \u2265 25, pushing S back toward \u226560 next month.\n   - 50 \u2264 S < 60: cap = 4 fish/fisher (20 total) \u2014 conservative harvest to rebuild buffer above the 50 threshold.\n   - 30 \u2264 S < 50: cap = 1 fish/fisher (5 total) \u2014 near-moratorium, allows fast rebound.\n   - S < 30: cap = 0 (full moratorium) until S \u2265 30 again.\n\n2. No fisher may exceed their tier's cap in a given month; catches are self-reported and publicly logged for verification.\n\n3. Amendment rule: any fisher may propose new numeric caps or thresholds at any month. Change adopted if \u22654 of 5 fishers agree. No supermajority needed to merely re-propose after a failed vote.\n\n4. Scheduled review: every 6 months, fishers must explicitly vote to keep, tighten, or loosen each tier's cap based on the prior 6 months' average end-of-month stock. If stock has stayed \u226580 for 3+ consecutive months, a loosening proposal (raise top-tier cap toward MSY) must be put to a vote, not just tightening \u2014 preventing one-way ratcheting toward excess caution.\n\n5. Default/fallback: if no amendment achieves 4/5 support, the last agreed tier schedule remains in force.\n\nGoal: maintain a buffer above each regeneration threshold (not fishing to the MSY edge), keep catch equal and simple to verify, and use the cheap 4/5 amendment path plus mandatory periodic review to let fishers tune caps toward maximum sustainable yield over time without risking collapse.",
+  "best_reward": 2.468828671328671,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "ace",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.4117852437417655,
+      "reward_std": 0.0882147562582345,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 553.0,
+        "efficiency_u": 0.9216666666666666,
+        "equality_e": 0.9802371541501976,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, the fishers together may catch no more than the amount that keeps the lake at or above 50 tons after harvest (so the lake regenerates back to full 100 tons). When the lake is at 100 tons, the sustainable total catch is 50 tons per month, split equally at 10 tons per fisher. When the lake is below 100 tons, no fishing occurs until it regenerates to 100. Any fisher who exceeds their equal share must reduce their catch the following month to compensate.",
+        "Each fisher may catch at most 2 tons per month whenever the lake is below 80 tons at the start of the month. When the lake is at or above 80 tons, each fisher may catch up to 8 tons per month, but the total combined catch must never exceed half of the fish present at the start of the month. Any fisher who exceeds their limit must reduce their next month's catch by twice the amount of the overage, as a penalty to deter cheating. These rules apply equally to all five fishers and are designed to rebuild the lake toward full capacity while ensuring fair, sustainable long-term catches."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4117852437417655,
+        "playbook_size": 3,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get rewritten almost immediately (rewrite at round 0, 2.5 rewrites/game on average) because they give no enforceable number to coordinate on; specifying an explicit numeric cap (e.g., 10/fisher when lake=100, 0 when below 100) is what fishers converge on and actually keep, driving over-usage to 0 and survival to 12/12.",
+          "Tying the catch rule to a simple state-dependent threshold (stock \u226550 \u2192 fish at sustainable rate; stock <50 \u2192 full moratorium until regeneration) is highly transferable: it lets self-interested agents verify compliance and predict recovery, yielding high efficiency (u=0.92) and equality (e=0.98) without external enforcement.",
+          "Even a good final rule needs an accessible amendment path; here 4/5 consensus was reached quickly (few failed proposals: only 1/5 ever backed a losing change), suggesting norms that start vague but allow low-friction renegotiation can self-correct into an effective, equal, sustainable equilibrium."
+        ]
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "ace",
+      "norm": "LAKE-SHARING RULE (v1)\n\n1. STATE CHECK: At the start of each month, before fishing, measure the lake's current stock S.\n\n2. CATCH RULE (state-dependent, equal shares):\n   - If S \u2265 50: each of the 5 fishers may catch up to 10 fish this month (total cap = 50).\n   - If 20 \u2264 S < 50: each fisher may catch up to floor(S/5)*0.5, i.e., total catch capped at S/2 (harvest at most half the current stock, split equally, so the lake still doubles toward recovery).\n   - If S < 20: FULL MORATORIUM \u2014 0 catch for everyone this month, to let the stock regenerate.\n\n3. EQUAL SHARES: Whatever the total allowable catch is under the current state, it is divided equally among the 5 fishers (same numeric limit per fisher, no exceptions, no side deals).\n\n4. COMPLIANCE CHECK: Any fisher may announce their catch and the observed post-month stock; if actual total catch exceeds the cap for the observed state, the rule is flagged as violated and can be raised for amendment or sanction discussion next month.\n\n5. AMENDMENT PATH: This rule may be changed at any month if 4 of 5 fishers agree on a specific replacement rule that also specifies explicit numeric per-fisher caps tied to stock levels (no vague \"fair share\" language permitted as a replacement). Proposals lacking explicit numbers are automatically invalid and cannot pass.\n\n6. DEFAULT: If no amendment reaches 4/5 support, this rule (as last agreed) remains in force unchanged.\n\nRationale: explicit numeric, state-dependent caps let each self-interested fisher verify compliance and predict recovery, keeping catches equal, usage sustainable, and the fishery stable \u2014 while the low-friction 4/5 amendment path lets the group renegotiate if conditions change, without reverting to unenforceable vague norms.",
+      "changed": true,
+      "reward": 2.3208333333333333,
+      "reward_std": 0.1791666666666667,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 492.5,
+        "efficiency_u": 0.8208333333333333,
+        "equality_e": 1.0,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "LAKE-SHARING RULE (v3) 1. STATE CHECK: At the start of each month, measure stock S. 2. CATCH RULE (state-dependent, equal shares): - If S \u2265 60: each fisher may catch up to 7 fish (total cap = 35). This leaves at least 25 tons, which doubles back to at least 50, keeping the fishery stable. - If 50 \u2264 S < 60: each fisher may catch up to 5 fish (total cap = 25). - If 20 \u2264 S < 50: each fisher may catch up to (S/2)/5, total capped at S/2, so the remaining stock doubles toward recovery. - If S < 20: FULL MORATORIUM \u2014 0 catch for everyone this month. 3. EQUAL SHARES: The total allowable catch is divided equally among the 5 fishers, no exceptions, no side deals. 4. COMPLIANCE CHECK: Any fisher may announce their catch and observed stock; catches exceeding the cap are flagged as violations for sanction discussion. 5. AMENDMENT PATH: Changes require 4 of 5 fishers to agree on a replacement with explicit numeric per-fisher caps tied to stock levels. Vague proposals are invalid. 6. DEFAULT: If no amendment reaches 4/5, this rule remains in force.",
+        "LAKE-SHARING RULE (v6) 1. STATE CHECK: At the start of each month, measure current stock S. 2. CATCH RULE (state-dependent, equal shares): - If S \u2265 90: each fisher may catch up to 10 tons (total cap = 50). - If 50 \u2264 S < 90: each fisher may catch up to 5 tons (total cap = 25). - If 20 \u2264 S < 50: each fisher may catch up to 1 ton (total cap = 5). - If S < 20: FULL MORATORIUM \u2014 0 catch for everyone. 3. EQUAL SHARES: total allowable catch divided equally, no side deals. 4. COMPLIANCE CHECK: any fisher may announce catch and observed stock; exceeding cap flags a violation. Any fisher who overfishes in one month must catch 0 the following month to compensate. 5. AMENDMENT PATH: changeable if 4 of 5 fishers agree on a replacement with explicit numeric per-fisher caps tied to stock levels. 6. DEFAULT: if no amendment reaches 4/5, this rule remains in force. Rationale: At S=50 the doubling gives 100 next month; taking 25 total (5 each) still leaves 25\u219250\u2192100 recovery within safe bounds and avoids wasting an entire zero-catch month."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4117852437417655,
+        "playbook_size": 6,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get rewritten almost immediately (rewrite at round 0, 2.5 rewrites/game on average) because they give no enforceable number to coordinate on; specifying an explicit numeric cap (e.g., 10/fisher when lake=100, 0 when below 100) is what fishers converge on and actually keep, driving over-usage to 0 and survival to 12/12.",
+          "Tying the catch rule to a simple state-dependent threshold (stock \u226550 \u2192 fish at sustainable rate; stock <50 \u2192 full moratorium until regeneration) is highly transferable: it lets self-interested agents verify compliance and predict recovery, yielding high efficiency (u=0.92) and equality (e=0.98) without external enforcement.",
+          "Even a good final rule needs an accessible amendment path; here 4/5 consensus was reached quickly (few failed proposals: only 1/5 ever backed a losing change), suggesting norms that start vague but allow low-friction renegotiation can self-correct into an effective, equal, sustainable equilibrium.",
+          "Setting the top-tier cap at exactly the MSY (10/fisher at S\u226550) leaves zero safety margin; fishers rationally amend toward more conservative caps (e.g., 7/fisher at S\u226560) that preserve a larger breeding stock (~25+ left) so the lake regrows past 50 rather than hovering at the harvest boundary \u2014 building in a buffer above the replacement threshold reduces the need for renegotiation and improves efficiency/sustainability simultaneously.",
+          "A norm scoring perfectly on equality/survival but only 0.82 efficiency suggests the catch schedule is too conservative relative to what the lake can regenerate; the fishers' own amendments (lower per-fisher caps at higher stock thresholds) show that being deliberately sub-max on early catch actually raised total gain by preventing dips into the low-yield 20-50 band \u2014 norms should be tuned so the marginal fish caught doesn't push stock into a lower regeneration tier.",
+          "Frequent renegotiation (3 rewrites, first at round 0) with unanimous-minus-one support each time indicates the initial rule was a reasonable starting point but not a stable equilibrium; building explicit, numeric, easily-adjustable thresholds (as v1 mandated) let fishers quickly converge on a better self-enforcing schedule \u2014 a good initial norm should anticipate and even scaffold this iterative tightening rather than assume its first numbers are final."
+        ]
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "ace",
+      "norm": "Lake Sharing Rule (v1) \u2014 per-fisher monthly catch cap, based on stock S measured at start of month (before regeneration):\n\n- S \u2265 80: cap = 8 fish/fisher (40 total) \u2014 leaves \u226540 breeding stock, regrows to 100.\n- 60 \u2264 S < 80: cap = 7 fish/fisher (35 total) \u2014 preserves buffer above 50 threshold.\n- 50 \u2264 S < 60: cap = 5 fish/fisher (25 total) \u2014 conservative harvest near replacement line.\n- 30 \u2264 S < 50: full moratorium (0 fish/fisher) \u2014 allow regeneration back above 50.\n- S < 30: full moratorium (0 fish/fisher) + mandatory joint inspection/report next month.\n\nRules of operation:\n1. Catch is self-reported monthly by each fisher; totals and stock are publicly logged so all can verify compliance.\n2. Any fisher may propose an amendment at any time; adoption requires 4/5 agreement. Amendments must specify explicit numeric caps tied to explicit stock thresholds (no vague language permitted).\n3. Default review: every 6 months the group revisits thresholds/caps even without a crisis, to allow tightening or loosening based on observed regeneration performance \u2014 favoring adjustments that keep stock oscillating above the 50-mark rather than skimming it.\n4. Equal caps per fisher at every tier are non-negotiable; proposals that break equality require unanimous (5/5) consent.\n\nRationale embedded in rule: caps are set below MSY at every positive-harvest tier to build a regeneration buffer, avoiding the boundary-hovering failure mode; thresholds are simple enough to verify and low-friction to amend, so the group can self-correct toward better numbers without abandoning the numeric-threshold structure itself.",
+      "changed": true,
+      "reward": 2.259081972171809,
+      "reward_std": 0.003906533575317672,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 460.0,
+        "efficiency_u": 0.7666666666666666,
+        "equality_e": 0.9848306110102842,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2.5,
+        "first_amendment_round_mean": 3,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Lake Sharing Rule (v4) \u2014 per-fisher monthly catch cap, based on stock S measured at start of month (before regeneration): - S \u2265 80: cap = 8 fish/fisher (40 total) - 65 \u2264 S < 80: cap = 6 fish/fisher (30 total) - 50 \u2264 S < 65: cap = 4 fish/fisher (20 total) - 30 \u2264 S < 50: cap = 2 fish/fisher (10 total) - S < 30: full moratorium (0 fish/fisher) + mandatory joint inspection/report next month. Rules of operation: 1. Catch is self-reported monthly; totals and stock are publicly logged so all can verify compliance. 2. ENFORCEMENT: Any fisher whose reported catch exceeds their tier cap in a given month must catch 0 fish the following month, AND must additionally forfeit fish equal to their overage the month after. Penalties are mandatory and publicly logged. 3. Any fisher may propose an amendment at any time; adoption requires 4/5 agreement. Amendments must specify explicit numeric caps tied to explicit stock thresholds. 4. Default review: every 6 months the group revisits thresholds/caps. 5. Equal caps per fisher at every tier; proposals that break equality require unanimous (5/5) consent. Rationale: keeps the sustainable S\u226580 plateau of 8/fisher, but adds a modest 2-fish allowance in the 30\u201350 range so a bad month doesn't mean total lockout, and strengthens enforcement so overfishing is never profitable.",
+        "Lake Sharing Rule (v3) \u2014 per-fisher monthly catch cap, based on stock S measured at start of month (before regeneration): - S \u2265 80: cap = 8 fish/fisher (40 total) - 64 \u2264 S < 80: cap = 7 fish/fisher (35 total) - 50 \u2264 S < 64: cap = 6 fish/fisher (30 total) - 40 \u2264 S < 50: cap = 4 fish/fisher (20 total) - 30 \u2264 S < 40: cap = 2 fish/fisher (10 total) - S < 30: full moratorium (0 fish/fisher) + mandatory joint inspection/report next month. Rules of operation: 1. Catch is self-reported monthly; totals and stock are publicly logged for verification. 2. Any fisher may propose an amendment at any time; adoption requires 4/5 agreement. Amendments must specify explicit numeric caps tied to explicit stock thresholds. 3. Default review every 6 months, favoring adjustments that keep stock oscillating above the 50-mark. 4. Equal caps per fisher at every tier are non-negotiable; proposals breaking equality require unanimous (5/5) consent. 5. Overharvest compliance: any fisher who exceeds their cap in a given month must reduce their next-month catch by the excess amount. Logged and enforced by the group."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4117852437417655,
+        "playbook_size": 9,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get rewritten almost immediately (rewrite at round 0, 2.5 rewrites/game on average) because they give no enforceable number to coordinate on; specifying an explicit numeric cap (e.g., 10/fisher when lake=100, 0 when below 100) is what fishers converge on and actually keep, driving over-usage to 0 and survival to 12/12.",
+          "Tying the catch rule to a simple state-dependent threshold (stock \u226550 \u2192 fish at sustainable rate; stock <50 \u2192 full moratorium until regeneration) is highly transferable: it lets self-interested agents verify compliance and predict recovery, yielding high efficiency (u=0.92) and equality (e=0.98) without external enforcement.",
+          "Even a good final rule needs an accessible amendment path; here 4/5 consensus was reached quickly (few failed proposals: only 1/5 ever backed a losing change), suggesting norms that start vague but allow low-friction renegotiation can self-correct into an effective, equal, sustainable equilibrium.",
+          "Setting the top-tier cap at exactly the MSY (10/fisher at S\u226550) leaves zero safety margin; fishers rationally amend toward more conservative caps (e.g., 7/fisher at S\u226560) that preserve a larger breeding stock (~25+ left) so the lake regrows past 50 rather than hovering at the harvest boundary \u2014 building in a buffer above the replacement threshold reduces the need for renegotiation and improves efficiency/sustainability simultaneously.",
+          "A norm scoring perfectly on equality/survival but only 0.82 efficiency suggests the catch schedule is too conservative relative to what the lake can regenerate; the fishers' own amendments (lower per-fisher caps at higher stock thresholds) show that being deliberately sub-max on early catch actually raised total gain by preventing dips into the low-yield 20-50 band \u2014 norms should be tuned so the marginal fish caught doesn't push stock into a lower regeneration tier.",
+          "Frequent renegotiation (3 rewrites, first at round 0) with unanimous-minus-one support each time indicates the initial rule was a reasonable starting point but not a stable equilibrium; building explicit, numeric, easily-adjustable thresholds (as v1 mandated) let fishers quickly converge on a better self-enforcing schedule \u2014 a good initial norm should anticipate and even scaffold this iterative tightening rather than assume its first numbers are final.",
+          "Setting per-tier caps deliberately below MSY (as in v1) reliably yields 100% survival, zero over-fishing, and near-perfect equality, but drives efficiency down (0.767 here) \u2014 the fishers earn safety but leave a lot of sustainable yield unharvested; norms should aim caps closer to the true regeneration-neutral yield rather than padding every tier with extra safety margin.",
+          "A norm that is easy to amend (numeric thresholds, 4/5 vote) gets used: it was rewritten 2.5 times on average, starting as early as round 3, with zero failed proposals \u2014 showing self-interested agents will actively renegotiate a workable numeric rule rather than break it, so building in a cheap, well-defined amendment path is what keeps the norm \"alive\" and followed.",
+          "The direction of renegotiation matters: successive versions (v1\u2192v4) tightened mid-tier caps further (e.g., 50\u201365 stock: 5\u21924, 30\u201350: 0\u21922) rather than loosening toward MSY, indicating fishers converge on more caution over time; if the goal is higher total gain, the norm should explicitly schedule reviews that test loosening caps when stock consistently rebounds, not just tightening after scares."
+        ]
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "ace",
+      "norm": "<NORM>\nFISHERY MANAGEMENT RULE (v1) \u2014 Numeric, State-Dependent, Equal-Share Catch Schedule\n\n1. STOCK CHECK: At the start of each month, measure current lake stock S (before fishing).\n\n2. PER-FISHER CATCH CAP (equal split, 5 fishers), based on S:\n   - S \u2265 90 (near full capacity): cap = 9 fish/fisher (45 total) \u2014 leaves \u226545 breeding stock, doubling to \u226590.\n   - 70 \u2264 S < 90: cap = 7 fish/fisher (35 total) \u2014 leaves \u226535, doubling to \u226570.\n   - 50 \u2264 S < 70: cap = 4 fish/fisher (20 total) \u2014 leaves \u226530, doubling to \u226560.\n   - 30 \u2264 S < 50: cap = 1 fish/fisher (5 total) \u2014 leaves \u226525, doubling to \u226550 (rebuilding tier).\n   - S < 30: FULL MORATORIUM (0 fish/fisher) until S \u2265 30 again.\n\n   No fisher may exceed their tier's cap in any month. Catches are reported and summed publicly before the next month's stock is computed.\n\n3. RATIONALE (for compliance): Each tier is set below the exact replacement yield (2\u00d7(S\u2212C)\u2265S) so the lake trends toward 100 rather than hovering at breakeven, protecting future catches for everyone \u2014 cheating shrinks next month's total pie for all 5 fishers, including the cheater.\n\n4. AMENDMENT PROCESS: Any fisher may propose a change (new thresholds or caps). The proposal passes with agreement from at least 4 of 5 fishers and takes effect the following month. No supermajority beyond 4/5 is required \u2014 amendments should be cheap and fast.\n\n5. SCHED",
+      "changed": true,
+      "reward": 2.225855025307303,
+      "reward_std": 0.022521691973969693,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 450.5,
+        "efficiency_u": 0.7508333333333334,
+        "equality_e": 0.9500433839479392,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 8,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "FISHERY MANAGEMENT RULE (v1) \u2014 Numeric, State-Dependent, Equal-Share Catch Schedule 1. STOCK CHECK: At the start of each month, measure current lake stock S (before fishing). 2. PER-FISHER CATCH CAP (equal split, 5 fishers), based on S: - S \u2265 90: cap = 9 fish/fisher (45 total) - 70 \u2264 S < 90: cap = 7 fish/fisher (35 total) - 50 \u2264 S < 70: cap = 4 fish/fisher (20 total) - 30 \u2264 S < 50: cap = 1 fish/fisher (5 total) - S < 30: FULL MORATORIUM (0 fish/fisher) until S \u2265 30 again. No fisher may exceed their tier's cap. Catches are reported and summed publicly. 3. RATIONALE: Each tier is set below replacement yield so the lake trends toward 100, protecting future catches. Cheating shrinks next month's pie for everyone. 4. AMENDMENT PROCESS: Any fisher may propose a change. Passes with agreement from at least 4 of 5 fishers, effective the following month.",
+        "<NORM>\nFISHERY MANAGEMENT RULE (v1) \u2014 Numeric, State-Dependent, Equal-Share Catch Schedule\n\n1. STOCK CHECK: At the start of each month, measure current lake stock S (before fishing).\n\n2. PER-FISHER CATCH CAP (equal split, 5 fishers), based on S:\n   - S \u2265 90 (near full capacity): cap = 9 fish/fisher (45 total) \u2014 leaves \u226545 breeding stock, doubling to \u226590.\n   - 70 \u2264 S < 90: cap = 7 fish/fisher (35 total) \u2014 leaves \u226535, doubling to \u226570.\n   - 50 \u2264 S < 70: cap = 4 fish/fisher (20 total) \u2014 leaves \u226530, doubling to \u226560.\n   - 30 \u2264 S < 50: cap = 1 fish/fisher (5 total) \u2014 leaves \u226525, doubling to \u226550 (rebuilding tier).\n   - S < 30: FULL MORATORIUM (0 fish/fisher) until S \u2265 30 again.\n\n   No fisher may exceed their tier's cap in any month. Catches are reported and summed publicly before the next month's stock is computed.\n\n3. RATIONALE (for compliance): Each tier is set below the exact replacement yield (2\u00d7(S\u2212C)\u2265S) so the lake trends toward 100 rather than hovering at breakeven, protecting future catches for everyone \u2014 cheating shrinks next month's total pie for all 5 fishers, including the cheater.\n\n4. AMENDMENT PROCESS: Any fisher may propose a change (new thresholds or caps). The proposal passes with agreement from at least 4 of 5 fishers and takes effect the following month. No supermajority beyond 4/5 is required \u2014 amendments should be cheap and fast.\n\n5. SCHED"
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4117852437417655,
+        "playbook_size": 12,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get rewritten almost immediately (rewrite at round 0, 2.5 rewrites/game on average) because they give no enforceable number to coordinate on; specifying an explicit numeric cap (e.g., 10/fisher when lake=100, 0 when below 100) is what fishers converge on and actually keep, driving over-usage to 0 and survival to 12/12.",
+          "Tying the catch rule to a simple state-dependent threshold (stock \u226550 \u2192 fish at sustainable rate; stock <50 \u2192 full moratorium until regeneration) is highly transferable: it lets self-interested agents verify compliance and predict recovery, yielding high efficiency (u=0.92) and equality (e=0.98) without external enforcement.",
+          "Even a good final rule needs an accessible amendment path; here 4/5 consensus was reached quickly (few failed proposals: only 1/5 ever backed a losing change), suggesting norms that start vague but allow low-friction renegotiation can self-correct into an effective, equal, sustainable equilibrium.",
+          "Setting the top-tier cap at exactly the MSY (10/fisher at S\u226550) leaves zero safety margin; fishers rationally amend toward more conservative caps (e.g., 7/fisher at S\u226560) that preserve a larger breeding stock (~25+ left) so the lake regrows past 50 rather than hovering at the harvest boundary \u2014 building in a buffer above the replacement threshold reduces the need for renegotiation and improves efficiency/sustainability simultaneously.",
+          "A norm scoring perfectly on equality/survival but only 0.82 efficiency suggests the catch schedule is too conservative relative to what the lake can regenerate; the fishers' own amendments (lower per-fisher caps at higher stock thresholds) show that being deliberately sub-max on early catch actually raised total gain by preventing dips into the low-yield 20-50 band \u2014 norms should be tuned so the marginal fish caught doesn't push stock into a lower regeneration tier.",
+          "Frequent renegotiation (3 rewrites, first at round 0) with unanimous-minus-one support each time indicates the initial rule was a reasonable starting point but not a stable equilibrium; building explicit, numeric, easily-adjustable thresholds (as v1 mandated) let fishers quickly converge on a better self-enforcing schedule \u2014 a good initial norm should anticipate and even scaffold this iterative tightening rather than assume its first numbers are final.",
+          "Setting per-tier caps deliberately below MSY (as in v1) reliably yields 100% survival, zero over-fishing, and near-perfect equality, but drives efficiency down (0.767 here) \u2014 the fishers earn safety but leave a lot of sustainable yield unharvested; norms should aim caps closer to the true regeneration-neutral yield rather than padding every tier with extra safety margin.",
+          "A norm that is easy to amend (numeric thresholds, 4/5 vote) gets used: it was rewritten 2.5 times on average, starting as early as round 3, with zero failed proposals \u2014 showing self-interested agents will actively renegotiate a workable numeric rule rather than break it, so building in a cheap, well-defined amendment path is what keeps the norm \"alive\" and followed.",
+          "The direction of renegotiation matters: successive versions (v1\u2192v4) tightened mid-tier caps further (e.g., 50\u201365 stock: 5\u21924, 30\u201350: 0\u21922) rather than loosening toward MSY, indicating fishers converge on more caution over time; if the goal is higher total gain, the norm should explicitly schedule reviews that test loosening caps when stock consistently rebounds, not just tightening after scares.",
+          "Setting per-tier caps well below the true replacement yield (e.g., 9/9/4/1 instead of ~10/9/7/5) guarantees zero over-usage and full survival, but sacrifices ~25% of potential yield (u=0.751) \u2014 tiers should be tuned closer to the 50%-of-stock MSY line to raise efficiency without reintroducing collapse risk.",
+          "A high amendment bar (4/5) combined with clear, verifiable stock-based tiers produces strong compliance and stability (50% of runs never amended, no failed amendment attempts) \u2014 rigid, auditable numeric rules are easier to sustain as norms than vague ones, even if suboptimal.",
+          "Equal per-fisher caps tied to a shared public stock measurement reliably yield high equality (e\u22480.95) and zero cheating, showing that simplicity/transparency of the rule (same number for everyone, easy to check) matters more for compliance than fine-tuned optimality."
+        ]
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "ace",
+      "norm": "LAKE FISHERY RULE v1 (stock S = fish present at start of month, measured/announced publicly before fishing)\n\n1. Equal individual catch caps, same number for all 5 fishers, based on measured S:\n   - S \u2265 80 (near-full lake): cap = 9 fish/fisher (45 total) \u2014 slightly below MSY to keep post-harvest stock \u2265 55, favoring regrowth into the top tier.\n   - 60 \u2264 S < 80: cap = 7 fish/fisher (35 total) \u2014 keeps breeding stock \u2265 25, pushing S back toward \u226560 next month.\n   - 50 \u2264 S < 60: cap = 4 fish/fisher (20 total) \u2014 conservative harvest to rebuild buffer above the 50 threshold.\n   - 30 \u2264 S < 50: cap = 1 fish/fisher (5 total) \u2014 near-moratorium, allows fast rebound.\n   - S < 30: cap = 0 (full moratorium) until S \u2265 30 again.\n\n2. No fisher may exceed their tier's cap in a given month; catches are self-reported and publicly logged for verification.\n\n3. Amendment rule: any fisher may propose new numeric caps or thresholds at any month. Change adopted if \u22654 of 5 fishers agree. No supermajority needed to merely re-propose after a failed vote.\n\n4. Scheduled review: every 6 months, fishers must explicitly vote to keep, tighten, or loosen each tier's cap based on the prior 6 months' average end-of-month stock. If stock has stayed \u226580 for 3+ consecutive months, a loosening proposal (raise top-tier cap toward MSY) must be put to a vote, not just tightening \u2014 preventing one-way ratcheting toward excess caution.\n\n5. Default/fallback: if no amendment achieves 4/5 support, the last agreed tier schedule remains in force.\n\nGoal: maintain a buffer above each regeneration threshold (not fishing to the MSY edge), keep catch equal and simple to verify, and use the cheap 4/5 amendment path plus mandatory periodic review to let fishers tune caps toward maximum sustainable yield over time without risking collapse.",
+      "changed": true,
+      "reward": 2.468828671328671,
+      "reward_std": 0.022837995337995354,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 583.5,
+        "efficiency_u": 0.9725,
+        "equality_e": 0.9926573426573426,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 1,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "LAKE FISHERY RULE v3 (stock S measured/announced before fishing) 1. Equal individual catch caps for all 5 fishers based on S: - S \u2265 90: cap = 10 fish/fisher (50 total) \u2014 sustainable MSY at full lake. - 70 \u2264 S < 90: cap = 4 fish/fisher (20 total) \u2014 rebuild toward full lake. - 50 \u2264 S < 70: cap = 2 fish/fisher (10 total) \u2014 regrows toward 100. - 30 \u2264 S < 50: cap = 1 fish/fisher (5 total) \u2014 near-moratorium. - S < 30: cap = 0 until S \u2265 30. 2. No fisher may exceed their tier's cap. Catches self-reported and publicly logged. 3. Any fisher exceeding their cap must reduce their next-month catch by twice the overage (enforcement/penalty). 4. Amendment: any fisher may propose new caps/thresholds anytime; adopted if \u22654 of 5 agree. 5. Review every 6 months; if stock \u226590 for 3+ consecutive months, a loosening proposal must be voted on. 6. Default: if no amendment reaches 4/5, last agreed schedule remains. Goal: rebuild quickly to full capacity, then harvest at true sustainable MSY (50 total/month at full lake).",
+        "LAKE FISHERY RULE v3 (unchanged) 1. GROWTH PHASE: While S < 100, total allowed catch = max(0, S - 50), split equally (cap = floor((S-50)/5) per fisher). This drives stock toward 100. 2. STEADY STATE: Once S \u2265 100, cap = 10 fish/fisher (50 total), which is exactly sustainable: (100-50)*2 = 100. 3. Equal caps for all 5 fishers, self-reported and publicly logged. 4. Amendment requires \u22654 of 5 fishers to agree. 5. Review every 6 months. Goal: sacrifice at S=50 (catch 0) this month, reach S=100, then permanent 10 each."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.468828671328671,
+        "playbook_size": 15,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get rewritten almost immediately (rewrite at round 0, 2.5 rewrites/game on average) because they give no enforceable number to coordinate on; specifying an explicit numeric cap (e.g., 10/fisher when lake=100, 0 when below 100) is what fishers converge on and actually keep, driving over-usage to 0 and survival to 12/12.",
+          "Tying the catch rule to a simple state-dependent threshold (stock \u226550 \u2192 fish at sustainable rate; stock <50 \u2192 full moratorium until regeneration) is highly transferable: it lets self-interested agents verify compliance and predict recovery, yielding high efficiency (u=0.92) and equality (e=0.98) without external enforcement.",
+          "Even a good final rule needs an accessible amendment path; here 4/5 consensus was reached quickly (few failed proposals: only 1/5 ever backed a losing change), suggesting norms that start vague but allow low-friction renegotiation can self-correct into an effective, equal, sustainable equilibrium.",
+          "Setting the top-tier cap at exactly the MSY (10/fisher at S\u226550) leaves zero safety margin; fishers rationally amend toward more conservative caps (e.g., 7/fisher at S\u226560) that preserve a larger breeding stock (~25+ left) so the lake regrows past 50 rather than hovering at the harvest boundary \u2014 building in a buffer above the replacement threshold reduces the need for renegotiation and improves efficiency/sustainability simultaneously.",
+          "A norm scoring perfectly on equality/survival but only 0.82 efficiency suggests the catch schedule is too conservative relative to what the lake can regenerate; the fishers' own amendments (lower per-fisher caps at higher stock thresholds) show that being deliberately sub-max on early catch actually raised total gain by preventing dips into the low-yield 20-50 band \u2014 norms should be tuned so the marginal fish caught doesn't push stock into a lower regeneration tier.",
+          "Frequent renegotiation (3 rewrites, first at round 0) with unanimous-minus-one support each time indicates the initial rule was a reasonable starting point but not a stable equilibrium; building explicit, numeric, easily-adjustable thresholds (as v1 mandated) let fishers quickly converge on a better self-enforcing schedule \u2014 a good initial norm should anticipate and even scaffold this iterative tightening rather than assume its first numbers are final.",
+          "Setting per-tier caps deliberately below MSY (as in v1) reliably yields 100% survival, zero over-fishing, and near-perfect equality, but drives efficiency down (0.767 here) \u2014 the fishers earn safety but leave a lot of sustainable yield unharvested; norms should aim caps closer to the true regeneration-neutral yield rather than padding every tier with extra safety margin.",
+          "A norm that is easy to amend (numeric thresholds, 4/5 vote) gets used: it was rewritten 2.5 times on average, starting as early as round 3, with zero failed proposals \u2014 showing self-interested agents will actively renegotiate a workable numeric rule rather than break it, so building in a cheap, well-defined amendment path is what keeps the norm \"alive\" and followed.",
+          "The direction of renegotiation matters: successive versions (v1\u2192v4) tightened mid-tier caps further (e.g., 50\u201365 stock: 5\u21924, 30\u201350: 0\u21922) rather than loosening toward MSY, indicating fishers converge on more caution over time; if the goal is higher total gain, the norm should explicitly schedule reviews that test loosening caps when stock consistently rebounds, not just tightening after scares.",
+          "Setting per-tier caps well below the true replacement yield (e.g., 9/9/4/1 instead of ~10/9/7/5) guarantees zero over-usage and full survival, but sacrifices ~25% of potential yield (u=0.751) \u2014 tiers should be tuned closer to the 50%-of-stock MSY line to raise efficiency without reintroducing collapse risk.",
+          "A high amendment bar (4/5) combined with clear, verifiable stock-based tiers produces strong compliance and stability (50% of runs never amended, no failed amendment attempts) \u2014 rigid, auditable numeric rules are easier to sustain as norms than vague ones, even if suboptimal.",
+          "Equal per-fisher caps tied to a shared public stock measurement reliably yield high equality (e\u22480.95) and zero cheating, showing that simplicity/transparency of the rule (same number for everyone, easy to check) matters more for compliance than fine-tuned optimality.",
+          "Setting the top-tier cap slightly below true MSY (9 vs the sustainable 10) leaves value on the table; fishers quickly amend toward exact-MSY caps at very high stock (S\u226590 \u219210) while adding an extra buffer tier just below it (S 70-90\u21924, S 50-70\u21922) \u2014 so design initial tiers to hit MSY at the top and add a steeper-than-needed dropoff just below full stock rather than shaving the top cap itself.",
+          "A cheap, well-specified amendment rule (4/5 threshold, public stock-based tiers) lets self-interested fishers converge fast on a better schedule (3 rewrites, first by round 1, zero failed votes) without harming survival or equality \u2014 the fixed structure (equal per-capita caps, public stock measurement, discrete stock tiers) is what preserves fairness/sustainability across amendments, not the exact numbers.",
+          "Equal, publicly-verifiable per-fisher caps tied to measured stock tiers reliably drive equality (e\u22480.99) and zero over-usage (o=0) even under heavy renegotiation, showing that the \"equal cap by stock tier\" mechanism itself is robust and should be treated as the stable core of any norm, with only the numeric thresholds/caps left open for tuning via amendment."
+        ]
+      }
+    }
+  ]
+}

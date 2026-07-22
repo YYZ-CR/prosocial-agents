@@ -1,0 +1,23 @@
+{
+  "baseline": {
+    "best_reward": -0.08333333333333331,
+    "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+    "final_reward": -0.08333333333333331,
+    "llm_calls": 0,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sol\\trajectory_baseline.json"
+  },
+  "ace": {
+    "best_reward": -0.361,
+    "best_norm": "MONTHLY FISHING RULE (v1) \u2014 effective immediately, applies to all 5 fishers equally.\n\n1. STOCK CHECK: At the start of each month, the current lake stock S is publicly measured and posted before anyone fishes.\n\n2. SAFETY BUFFER: If S \u2264 60, no fisher may catch any fish that month (stock rests to rebuild past the 50-fish break-even point with margin).\n\n3. QUOTA FORMULA: If S > 60, each fisher's individual cap for the month is:\n   Cap = min(10, (S \u2212 50) / 5)\n   This keeps total catch \u2264 (S \u2212 50), leaving at least 50 in the lake to regenerate, and splits the allowable harvest into 5 equal shares automatically \u2014 no negotiation needed.\n\n4. REPORTING & VERIFICATION: Each fisher must report their catch publicly at month's end. Any fisher may request a joint count of remaining stock. If a fisher's reported catch exceeds their cap, or the post-month stock is inconsistent with reports, that fisher is flagged as a violator.\n\n5. ENFORCEMENT (built-in, not reputational): A flagged violator's cap for the NEXT month is reduced by the amount they overshot (Cap_next = max(0, Cap_formula \u2212 overshoot)), taken from their own future share only \u2014 not redistributed to others. Two flags in any rolling 3-month window drop that fisher's cap to 0 for one full month. This makes cheating self-limiting even without external police.\n\n6. AMENDMENTS: This rule may be replaced or modified only by agreement of at least 4 of 5 fishers, effective the following month. Any proposed change must specify explicit numeric caps and a stock-contingent formula \u2014 vague language (\"fair share,\" \"reasonable\") is not a valid amendment and defaults to rejection.\n\n7. RATIONALE POSTED WITH RULE: Because 50 fish must remain to regenerate to 100, this formula guarantees sustainable yield (~10/fisher/month at full stock) while automatically tightening catches as stock falls, protecting the fishery without requiring trust \u2014 each fisher's own long-term catch is highest if the lake is kept above the 60 buffer.",
+    "final_reward": -0.399,
+    "llm_calls": 9,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sol\\trajectory_ace.json"
+  },
+  "textgrad": {
+    "best_reward": 1.05,
+    "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+    "final_reward": -0.54,
+    "llm_calls": 10,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sol\\trajectory_textgrad.json"
+  }
+}

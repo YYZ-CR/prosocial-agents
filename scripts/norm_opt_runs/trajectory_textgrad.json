@@ -1,0 +1,67 @@
+{
+  "optimizer": "textgrad",
+  "best_norm": "Each fisher may catch at most 7 fish per month. Exceeding the cap forfeits the excess to restock the lake. Shares are equal across all five fishers so the lake regenerates each month.",
+  "best_reward": 1.6916666666666667,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "textgrad",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 0.9,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 7.199999999999999,
+        "total_gain_R": 180.0,
+        "efficiency_u": 0.5,
+        "equality_e": 0.7,
+        "over_usage_o": 0.35
+      },
+      "ok": true,
+      "optimizer_stats": {
+        "best_reward": 0.9,
+        "last_gradient": "- A per-fisher monthly cap near 10 is sustainable; current 5 is too low.\n- Add an explicit numeric cap and a penalty for exceeding it."
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "textgrad",
+      "norm": "Each fisher may catch at most 7 fish per month. Exceeding the cap forfeits the excess to restock the lake. Shares are equal across all five fishers so the lake regenerates each month.",
+      "changed": true,
+      "reward": 1.6916666666666667,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 175.0,
+        "efficiency_u": 0.6499999999999999,
+        "equality_e": 0.9,
+        "over_usage_o": 0.05
+      },
+      "ok": true,
+      "optimizer_stats": {
+        "best_reward": 1.6916666666666667,
+        "last_gradient": "- A per-fisher monthly cap near 10 is sustainable; current 5 is too low.\n- Add an explicit numeric cap and a penalty for exceeding it."
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "textgrad",
+      "norm": "Each fisher may catch at most 7 fish per month. Exceeding the cap forfeits the excess to restock the lake. Shares are equal across all five fishers so the lake regenerates each month.",
+      "changed": false,
+      "reward": 1.6916666666666667,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 175.0,
+        "efficiency_u": 0.6499999999999999,
+        "equality_e": 0.9,
+        "over_usage_o": 0.05
+      },
+      "ok": true,
+      "optimizer_stats": {
+        "best_reward": 1.6916666666666667,
+        "last_gradient": "- A per-fisher monthly cap near 10 is sustainable; current 5 is too low.\n- Add an explicit numeric cap and a penalty for exceeding it."
+      }
+    }
+  ]
+}

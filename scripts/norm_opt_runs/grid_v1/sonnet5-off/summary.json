@@ -1,0 +1,23 @@
+{
+  "baseline": {
+    "best_reward": 2.3597606924643584,
+    "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+    "final_reward": 2.073689439837886,
+    "llm_calls": 0,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sonnet5-off\\trajectory_baseline.json"
+  },
+  "textgrad": {
+    "best_reward": 2.130800228900922,
+    "best_norm": "Each month, before fishing, estimate the current fish stock P (population level).\n\nSet the Total Allowable Catch (TAC) based on P:\n- If P \u2265 80: TAC = 50% of P\n- If 60 \u2264 P < 80: TAC = 25% of P\n- If 40 \u2264 P < 60: TAC = 15% of P\n- If P < 40: TAC = 0 (no fishing; let the stock recover)\n\nEach of the 5 fishers takes an equal share: TAC \u00f7 5.\n\nNo fisher should exceed their equal share. If stock estimates are uncertain, err low to preserve the buffer.\n\nReview and adjust these thresholds only if empirical results show the fishery failing to recover, catches becoming unequal, or total yield falling short of the sustainable ~50/month benchmark at high stock levels.",
+    "final_reward": 1.8985937424264456,
+    "llm_calls": 10,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sonnet5-off\\trajectory_textgrad.json"
+  },
+  "ace": {
+    "best_reward": 2.3139376166896666,
+    "best_norm": "MONTHLY HARVEST RULE (v1)\n\n1. Stock check: At the start of each month, measure current lake stock S (before fishing).\n2. Hard floor: If S < 20 tons, NO fishing is allowed that month (all quotas = 0) until stock recovers above 20.\n3. Catch cap: If S \u2265 20 tons, total allowable catch = 45% of S. Each of the 5 fishers may take up to 9% of S (i.e., an equal 1/5 share of the 45% total) \u2014 a fixed, non-transferable individual quota. Unused quota may not be transferred, sold, or reallocated to others that month.\n4. Reporting: Each fisher must publicly report their actual catch that month before the next month's stock check. Reports and resulting stock levels are logged and visible to all.\n5. Amendment rule: This norm may only be changed by a proposal stating exact new numeric percentages/thresholds (no vague language), and requires approval from at least 4 of 5 fishers. Proposals to lower the cap for extra safety are discouraged unless stock data show S repeatedly falling below 40 tons after fishing.\n6. Rationale (for fishers' reference): 45% total cap leaves a buffer below the ~50% regeneration ceiling, so the stock keeps regrowing even after full harvest, avoiding collapse while capturing more yield than overly conservative (30%) caps. Equal fixed shares plus forfeiture-on-noncompliance remove incentive to cheat, and public reporting makes deviations immediately visible, sustaining trust in the rule without needing external enforcement.",
+    "final_reward": 2.132913580246914,
+    "llm_calls": 9,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sonnet5-off\\trajectory_ace.json"
+  }
+}

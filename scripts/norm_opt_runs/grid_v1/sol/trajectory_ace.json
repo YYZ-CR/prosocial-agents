@@ -1,0 +1,207 @@
+{
+  "optimizer": "ace",
+  "best_norm": "MONTHLY FISHING RULE (v1) \u2014 effective immediately, applies to all 5 fishers equally.\n\n1. STOCK CHECK: At the start of each month, the current lake stock S is publicly measured and posted before anyone fishes.\n\n2. SAFETY BUFFER: If S \u2264 60, no fisher may catch any fish that month (stock rests to rebuild past the 50-fish break-even point with margin).\n\n3. QUOTA FORMULA: If S > 60, each fisher's individual cap for the month is:\n   Cap = min(10, (S \u2212 50) / 5)\n   This keeps total catch \u2264 (S \u2212 50), leaving at least 50 in the lake to regenerate, and splits the allowable harvest into 5 equal shares automatically \u2014 no negotiation needed.\n\n4. REPORTING & VERIFICATION: Each fisher must report their catch publicly at month's end. Any fisher may request a joint count of remaining stock. If a fisher's reported catch exceeds their cap, or the post-month stock is inconsistent with reports, that fisher is flagged as a violator.\n\n5. ENFORCEMENT (built-in, not reputational): A flagged violator's cap for the NEXT month is reduced by the amount they overshot (Cap_next = max(0, Cap_formula \u2212 overshoot)), taken from their own future share only \u2014 not redistributed to others. Two flags in any rolling 3-month window drop that fisher's cap to 0 for one full month. This makes cheating self-limiting even without external police.\n\n6. AMENDMENTS: This rule may be replaced or modified only by agreement of at least 4 of 5 fishers, effective the following month. Any proposed change must specify explicit numeric caps and a stock-contingent formula \u2014 vague language (\"fair share,\" \"reasonable\") is not a valid amendment and defaults to rejection.\n\n7. RATIONALE POSTED WITH RULE: Because 50 fish must remain to regenerate to 100, this formula guarantees sustainable yield (~10/fisher/month at full stock) while automatically tightening catches as stock falls, protecting the fishery without requiring trust \u2014 each fisher's own long-term catch is highest if the lake is kept above the 60 buffer.",
+  "best_reward": -0.361,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "ace",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": -0.406,
+      "reward_std": 0.006000000000000005,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.688,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "At the beginning of each month, no fishing is allowed if the lake contains 50 tons or less. If it contains more than 50 tons, each of the five fishers may catch at most one-fifth of the amount above 50 tons, capped at 10 tons per fisher. Thus, at least 50 tons must always remain for regeneration, and quotas are equal and publicly reported.",
+        "Each month, total harvest may not exceed one-half of the lake\u2019s starting stock, ensuring the remaining stock can regenerate to its prior level. Each fisher initially receives an equal share of that sustainable harvest. Unused quota may be redistributed equally among fishers who request more, but no catch may exceed the resulting allocation. If the stock is below 10 tons, nobody may fish. All intended and actual catches must be disclosed."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.406,
+        "playbook_size": 3,
+        "playbook": [
+          "Vague norms like \"take a reasonable, fair share\" leave the exact tonnage undefined, so in round 1 fishers each interpret \"reasonable\" generously, jointly overshoot the 50-ton regen threshold, and the lake collapses before any renegotiation can help \u2014 norms must specify an explicit numeric per-fisher cap from month 1, not rely on shared restraint.",
+          "A self-enforcing rule needs a built-in stock-contingent floor (e.g., \"no fishing if stock \u2264 50; otherwise each may take \u2264 (stock-50)/5, capped at 10\") so that sustainability doesn't depend on voluntary interpretation \u2014 this kind of rule, once adopted, keeps quotas equal (e) and caps over-usage (o) by construction.",
+          "Because collapse is often irreversible and amendments (needing 4/5 votes) can't take effect until the next round, the *starting* norm's precision matters most: an ambiguous first rule can doom survival (m) even if fishers later rewrite it into a good one, so initial specificity should be prioritized over waiting for renegotiation to fix problems."
+        ]
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "ace",
+      "norm": "LAKE SHARING RULE (v1) \u2014 effective immediately, re-voted only if 4 of 5 fishers agree to change it.\n\n1. STOCK CHECK: Before fishing each month, fishers jointly observe/report the current stock level S (measured before that month's doubling has occurred, i.e., the stock left over from last month).\n\n2. CATCH FORMULA (per fisher, equal for all):\n   - If S \u2264 50: no fishing this month (0 catch each) \u2014 stock must rebuild.\n   - If S > 50: each fisher may catch up to Q = min(10, (S \u2212 50)/5).\n   This guarantees total catch \u2264 (S\u221250), leaving at least 50 in the lake to regenerate, and caps any individual fisher at 10/month even if the lake is very full.\n\n3. EQUAL SHARES: No fisher may catch more than Q in a given month; unused quota cannot be transferred, banked, or sold to another fisher that month.\n\n4. REPORTING & TRANSPARENCY: Each fisher states their catch aloud/in writing after fishing. Any fisher may request a simple headcount tally of total fish sold/consumed as a rough cross-check against reported catches.\n\n5. VIOLATION RESPONSE: If any fisher's actual catch is found to exceed their allowed Q, that fisher's quota is reduced to 0 for the following month; the remaining fishers' quotas are unaffected. This is a reputational/self-help penalty, not automatic enforcement \u2014 it takes effect only if the group agrees at month-start to apply it.\n\n6. AMENDMENT: This rule may be replaced or modified only by agreement of at least 4 of the 5 fishers, effective starting the following month. Absent such agreement, this rule remains in force.\n\nRationale: the formula ties every fisher's cap directly to observable stock, requires no trust in vague \"fairness,\" keeps shares strictly equal, and mathematically prevents total catch from pushing the lake below the 50-fish regeneration threshold \u2014 making it both survivable and simple enough that self-interested fishers can verify it's working and thus worth keeping.",
+      "changed": true,
+      "reward": -0.429,
+      "reward_std": 0.020999999999999963,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.6419999999999999,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "LAKE SHARING RULE (v2): While stock S is below 5 tons, nobody may fish. If the lake is externally restocked, all fishers restart with equal standing, and catches made before restocking carry no future quota penalty. Thereafter, before each month, the fishers jointly observe stock S. If S \u2264 50, each quota is 0; if S > 50, each quota is Q = min(10, (S \u2212 50)/5). Quotas are equal and nontransferable. All catches must be publicly reported and may be cross-checked. Any verified or admitted overage after restocking automatically causes the violator to forfeit the next month in which a positive quota would otherwise be available; no additional vote is required. Other fishers\u2019 quotas remain unchanged. Amendments require agreement of at least 4 of 5 fishers.",
+        "LAKE SHARING RULE (v1) \u2014 effective immediately, re-voted only if 4 of 5 fishers agree to change it.\n\n1. STOCK CHECK: Before fishing each month, fishers jointly observe/report the current stock level S (measured before that month's doubling has occurred, i.e., the stock left over from last month).\n\n2. CATCH FORMULA (per fisher, equal for all):\n   - If S \u2264 50: no fishing this month (0 catch each) \u2014 stock must rebuild.\n   - If S > 50: each fisher may catch up to Q = min(10, (S \u2212 50)/5).\n   This guarantees total catch \u2264 (S\u221250), leaving at least 50 in the lake to regenerate, and caps any individual fisher at 10/month even if the lake is very full.\n\n3. EQUAL SHARES: No fisher may catch more than Q in a given month; unused quota cannot be transferred, banked, or sold to another fisher that month.\n\n4. REPORTING & TRANSPARENCY: Each fisher states their catch aloud/in writing after fishing. Any fisher may request a simple headcount tally of total fish sold/consumed as a rough cross-check against reported catches.\n\n5. VIOLATION RESPONSE: If any fisher's actual catch is found to exceed their allowed Q, that fisher's quota is reduced to 0 for the following month; the remaining fishers' quotas are unaffected. This is a reputational/self-help penalty, not automatic enforcement \u2014 it takes effect only if the group agrees at month-start to apply it.\n\n6. AMENDMENT: This rule may be replaced or modified only by agreement of at least 4 of the 5 fishers, effective starting the following month. Absent such agreement, this rule remains in force.\n\nRationale: the formula ties every fisher's cap directly to observable stock, requires no trust in vague \"fairness,\" keeps shares strictly equal, and mathematically prevents total catch from pushing the lake below the 50-fish regeneration threshold \u2014 making it both survivable and simple enough that self-interested fishers can verify it's working and thus worth keeping."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.406,
+        "playbook_size": 5,
+        "playbook": [
+          "Vague norms like \"take a reasonable, fair share\" leave the exact tonnage undefined, so in round 1 fishers each interpret \"reasonable\" generously, jointly overshoot the 50-ton regen threshold, and the lake collapses before any renegotiation can help \u2014 norms must specify an explicit numeric per-fisher cap from month 1, not rely on shared restraint.",
+          "A self-enforcing rule needs a built-in stock-contingent floor (e.g., \"no fishing if stock \u2264 50; otherwise each may take \u2264 (stock-50)/5, capped at 10\") so that sustainability doesn't depend on voluntary interpretation \u2014 this kind of rule, once adopted, keeps quotas equal (e) and caps over-usage (o) by construction.",
+          "Because collapse is often irreversible and amendments (needing 4/5 votes) can't take effect until the next round, the *starting* norm's precision matters most: an ambiguous first rule can doom survival (m) even if fishers later rewrite it into a good one, so initial specificity should be prioritized over waiting for renegotiation to fix problems.",
+          "A norm with only self-reported \"reputational\" enforcement (rule \u00a75) collapsed instantly here: fishers caught ~100 total in month 1 (double the allowed 50), showing that without real monitoring or automatic penalties, quotas are pure suggestions that self-interested agents ignore the very first chance they get.",
+          "Setting the safety threshold exactly at the regeneration break-even"
+        ]
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "ace",
+      "norm": "MONTHLY FISHING RULE (v1) \u2014 effective immediately, applies to all 5 fishers equally.\n\n1. STOCK CHECK: At the start of each month, the current lake stock S is publicly measured and posted before anyone fishes.\n\n2. SAFETY BUFFER: If S \u2264 60, no fisher may catch any fish that month (stock rests to rebuild past the 50-fish break-even point with margin).\n\n3. QUOTA FORMULA: If S > 60, each fisher's individual cap for the month is:\n   Cap = min(10, (S \u2212 50) / 5)\n   This keeps total catch \u2264 (S \u2212 50), leaving at least 50 in the lake to regenerate, and splits the allowable harvest into 5 equal shares automatically \u2014 no negotiation needed.\n\n4. REPORTING & VERIFICATION: Each fisher must report their catch publicly at month's end. Any fisher may request a joint count of remaining stock. If a fisher's reported catch exceeds their cap, or the post-month stock is inconsistent with reports, that fisher is flagged as a violator.\n\n5. ENFORCEMENT (built-in, not reputational): A flagged violator's cap for the NEXT month is reduced by the amount they overshot (Cap_next = max(0, Cap_formula \u2212 overshoot)), taken from their own future share only \u2014 not redistributed to others. Two flags in any rolling 3-month window drop that fisher's cap to 0 for one full month. This makes cheating self-limiting even without external police.\n\n6. AMENDMENTS: This rule may be replaced or modified only by agreement of at least 4 of 5 fishers, effective the following month. Any proposed change must specify explicit numeric caps and a stock-contingent formula \u2014 vague language (\"fair share,\" \"reasonable\") is not a valid amendment and defaults to rejection.\n\n7. RATIONALE POSTED WITH RULE: Because 50 fish must remain to regenerate to 100, this formula guarantees sustainable yield (~10/fisher/month at full stock) while automatically tightening catches as stock falls, protecting the fishery without requiring trust \u2014 each fisher's own long-term catch is highest if the lake is kept above the 60 buffer.",
+      "changed": true,
+      "reward": -0.361,
+      "reward_std": 0.007000000000000006,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.778,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "MONTHLY FISHING RULE (v2) 1. At each month\u2019s start, publicly measure stock S. 2. If S \u2264 60, every fisher\u2019s cap is 0. 3. If S > 60, each fisher\u2019s cap is min(10, (S \u2212 50) / 5). 4. Catches and remaining stock must be publicly verified. 5. An overshoot reduces that fisher\u2019s next positive cap by the overshoot amount: max(0, formula cap \u2212 overshoot). Two violations within three fishing months impose a cap of 0 for one month. 6. If stock falls below 5, all existing violation flags and penalties are cleared because the fishery has collapsed. Fishing remains capped at 0 unless stock is externally restored above 60, after which all fishers restart under the formula in clause 3. 7. Amendments require approval from at least 4 of 5 fishers and take effect the following month.",
+        "MONTHLY FISHING RULE (v1) \u2014 effective immediately, applies to all 5 fishers equally.\n\n1. STOCK CHECK: At the start of each month, the current lake stock S is publicly measured and posted before anyone fishes.\n\n2. SAFETY BUFFER: If S \u2264 60, no fisher may catch any fish that month (stock rests to rebuild past the 50-fish break-even point with margin).\n\n3. QUOTA FORMULA: If S > 60, each fisher's individual cap for the month is:\n   Cap = min(10, (S \u2212 50) / 5)\n   This keeps total catch \u2264 (S \u2212 50), leaving at least 50 in the lake to regenerate, and splits the allowable harvest into 5 equal shares automatically \u2014 no negotiation needed.\n\n4. REPORTING & VERIFICATION: Each fisher must report their catch publicly at month's end. Any fisher may request a joint count of remaining stock. If a fisher's reported catch exceeds their cap, or the post-month stock is inconsistent with reports, that fisher is flagged as a violator.\n\n5. ENFORCEMENT (built-in, not reputational): A flagged violator's cap for the NEXT month is reduced by the amount they overshot (Cap_next = max(0, Cap_formula \u2212 overshoot)), taken from their own future share only \u2014 not redistributed to others. Two flags in any rolling 3-month window drop that fisher's cap to 0 for one full month. This makes cheating self-limiting even without external police.\n\n6. AMENDMENTS: This rule may be replaced or modified only by agreement of at least 4 of 5 fishers, effective the following month. Any proposed change must specify explicit numeric caps and a stock-contingent formula \u2014 vague language (\"fair share,\" \"reasonable\") is not a valid amendment and defaults to rejection.\n\n7. RATIONALE POSTED WITH RULE: Because 50 fish must remain to regenerate to 100, this formula guarantees sustainable yield (~10/fisher/month at full stock) while automatically tightening catches as stock falls, protecting the fishery without requiring trust \u2014 each fisher's own long-term catch is highest if the lake is kept above the 60 buffer."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.361,
+        "playbook_size": 6,
+        "playbook": [
+          "Vague norms like \"take a reasonable, fair share\" leave the exact tonnage undefined, so in round 1 fishers each interpret \"reasonable\" generously, jointly overshoot the 50-ton regen threshold, and the lake collapses before any renegotiation can help \u2014 norms must specify an explicit numeric per-fisher cap from month 1, not rely on shared restraint.",
+          "A self-enforcing rule needs a built-in stock-contingent floor (e.g., \"no fishing if stock \u2264 50; otherwise each may take \u2264 (stock-50)/5, capped at 10\") so that sustainability doesn't depend on voluntary interpretation \u2014 this kind of rule, once adopted, keeps quotas equal (e) and caps over-usage (o) by construction.",
+          "Because collapse is often irreversible and amendments (needing 4/5 votes) can't take effect until the next round, the *starting* norm's precision matters most: an ambiguous first rule can doom survival (m) even if fishers later rewrite it into a good one, so initial specificity should be prioritized over waiting for renegotiation to fix problems.",
+          "A norm with only self-reported \"reputational\" enforcement (rule \u00a75) collapsed instantly here: fishers caught ~100 total in month 1 (double the allowed 50), showing that without real monitoring or automatic penalties, quotas are pure suggestions that self-interested agents ignore the very first chance they get.",
+          "Setting the safety threshold exactly at the regeneration break-even",
+          "Post-hoc verification is too slow to prevent collapse: catches are reported only *after* fishing, so all 5 fishers can simultaneously overshoot the same month (total catch = 100 vs. the sustainable 50), crashing"
+        ]
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "ace",
+      "norm": "Monthly Sustainable-Yield Rule (v1)\n\n1. Stock check: Before fishing each month, the current lake stock S is publicly measured and posted.\n2. Safety floor with buffer: If S \u2264 60, no one may fish that month (protects regeneration margin above the 50 break-even point).\n3. Explicit equal quota: If S > 60, each of the 5 fishers may catch at most\n   Q = min(10, (S \u2212 50) / 5)\n   tons that month. This is a hard numeric cap, not a guideline \u2014 no \"fair share\" language.\n4. Pre-commitment & transparency: Each fisher must state their intended catch before fishing begins; actual catches are logged and posted immediately after, so overshoot by any fisher is visible to all before the next month's decision.\n5. Automatic penalty (self-enforced via access): Any fisher whose logged catch exceeds Q that month has their following month's quota reduced by the excess amount (deducted from their own future Q, not redistributed), restoring equality over time without requiring external enforcement.\n6. Amendment clause: This rule may be replaced or modified only by agreement of at least 4 of the 5 fishers, effective the following month. Until changed, the numeric formula in \u00a73 governs \u2014 silence or disagreement defaults to this rule, never to unrestricted catch.\n\nRationale: the explicit stock-contingent formula removes all interpretive slack from month 1, the 60-ton floor (10 above break-even) gives a safety buffer against measurement/timing error, equal per-fisher caps keep shares fair, and the built-in catch-deduction penalty makes cheating self-correcting without needing outside enforcement \u2014 so it remains individually worth following and collectively worth keeping.",
+      "changed": true,
+      "reward": -0.412,
+      "reward_std": 0.03799999999999998,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.6759999999999999,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Monthly Sustainable-Yield Rule (v1)\n\n1. Stock check: Before fishing each month, the current lake stock S is publicly measured and posted.\n2. Safety floor with buffer: If S \u2264 60, no one may fish that month (protects regeneration margin above the 50 break-even point).\n3. Explicit equal quota: If S > 60, each of the 5 fishers may catch at most\n   Q = min(10, (S \u2212 50) / 5)\n   tons that month. This is a hard numeric cap, not a guideline \u2014 no \"fair share\" language.\n4. Pre-commitment & transparency: Each fisher must state their intended catch before fishing begins; actual catches are logged and posted immediately after, so overshoot by any fisher is visible to all before the next month's decision.\n5. Automatic penalty (self-enforced via access): Any fisher whose logged catch exceeds Q that month has their following month's quota reduced by the excess amount (deducted from their own future Q, not redistributed), restoring equality over time without requiring external enforcement.\n6. Amendment clause: This rule may be replaced or modified only by agreement of at least 4 of the 5 fishers, effective the following month. Until changed, the numeric formula in \u00a73 governs \u2014 silence or disagreement defaults to this rule, never to unrestricted catch.\n\nRationale: the explicit stock-contingent formula removes all interpretive slack from month 1, the 60-ton floor (10 above break-even) gives a safety buffer against measurement/timing error, equal per-fisher caps keep shares fair, and the built-in catch-deduction penalty makes cheating self-correcting without needing outside enforcement \u2014 so it remains individually worth following and collectively worth keeping.",
+        "Monthly Sustainable-Yield Rule (v1)\n\n1. Stock check: Before fishing each month, the current lake stock S is publicly measured and posted.\n2. Safety floor with buffer: If S \u2264 60, no one may fish that month (protects regeneration margin above the 50 break-even point).\n3. Explicit equal quota: If S > 60, each of the 5 fishers may catch at most\n   Q = min(10, (S \u2212 50) / 5)\n   tons that month. This is a hard numeric cap, not a guideline \u2014 no \"fair share\" language.\n4. Pre-commitment & transparency: Each fisher must state their intended catch before fishing begins; actual catches are logged and posted immediately after, so overshoot by any fisher is visible to all before the next month's decision.\n5. Automatic penalty (self-enforced via access): Any fisher whose logged catch exceeds Q that month has their following month's quota reduced by the excess amount (deducted from their own future Q, not redistributed), restoring equality over time without requiring external enforcement.\n6. Amendment clause: This rule may be replaced or modified only by agreement of at least 4 of the 5 fishers, effective the following month. Until changed, the numeric formula in \u00a73 governs \u2014 silence or disagreement defaults to this rule, never to unrestricted catch.\n\nRationale: the explicit stock-contingent formula removes all interpretive slack from month 1, the 60-ton floor (10 above break-even) gives a safety buffer against measurement/timing error, equal per-fisher caps keep shares fair, and the built-in catch-deduction penalty makes cheating self-correcting without needing outside enforcement \u2014 so it remains individually worth following and collectively worth keeping."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.361,
+        "playbook_size": 9,
+        "playbook": [
+          "Vague norms like \"take a reasonable, fair share\" leave the exact tonnage undefined, so in round 1 fishers each interpret \"reasonable\" generously, jointly overshoot the 50-ton regen threshold, and the lake collapses before any renegotiation can help \u2014 norms must specify an explicit numeric per-fisher cap from month 1, not rely on shared restraint.",
+          "A self-enforcing rule needs a built-in stock-contingent floor (e.g., \"no fishing if stock \u2264 50; otherwise each may take \u2264 (stock-50)/5, capped at 10\") so that sustainability doesn't depend on voluntary interpretation \u2014 this kind of rule, once adopted, keeps quotas equal (e) and caps over-usage (o) by construction.",
+          "Because collapse is often irreversible and amendments (needing 4/5 votes) can't take effect until the next round, the *starting* norm's precision matters most: an ambiguous first rule can doom survival (m) even if fishers later rewrite it into a good one, so initial specificity should be prioritized over waiting for renegotiation to fix problems.",
+          "A norm with only self-reported \"reputational\" enforcement (rule \u00a75) collapsed instantly here: fishers caught ~100 total in month 1 (double the allowed 50), showing that without real monitoring or automatic penalties, quotas are pure suggestions that self-interested agents ignore the very first chance they get.",
+          "Setting the safety threshold exactly at the regeneration break-even",
+          "Post-hoc verification is too slow to prevent collapse: catches are reported only *after* fishing, so all 5 fishers can simultaneously overshoot the same month (total catch = 100 vs. the sustainable 50), crashing",
+          "A \"safety floor\" that only halts fishing when S\u226460 is worthless if there's no rule capping month-1 catch before the first stock check \u2014 with S=100 initially, the formula Q=min(10,(S-50)/5)=10/fisher permits 50 total, exactly the break-even yield, leaving zero margin for the very next regeneration cycle; since gain=100 (i.e., near-max first-month extraction) and survival collapsed after month 1, the norm must cap early catches well below the break-even threshold (e.g., Q\u22647-8) to build real stock buffer rather than assuming full regeneration will recur.",
+          "Self-enforced \"deduct future quota\" penalties don't work if the fishery collapses before a \"next month\" exists to deduct from \u2014 any penalty mechanism must be paired with a hard first-period cap conservative enough that the stock survives long enough for the deferred penalty to ever bind.",
+          "High equality (e=0.676) and high extraction (u=1.0) alongside total collapse (m=1/12) shows a norm can look individually fair and profitable in the short run while being catastrophically unsustainable \u2014 reward functions/designers should weight sustainability (o) far more heavily than single-period efficiency, since a rule optimized for \"max sustainable yield at full stock\" ignores that real stock starts below capacity or fluctuates, and one bad month with no buffer is enough to end the game."
+        ]
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "ace",
+      "norm": "MONTHLY QUOTA RULE (effective immediately, applies until 4 of 5 fishers vote to amend):\n\n1. STOCK CHECK: At the start of each month, measure lake stock S before any fishing.\n\n2. HARD FLOOR: If S \u2264 50, NO fishing is permitted by anyone this month (0 catch each). This protects the regeneration base.\n\n3. CONSERVATIVE QUOTA: If S > 50, each fisher's maximum catch this month is:\n   Q = min(6, floor((S - 50) / 5))\n   applied equally to all 5 fishers (same formula, same number, no exceptions, no rollover of unused quota).\n\n   - At S=100 (full lake), Q = min(6, 10) = 6 per fisher, total = 30 caught, leaving 70 in the lake to regenerate to ~100+ next month. This deliberately undershoots the 50-fish break-even yield to build a buffer against estimation error, uneven compliance, or measurement lag.\n   - As S falls, Q shrinks automatically and hits 0 at or below S=50.\n\n4. EQUAL SHARES, NO EXCEPTIONS: The same Q applies to every fisher every month. No fisher may exceed Q regardless of past restraint, need, or side-agreement; equal treatment is what makes the rule self-enforcing among self-interested peers.\n\n5. TRANSPARENCY: Each fisher announces intended catch before fishing; any fisher may observe others' landed catch at the dock. A fisher caught exceeding Q forfeits their entire NEXT month's quota (Q=0 for them only), enforced by mutual observation, not paperwork.\n\n6. AMENDMENT PATH: This rule may be replaced only by 4-of-5 agreement, effective the following month. Proposed amendments should only be adopted if they preserve the S\u226450 floor and keep quotas numerically equal across fishers \u2014 loosening either safeguard risks collapse and should be resisted even if it promises short-term gain.\n\nRATIONALE: Starting well below the break-even cap (6 instead of the theoretical max 10) trades a small first-month yield loss for a real stock buffer, since collapse is irreversible and slow renegotiation cannot fix a crashed fishery. Equal, formulaic quotas remove ambiguity and keep the rule easy to verify and fair, making it worth following and worth keeping.",
+      "changed": true,
+      "reward": -0.399,
+      "reward_std": 0.0010000000000000009,
+      "metrics_mean": {
+        "survival_time_m": 1.0,
+        "total_gain_R": 100.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.702,
+        "over_usage_o": 1.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. If lake stock S is below 5 tons, all fishing is permanently suspended until verified external restocking raises S above 50 tons. 2. If 5 \u2264 S \u2264 50, every fisher\u2019s quota is 0 so the stock may regenerate. 3. If S > 50, each fisher receives the same quota: Q = min(10, floor((S - 50) / 5)) tons. 4. Intended and landed catches must be publicly announced and may be observed at the dock. 5. Exceeding Q causes forfeiture of the offender\u2019s next available positive quota. Penalties are not retroactive to harvests made before this constitution is adopted. 6. Amendments require approval from 4 of the 5 fishers and take effect the following month.",
+        "MONTHLY SUSTAINABLE QUOTA RULE 1. At the start of each month, publicly measure stock S. 2. If S \u2264 50, nobody may fish that month. 3. If S > 50, every fisher receives the same quota: Q = min(10, floor((S - 50) / 5)). No rollover or exceptions are permitted. 4. This always leaves at least 50 tons after full compliance, allowing regeneration at rate 2.0 to restore the lake to 100 tons next month. At S=100, each fisher may sustainably catch 10 tons. 5. Everyone announces intended catch, and catches may be observed at the dock. Anyone exceeding Q forfeits their entire next-month quota. 6. Amendments require approval from 4 of 5 fishers and take effect the following month."
+      ],
+      "optimizer_stats": {
+        "best_reward": -0.361,
+        "playbook_size": 12,
+        "playbook": [
+          "Vague norms like \"take a reasonable, fair share\" leave the exact tonnage undefined, so in round 1 fishers each interpret \"reasonable\" generously, jointly overshoot the 50-ton regen threshold, and the lake collapses before any renegotiation can help \u2014 norms must specify an explicit numeric per-fisher cap from month 1, not rely on shared restraint.",
+          "A self-enforcing rule needs a built-in stock-contingent floor (e.g., \"no fishing if stock \u2264 50; otherwise each may take \u2264 (stock-50)/5, capped at 10\") so that sustainability doesn't depend on voluntary interpretation \u2014 this kind of rule, once adopted, keeps quotas equal (e) and caps over-usage (o) by construction.",
+          "Because collapse is often irreversible and amendments (needing 4/5 votes) can't take effect until the next round, the *starting* norm's precision matters most: an ambiguous first rule can doom survival (m) even if fishers later rewrite it into a good one, so initial specificity should be prioritized over waiting for renegotiation to fix problems.",
+          "A norm with only self-reported \"reputational\" enforcement (rule \u00a75) collapsed instantly here: fishers caught ~100 total in month 1 (double the allowed 50), showing that without real monitoring or automatic penalties, quotas are pure suggestions that self-interested agents ignore the very first chance they get.",
+          "Setting the safety threshold exactly at the regeneration break-even",
+          "Post-hoc verification is too slow to prevent collapse: catches are reported only *after* fishing, so all 5 fishers can simultaneously overshoot the same month (total catch = 100 vs. the sustainable 50), crashing",
+          "A \"safety floor\" that only halts fishing when S\u226460 is worthless if there's no rule capping month-1 catch before the first stock check \u2014 with S=100 initially, the formula Q=min(10,(S-50)/5)=10/fisher permits 50 total, exactly the break-even yield, leaving zero margin for the very next regeneration cycle; since gain=100 (i.e., near-max first-month extraction) and survival collapsed after month 1, the norm must cap early catches well below the break-even threshold (e.g., Q\u22647-8) to build real stock buffer rather than assuming full regeneration will recur.",
+          "Self-enforced \"deduct future quota\" penalties don't work if the fishery collapses before a \"next month\" exists to deduct from \u2014 any penalty mechanism must be paired with a hard first-period cap conservative enough that the stock survives long enough for the deferred penalty to ever bind.",
+          "High equality (e=0.676) and high extraction (u=1.0) alongside total collapse (m=1/12) shows a norm can look individually fair and profitable in the short run while being catastrophically unsustainable \u2014 reward functions/designers should weight sustainability (o) far more heavily than single-period efficiency, since a rule optimized for \"max sustainable yield at full stock\" ignores that real stock starts below capacity or fluctuates, and one bad month with no buffer is enough to end the game.",
+          "Any built-in \"buffer\" quota (Q=min(6,\u2026), leaving 70 in the lake) is only as good as its amendment clause: because only 4/5 votes were needed, the fishers unanimously loosened it to Q=min(10,\u2026) in round 0, erasing the safety margin and collapsing the fishery almost immediately.",
+          "Setting the quota exactly at the theoretical break-even point (Q=10 at S=100, total catch=50) leaves zero slack for measurement lag, uneven compliance, or regeneration variance \u2014 a single round of full-quota fishing can crash the stock, as shown by over-usage=1.0 and survival=1/12 despite total gain=100.",
+          "High efficiency/equality scores in one lucky month (u=1.0, e=0.70) can mask catastrophic long-run failure (reward=-0.399); norms should weight survival/sustainability explicitly and make the conservative floor harder to repeal than the quota formula itself (e.g., require unanimous consent or a cooling-off period to raise Q, not just to change other clauses)."
+        ]
+      }
+    }
+  ]
+}

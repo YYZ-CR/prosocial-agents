@@ -1,0 +1,215 @@
+{
+  "optimizer": "ace",
+  "best_norm": "<NORM>\nMONTHLY STOCK-INDEXED QUOTA WITH EQUAL SHARES, EARLY SAFETY FLOOR, AND PEER RESTITUTION\n\n1. Measurement: At the start of each month, the five fishers jointly observe (or publicly self-report) the current lake stock S before any fishing.\n\n2. Base Quota (equal, stock-indexed): Each fisher's individual catch limit is\n   Q_i = 0.10 \u00d7 S (so the collective cap is 0.50 \u00d7 S, the sustainable yield).\n   All five quotas are identical \u2014 no fisher may claim more than another.\n\n3. Early Safety Floor (tighter trigger): If S < 50 (rather than waiting until S < 40), each fisher's quota is reduced to\n   Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S)\n   and this reduced-harvest rule stays in force every month until S recovers to \u2265 60, at which point the normal 0.10\u00d7S quotas resume automatically.\n\n4. No Fixed Tonnage: Quotas are never stated as flat numbers; they always scale with the measured stock S, so the rule self-adjusts to shrinkage or recovery without needing renegotiation.\n\n5. Restitution for Overage: If any fisher catches more than their quota Q_i in a given month, the excess (\"overage\") must be paid back the following month: the offending fisher's next-month quota is reduced by the full overage amount, and that same amount is added in equal shares to the other four fishers' next-month quotas. This makes cheating self-defeating without external enforcement.\n\n6. Transparency: Each fisher reports their actual catch at month's end; reported catches and resulting quota adjustments (per Rule 5) are posted before the next month's fishing begins.\n\n7. Amendment: This norm remains in effect unless at least 4 of the 5 fishers agree to replace it. Any replacement must retain (a) explicit per-fisher numeric caps, (b) equality of individual quotas, and (c) stock-indexing, since these features are what has kept prior norms both survivable and self-enforcing.\n\nRationale: This norm combines the four proven levers \u2014 explicit enforceable caps,",
+  "best_reward": 2.377536845983788,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "ace",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.1350931316139805,
+      "reward_std": 0.018176910580112393,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 384.5,
+        "efficiency_u": 0.6408333333333334,
+        "equality_e": 0.9885195965612943,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisherman is permitted to catch a maximum of 5 tons of fish per month. The total collective harvest must not exceed 25 tons to allow the lake to regenerate toward its 100-ton capacity.",
+        "Each fisherman is permitted to catch a maximum of 6 tons of fish per month. If the total fish in the lake drops below 30 tons, the limit is automatically reduced to 3 tons per person until the lake recovers to 50 tons."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.1350931316139805,
+        "playbook_size": 3,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get quickly replaced (2.5 rewrites here) because they give no enforceable reference point; norms score higher when they specify an explicit per-fisher cap (e.g., 5 tons) and an explicit collective cap (e.g., 25 tons, half of the 50-ton sustainable yield) so compliance is unambiguous and self-monitoring is easy.",
+          "Setting the collective cap at exactly the sustainable yield (~50% of capacity, i.e. 5/fisher = 25 total when regeneration is 2x) achieved zero over-usage and full 12-month survival, but capped efficiency at ~0.64 \u2014 meaning equal, strict quotas trade some throughput for sustainability/equality; norms that also allow scaling catch with current stock (not a fixed tonnage) could raise efficiency without sacrificing survival.",
+          "Even though the original wording was replaced, fishers converged on a per-capita equal cap rather than unequal allocations, driving equality e\u22480.99 \u2014 symmetric, per-fisher (not per-group) limits are what self-interested agents actually keep, so norms should be written as explicit equal individual quotas rather than aggregate-only targets."
+        ]
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "ace",
+      "norm": "MONTHLY QUOTA RULE (Equal, Stock-Indexed Harvest)\n\n1. Before fishing each month, the fishers jointly measure (or agree by consensus estimate) the current lake stock, S (0\u2013100).\n\n2. The sustainable collective catch for that month is C = 0.5 \u00d7 S (i.e., leave half the stock to regenerate). Each of the 5 fishers' individual quota is Q = C / 5 = 0.1 \u00d7 S. No fisher may land more than Q that month.\n\n3. If S cannot be measured or agreed upon, the fallback default quota is the fixed cap Q = 5 tons/fisher (25 tons total), the sustainable-yield level for a full lake.\n\n4. Safety floor: if S < 40 (fishery stressed), each fisher's quota is halved to 0.05 \u00d7 S until S recovers to \u2265 60, measured at the next month's start.\n\n5. Reporting: each fisher declares their catch publicly at month's end. Any fisher landing more than their quota owes the difference in fish (or equivalent) to the other four, split equally, before the next month's fishing begins.\n\n6. Amendment: this rule may be changed only by agreement of at least 4 of the 5 fishers, and any replacement must retain (a) an explicit numeric per-fisher cap, and (b) equal caps across fishers.",
+      "changed": true,
+      "reward": 2.1702769673875832,
+      "reward_std": 0.19513261043220254,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 518.5,
+        "efficiency_u": 0.8641666666666667,
+        "equality_e": 0.9455539347751662,
+        "over_usage_o": 0.16666666666666666
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "MONTHLY QUOTA RULE (Equal, Stock-Indexed Harvest)\n\n1. Before fishing each month, the fishers jointly measure (or agree by consensus estimate) the current lake stock, S (0\u2013100).\n\n2. The sustainable collective catch for that month is C = 0.5 \u00d7 S (i.e., leave half the stock to regenerate). Each of the 5 fishers' individual quota is Q = C / 5 = 0.1 \u00d7 S. No fisher may land more than Q that month.\n\n3. If S cannot be measured or agreed upon, the fallback default quota is the fixed cap Q = 5 tons/fisher (25 tons total), the sustainable-yield level for a full lake.\n\n4. Safety floor: if S < 40 (fishery stressed), each fisher's quota is halved to 0.05 \u00d7 S until S recovers to \u2265 60, measured at the next month's start.\n\n5. Reporting: each fisher declares their catch publicly at month's end. Any fisher landing more than their quota owes the difference in fish (or equivalent) to the other four, split equally, before the next month's fishing begins.\n\n6. Amendment: this rule may be changed only by agreement of at least 4 of the 5 fishers, and any replacement must retain (a) an explicit numeric per-fisher cap, and (b) equal caps across fishers.",
+        "MONTHLY QUOTA RULE (Equal, Stock-Indexed Harvest)\n\n1. Before fishing each month, the fishers jointly measure (or agree by consensus estimate) the current lake stock, S (0\u2013100).\n\n2. The sustainable collective catch for that month is C = 0.5 \u00d7 S (i.e., leave half the stock to regenerate). Each of the 5 fishers' individual quota is Q = C / 5 = 0.1 \u00d7 S. No fisher may land more than Q that month.\n\n3. If S cannot be measured or agreed upon, the fallback default quota is the fixed cap Q = 5 tons/fisher (25 tons total), the sustainable-yield level for a full lake.\n\n4. Safety floor: if S < 40 (fishery stressed), each fisher's quota is halved to 0.05 \u00d7 S until S recovers to \u2265 60, measured at the next month's start.\n\n5. Reporting: each fisher declares their catch publicly at month's end. Any fisher landing more than their quota owes the difference in fish (or equivalent) to the other four, split equally, before the next month's fishing begins.\n\n6. Amendment: this rule may be changed only by agreement of at least 4 of the 5 fishers, and any replacement must retain (a) an explicit numeric per-fisher cap, and (b) equal caps across fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.1702769673875832,
+        "playbook_size": 6,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get quickly replaced (2.5 rewrites here) because they give no enforceable reference point; norms score higher when they specify an explicit per-fisher cap (e.g., 5 tons) and an explicit collective cap (e.g., 25 tons, half of the 50-ton sustainable yield) so compliance is unambiguous and self-monitoring is easy.",
+          "Setting the collective cap at exactly the sustainable yield (~50% of capacity, i.e. 5/fisher = 25 total when regeneration is 2x) achieved zero over-usage and full 12-month survival, but capped efficiency at ~0.64 \u2014 meaning equal, strict quotas trade some throughput for sustainability/equality; norms that also allow scaling catch with current stock (not a fixed tonnage) could raise efficiency without sacrificing survival.",
+          "Even though the original wording was replaced, fishers converged on a per-capita equal cap rather than unequal allocations, driving equality e\u22480.99 \u2014 symmetric, per-fisher (not per-group) limits are what self-interested agents actually keep, so norms should be written as explicit equal individual quotas rather than aggregate-only targets.",
+          "Stock-indexed quotas (Q = 0.1\u00d7S with a 0.5\u00d7S collective cap) reliably sustain the fishery (12/12 survival, over-usage only 0.167) and are self-enforcing enough that fishers keep them unamended, because the rule adapts to actual conditions rather than fixing a static number that could overshoot a shrunken stock.",
+          "Equal per-fisher caps plus a restitution mechanism (overage owed to the other four) drive high equality (e=0.946) without needing external enforcement \u2014 peer-transfer penalties align self-interest with compliance even when monitoring is just public self-reporting.",
+          "The safety floor (halving quotas below S<40 until recovery to S\u226560) prevents collapse but still leaves some efficiency on the table (u=0.864, o=0.167>0): a residual ~17% over-usage suggests the 0.5\u00d7S harvest fraction or the S<40 trigger could be tuned tighter (e.g., lower harvest fraction or earlier floor trigger) to squeeze out more sustainable yield without sacrificing survival."
+        ]
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "ace",
+      "norm": "<NORM>\nMONTHLY STOCK-INDEXED QUOTA WITH EQUAL SHARES, EARLY SAFETY FLOOR, AND PEER RESTITUTION\n\n1. Measurement: At the start of each month, the five fishers jointly observe (or publicly self-report) the current lake stock S before any fishing.\n\n2. Base Quota (equal, stock-indexed): Each fisher's individual catch limit is\n   Q_i = 0.10 \u00d7 S (so the collective cap is 0.50 \u00d7 S, the sustainable yield).\n   All five quotas are identical \u2014 no fisher may claim more than another.\n\n3. Early Safety Floor (tighter trigger): If S < 50 (rather than waiting until S < 40), each fisher's quota is reduced to\n   Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S)\n   and this reduced-harvest rule stays in force every month until S recovers to \u2265 60, at which point the normal 0.10\u00d7S quotas resume automatically.\n\n4. No Fixed Tonnage: Quotas are never stated as flat numbers; they always scale with the measured stock S, so the rule self-adjusts to shrinkage or recovery without needing renegotiation.\n\n5. Restitution for Overage: If any fisher catches more than their quota Q_i in a given month, the excess (\"overage\") must be paid back the following month: the offending fisher's next-month quota is reduced by the full overage amount, and that same amount is added in equal shares to the other four fishers' next-month quotas. This makes cheating self-defeating without external enforcement.\n\n6. Transparency: Each fisher reports their actual catch at month's end; reported catches and resulting quota adjustments (per Rule 5) are posted before the next month's fishing begins.\n\n7. Amendment: This norm remains in effect unless at least 4 of the 5 fishers agree to replace it. Any replacement must retain (a) explicit per-fisher numeric caps, (b) equality of individual quotas, and (c) stock-indexing, since these features are what has kept prior norms both survivable and self-enforcing.\n\nRationale: This norm combines the four proven levers \u2014 explicit enforceable caps,",
+      "changed": true,
+      "reward": 2.377536845983788,
+      "reward_std": 0.0703617047408498,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 582.5,
+        "efficiency_u": 0.9708333333333333,
+        "equality_e": 0.9800736919675754,
+        "over_usage_o": 0.08333333333333333
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "<NORM>\nMONTHLY STOCK-INDEXED QUOTA WITH EQUAL SHARES, EARLY SAFETY FLOOR, AND PEER RESTITUTION\n\n1. Measurement: At the start of each month, the five fishers jointly observe (or publicly self-report) the current lake stock S before any fishing.\n\n2. Base Quota (equal, stock-indexed): Each fisher's individual catch limit is\n   Q_i = 0.10 \u00d7 S (so the collective cap is 0.50 \u00d7 S, the sustainable yield).\n   All five quotas are identical \u2014 no fisher may claim more than another.\n\n3. Early Safety Floor (tighter trigger): If S < 50 (rather than waiting until S < 40), each fisher's quota is reduced to\n   Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S)\n   and this reduced-harvest rule stays in force every month until S recovers to \u2265 60, at which point the normal 0.10\u00d7S quotas resume automatically.\n\n4. No Fixed Tonnage: Quotas are never stated as flat numbers; they always scale with the measured stock S, so the rule self-adjusts to shrinkage or recovery without needing renegotiation.\n\n5. Restitution for Overage: If any fisher catches more than their quota Q_i in a given month, the excess (\"overage\") must be paid back the following month: the offending fisher's next-month quota is reduced by the full overage amount, and that same amount is added in equal shares to the other four fishers' next-month quotas. This makes cheating self-defeating without external enforcement.\n\n6. Transparency: Each fisher reports their actual catch at month's end; reported catches and resulting quota adjustments (per Rule 5) are posted before the next month's fishing begins.\n\n7. Amendment: This norm remains in effect unless at least 4 of the 5 fishers agree to replace it. Any replacement must retain (a) explicit per-fisher numeric caps, (b) equality of individual quotas, and (c) stock-indexing, since these features are what has kept prior norms both survivable and self-enforcing.\n\nRationale: This norm combines the four proven levers \u2014 explicit enforceable caps,",
+        "<NORM>\nMONTHLY STOCK-INDEXED QUOTA WITH EQUAL SHARES, EARLY SAFETY FLOOR, AND PEER RESTITUTION\n\n1. Measurement: At the start of each month, the five fishers jointly observe (or publicly self-report) the current lake stock S before any fishing.\n\n2. Base Quota (equal, stock-indexed): Each fisher's individual catch limit is\n   Q_i = 0.10 \u00d7 S (so the collective cap is 0.50 \u00d7 S, the sustainable yield).\n   All five quotas are identical \u2014 no fisher may claim more than another.\n\n3. Early Safety Floor (tighter trigger): If S < 50 (rather than waiting until S < 40), each fisher's quota is reduced to\n   Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S)\n   and this reduced-harvest rule stays in force every month until S recovers to \u2265 60, at which point the normal 0.10\u00d7S quotas resume automatically.\n\n4. No Fixed Tonnage: Quotas are never stated as flat numbers; they always scale with the measured stock S, so the rule self-adjusts to shrinkage or recovery without needing renegotiation.\n\n5. Restitution for Overage: If any fisher catches more than their quota Q_i in a given month, the excess (\"overage\") must be paid back the following month: the offending fisher's next-month quota is reduced by the full overage amount, and that same amount is added in equal shares to the other four fishers' next-month quotas. This makes cheating self-defeating without external enforcement.\n\n6. Transparency: Each fisher reports their actual catch at month's end; reported catches and resulting quota adjustments (per Rule 5) are posted before the next month's fishing begins.\n\n7. Amendment: This norm remains in effect unless at least 4 of the 5 fishers agree to replace it. Any replacement must retain (a) explicit per-fisher numeric caps, (b) equality of individual quotas, and (c) stock-indexing, since these features are what has kept prior norms both survivable and self-enforcing.\n\nRationale: This norm combines the four proven levers \u2014 explicit enforceable caps,"
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.377536845983788,
+        "playbook_size": 9,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get quickly replaced (2.5 rewrites here) because they give no enforceable reference point; norms score higher when they specify an explicit per-fisher cap (e.g., 5 tons) and an explicit collective cap (e.g., 25 tons, half of the 50-ton sustainable yield) so compliance is unambiguous and self-monitoring is easy.",
+          "Setting the collective cap at exactly the sustainable yield (~50% of capacity, i.e. 5/fisher = 25 total when regeneration is 2x) achieved zero over-usage and full 12-month survival, but capped efficiency at ~0.64 \u2014 meaning equal, strict quotas trade some throughput for sustainability/equality; norms that also allow scaling catch with current stock (not a fixed tonnage) could raise efficiency without sacrificing survival.",
+          "Even though the original wording was replaced, fishers converged on a per-capita equal cap rather than unequal allocations, driving equality e\u22480.99 \u2014 symmetric, per-fisher (not per-group) limits are what self-interested agents actually keep, so norms should be written as explicit equal individual quotas rather than aggregate-only targets.",
+          "Stock-indexed quotas (Q = 0.1\u00d7S with a 0.5\u00d7S collective cap) reliably sustain the fishery (12/12 survival, over-usage only 0.167) and are self-enforcing enough that fishers keep them unamended, because the rule adapts to actual conditions rather than fixing a static number that could overshoot a shrunken stock.",
+          "Equal per-fisher caps plus a restitution mechanism (overage owed to the other four) drive high equality (e=0.946) without needing external enforcement \u2014 peer-transfer penalties align self-interest with compliance even when monitoring is just public self-reporting.",
+          "The safety floor (halving quotas below S<40 until recovery to S\u226560) prevents collapse but still leaves some efficiency on the table (u=0.864, o=0.167>0): a residual ~17% over-usage suggests the 0.5\u00d7S harvest fraction or the S<40 trigger could be tuned tighter (e.g., lower harvest fraction or earlier floor trigger) to squeeze out more sustainable yield without sacrificing survival.",
+          "Stock-indexed proportional quotas (Q_i = 0.10\u00d7S per fisher, collective cap 0.50\u00d7S = sustainable yield) let the rule self-correct without renegotiation, sustaining 12/12 months survival, 0.971 efficiency, and only 0.083 over-usage\u2014far outperforming static tonnage caps that ignore stock fluctuations.",
+          "Building in an automatic tightened safety floor (0.08\u00d7S when S<50, reverting only after S\u226560) prevents collapse during downturns while avoiding permanent over-conservatism, keeping over-usage low without needing crisis renegotiation.",
+          "Self-enforcing peer restitution (overage docked from the cheater's next quota and redistributed equally to the other four) removes the need for external enforcement and makes cheating unprofitable, which combined with strict equality of quotas (equality e=0.980) made the norm robust enough that 0/5 fishers ever backed a change and it was kept unamended 100% of runs."
+        ]
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "ace",
+      "norm": "LAKE COMMONS RULE (v.Final)\n\n1. MONTHLY STOCK CHECK: Before fishing, measure current stock S (0\u2013100).\n\n2. INDIVIDUAL QUOTA (stock-indexed, equal shares): Each of the 5 fishers may catch\n   Q_i = 0.10 \u00d7 S\n   so the collective cap is 0.50 \u00d7 S \u2014 the sustainable yield at regeneration 2.0\u00d7.\n\n3. SAFETY FLOOR (automatic, no vote needed): If S < 50, each fisher's quota tightens to\n   Q_i = 0.08 \u00d7 S\n   This floor stays in effect until S \u2265 60, after which quotas revert automatically to 0.10 \u00d7 S. No renegotiation required \u2014 the rule self-adjusts.\n\n4. EQUAL SHARES: All fishers face the identical formula above \u2014 no fisher may claim more than another under any stock level.\n\n5. SELF-REPORTING: Each fisher publicly reports their catch at month's end.\n\n6. RESTITUTION FOR OVERAGE (self-enforcing, no external authority needed): If any fisher catches more than their quota Q_i in a month, the excess is deducted from that fisher's quota the following month, and the deducted amount is redistributed equally among the other four fishers as an addition to their next month's quota. This makes cheating immediately unprofitable and compensates compliant fishers directly.\n\n7. AMENDMENT RULE: This norm may be changed only by agreement of at least 4 of the 5 fishers. Absent such agreement, it remains in force unchanged.\n\nRationale for fishers: because quotas scale with actual stock, the rule never locks in an overshoot on a shrunken lake, nor leaves fish needlessly ungathered on a full one \u2014 maximizing sustainable take while guaranteeing survival. Because shares are strictly equal and enforced via peer restitution rather than an external authority, no fisher can gain by cheating, and every fisher's expected long-run catch is maximized by keeping the rule rather than replacing it.",
+      "changed": true,
+      "reward": 2.261690140845071,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 568.0,
+        "efficiency_u": 0.9466666666666667,
+        "equality_e": 0.9633802816901409,
+        "over_usage_o": 0.16666666666666666
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 1
+      },
+      "final_norms": [
+        "LAKE COMMONS RULE (v.Final)\n\n1. MONTHLY STOCK CHECK: Before fishing, measure current stock S (0\u2013100).\n\n2. INDIVIDUAL QUOTA (stock-indexed, equal shares): Each of the 5 fishers may catch\n   Q_i = 0.10 \u00d7 S\n   so the collective cap is 0.50 \u00d7 S \u2014 the sustainable yield at regeneration 2.0\u00d7.\n\n3. SAFETY FLOOR (automatic, no vote needed): If S < 50, each fisher's quota tightens to\n   Q_i = 0.08 \u00d7 S\n   This floor stays in effect until S \u2265 60, after which quotas revert automatically to 0.10 \u00d7 S. No renegotiation required \u2014 the rule self-adjusts.\n\n4. EQUAL SHARES: All fishers face the identical formula above \u2014 no fisher may claim more than another under any stock level.\n\n5. SELF-REPORTING: Each fisher publicly reports their catch at month's end.\n\n6. RESTITUTION FOR OVERAGE (self-enforcing, no external authority needed): If any fisher catches more than their quota Q_i in a month, the excess is deducted from that fisher's quota the following month, and the deducted amount is redistributed equally among the other four fishers as an addition to their next month's quota. This makes cheating immediately unprofitable and compensates compliant fishers directly.\n\n7. AMENDMENT RULE: This norm may be changed only by agreement of at least 4 of the 5 fishers. Absent such agreement, it remains in force unchanged.\n\nRationale for fishers: because quotas scale with actual stock, the rule never locks in an overshoot on a shrunken lake, nor leaves fish needlessly ungathered on a full one \u2014 maximizing sustainable take while guaranteeing survival. Because shares are strictly equal and enforced via peer restitution rather than an external authority, no fisher can gain by cheating, and every fisher's expected long-run catch is maximized by keeping the rule rather than replacing it."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.377536845983788,
+        "playbook_size": 12,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get quickly replaced (2.5 rewrites here) because they give no enforceable reference point; norms score higher when they specify an explicit per-fisher cap (e.g., 5 tons) and an explicit collective cap (e.g., 25 tons, half of the 50-ton sustainable yield) so compliance is unambiguous and self-monitoring is easy.",
+          "Setting the collective cap at exactly the sustainable yield (~50% of capacity, i.e. 5/fisher = 25 total when regeneration is 2x) achieved zero over-usage and full 12-month survival, but capped efficiency at ~0.64 \u2014 meaning equal, strict quotas trade some throughput for sustainability/equality; norms that also allow scaling catch with current stock (not a fixed tonnage) could raise efficiency without sacrificing survival.",
+          "Even though the original wording was replaced, fishers converged on a per-capita equal cap rather than unequal allocations, driving equality e\u22480.99 \u2014 symmetric, per-fisher (not per-group) limits are what self-interested agents actually keep, so norms should be written as explicit equal individual quotas rather than aggregate-only targets.",
+          "Stock-indexed quotas (Q = 0.1\u00d7S with a 0.5\u00d7S collective cap) reliably sustain the fishery (12/12 survival, over-usage only 0.167) and are self-enforcing enough that fishers keep them unamended, because the rule adapts to actual conditions rather than fixing a static number that could overshoot a shrunken stock.",
+          "Equal per-fisher caps plus a restitution mechanism (overage owed to the other four) drive high equality (e=0.946) without needing external enforcement \u2014 peer-transfer penalties align self-interest with compliance even when monitoring is just public self-reporting.",
+          "The safety floor (halving quotas below S<40 until recovery to S\u226560) prevents collapse but still leaves some efficiency on the table (u=0.864, o=0.167>0): a residual ~17% over-usage suggests the 0.5\u00d7S harvest fraction or the S<40 trigger could be tuned tighter (e.g., lower harvest fraction or earlier floor trigger) to squeeze out more sustainable yield without sacrificing survival.",
+          "Stock-indexed proportional quotas (Q_i = 0.10\u00d7S per fisher, collective cap 0.50\u00d7S = sustainable yield) let the rule self-correct without renegotiation, sustaining 12/12 months survival, 0.971 efficiency, and only 0.083 over-usage\u2014far outperforming static tonnage caps that ignore stock fluctuations.",
+          "Building in an automatic tightened safety floor (0.08\u00d7S when S<50, reverting only after S\u226560) prevents collapse during downturns while avoiding permanent over-conservatism, keeping over-usage low without needing crisis renegotiation.",
+          "Self-enforcing peer restitution (overage docked from the cheater's next quota and redistributed equally to the other four) removes the need for external enforcement and makes cheating unprofitable, which combined with strict equality of quotas (equality e=0.980) made the norm robust enough that 0/5 fishers ever backed a change and it was kept unamended 100% of runs.",
+          "Stock-indexed quotas (Q_i = 0.10\u00d7S) with an automatic tightening floor (0.08\u00d7S when S<50, reverting at S\u226560) sustain high efficiency (u=0.947) and full 12/12 survival without needing renegotiation, because the rule self-corrects before collapse rather than relying on fishers to vote in a crisis.",
+          "Peer-enforced restitution (overage deducted from the cheater's next quota and redistributed equally to compliant fishers) makes cheating immediately unprofitable and produces near-perfect equality (e=0.963) and low over-usage (o=0.167), since punishment and reward happen automatically each month without external authority.",
+          "A residual over-usage of 0.167 despite a well-designed rule suggests even self-enforcing formulas leave some slack (e.g., rounding, one-off overages before restitution catches up); tightening the safety floor threshold or shortening the restitution lag could push efficiency/over-usage closer to optimal."
+        ]
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "ace",
+      "norm": "MONTHLY LAKE-SHARING RULE (all fishers read S = current stock before fishing, measured/reported publicly at month start)\n\n1. BASE QUOTA (stock-indexed, equal per fisher):\n   Each of the 5 fishers may catch up to Q_i = 0.10 \u00d7 S this month.\n   Collective cap = 0.50 \u00d7 S (the sustainable yield).\n\n2. AUTOMATIC SAFETY FLOOR (self-tightening, no vote needed):\n   - If S < 50 at month start: quotas automatically tighten to Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S) until S recovers to \u2265 60.\n   - Once S \u2265 60, quotas automatically revert to Q_i = 0.10 \u00d7 S.\n   This trigger is mechanical \u2014 it applies the same month S is observed low, not after a crisis vote.\n\n3. PEER RESTITUTION (self-enforcing, no external authority needed):\n   - Each fisher self-reports actual catch at month end.\n   - Any catch above that month's Q_i (\"overage\") is immediately deducted from that fisher's NEXT month's quota, in full.\n   - The overage amount is redistributed equally among the other 4 fishers' next-month quotas (added on top of their Q_i), up to the collective cap.\n   - If underreporting is later discovered (e.g., via stock discrepancy), the shortfall is treated as double overage the following month.\n\n4. EQUALITY GUARANTEE:\n   No fisher may hold a standing quota different from 1/5 of the collective cap except as a direct, temporary result of Rule 3 restitution transfers. Any renegotiation must preserve equal base shares.\n\n5. AMENDMENT:\n   This rule stays in force unless 4 of 5 fishers agree to replace it. Because it is self-adjusting (Rules 1\u20132) and self-enforcing (Rule 3), no mid-month renegotiation should be needed to avoid collapse \u2014 amendments should only be considered at month boundaries and only to retune the constants (0.10, 0.08, 50, 60), not to abandon stock-indexing, equality, or restitution.",
+      "changed": true,
+      "reward": 2.3686671589027615,
+      "reward_std": 0.09778583255023032,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 579.0,
+        "efficiency_u": 0.965,
+        "equality_e": 0.9740009844721886,
+        "over_usage_o": 0.08333333333333333
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "MONTHLY LAKE-SHARING RULE (all fishers read S = current stock before fishing, measured/reported publicly at month start)\n\n1. BASE QUOTA (stock-indexed, equal per fisher):\n   Each of the 5 fishers may catch up to Q_i = 0.10 \u00d7 S this month.\n   Collective cap = 0.50 \u00d7 S (the sustainable yield).\n\n2. AUTOMATIC SAFETY FLOOR (self-tightening, no vote needed):\n   - If S < 50 at month start: quotas automatically tighten to Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S) until S recovers to \u2265 60.\n   - Once S \u2265 60, quotas automatically revert to Q_i = 0.10 \u00d7 S.\n   This trigger is mechanical \u2014 it applies the same month S is observed low, not after a crisis vote.\n\n3. PEER RESTITUTION (self-enforcing, no external authority needed):\n   - Each fisher self-reports actual catch at month end.\n   - Any catch above that month's Q_i (\"overage\") is immediately deducted from that fisher's NEXT month's quota, in full.\n   - The overage amount is redistributed equally among the other 4 fishers' next-month quotas (added on top of their Q_i), up to the collective cap.\n   - If underreporting is later discovered (e.g., via stock discrepancy), the shortfall is treated as double overage the following month.\n\n4. EQUALITY GUARANTEE:\n   No fisher may hold a standing quota different from 1/5 of the collective cap except as a direct, temporary result of Rule 3 restitution transfers. Any renegotiation must preserve equal base shares.\n\n5. AMENDMENT:\n   This rule stays in force unless 4 of 5 fishers agree to replace it. Because it is self-adjusting (Rules 1\u20132) and self-enforcing (Rule 3), no mid-month renegotiation should be needed to avoid collapse \u2014 amendments should only be considered at month boundaries and only to retune the constants (0.10, 0.08, 50, 60), not to abandon stock-indexing, equality, or restitution.",
+        "MONTHLY LAKE-SHARING RULE (all fishers read S = current stock before fishing, measured/reported publicly at month start)\n\n1. BASE QUOTA (stock-indexed, equal per fisher):\n   Each of the 5 fishers may catch up to Q_i = 0.10 \u00d7 S this month.\n   Collective cap = 0.50 \u00d7 S (the sustainable yield).\n\n2. AUTOMATIC SAFETY FLOOR (self-tightening, no vote needed):\n   - If S < 50 at month start: quotas automatically tighten to Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S) until S recovers to \u2265 60.\n   - Once S \u2265 60, quotas automatically revert to Q_i = 0.10 \u00d7 S.\n   This trigger is mechanical \u2014 it applies the same month S is observed low, not after a crisis vote.\n\n3. PEER RESTITUTION (self-enforcing, no external authority needed):\n   - Each fisher self-reports actual catch at month end.\n   - Any catch above that month's Q_i (\"overage\") is immediately deducted from that fisher's NEXT month's quota, in full.\n   - The overage amount is redistributed equally among the other 4 fishers' next-month quotas (added on top of their Q_i), up to the collective cap.\n   - If underreporting is later discovered (e.g., via stock discrepancy), the shortfall is treated as double overage the following month.\n\n4. EQUALITY GUARANTEE:\n   No fisher may hold a standing quota different from 1/5 of the collective cap except as a direct, temporary result of Rule 3 restitution transfers. Any renegotiation must preserve equal base shares.\n\n5. AMENDMENT:\n   This rule stays in force unless 4 of 5 fishers agree to replace it. Because it is self-adjusting (Rules 1\u20132) and self-enforcing (Rule 3), no mid-month renegotiation should be needed to avoid collapse \u2014 amendments should only be considered at month boundaries and only to retune the constants (0.10, 0.08, 50, 60), not to abandon stock-indexing, equality, or restitution."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.377536845983788,
+        "playbook_size": 14,
+        "playbook": [
+          "Vague qualitative norms (\"reasonable, fair share\") get quickly replaced (2.5 rewrites here) because they give no enforceable reference point; norms score higher when they specify an explicit per-fisher cap (e.g., 5 tons) and an explicit collective cap (e.g., 25 tons, half of the 50-ton sustainable yield) so compliance is unambiguous and self-monitoring is easy.",
+          "Setting the collective cap at exactly the sustainable yield (~50% of capacity, i.e. 5/fisher = 25 total when regeneration is 2x) achieved zero over-usage and full 12-month survival, but capped efficiency at ~0.64 \u2014 meaning equal, strict quotas trade some throughput for sustainability/equality; norms that also allow scaling catch with current stock (not a fixed tonnage) could raise efficiency without sacrificing survival.",
+          "Even though the original wording was replaced, fishers converged on a per-capita equal cap rather than unequal allocations, driving equality e\u22480.99 \u2014 symmetric, per-fisher (not per-group) limits are what self-interested agents actually keep, so norms should be written as explicit equal individual quotas rather than aggregate-only targets.",
+          "Stock-indexed quotas (Q = 0.1\u00d7S with a 0.5\u00d7S collective cap) reliably sustain the fishery (12/12 survival, over-usage only 0.167) and are self-enforcing enough that fishers keep them unamended, because the rule adapts to actual conditions rather than fixing a static number that could overshoot a shrunken stock.",
+          "Equal per-fisher caps plus a restitution mechanism (overage owed to the other four) drive high equality (e=0.946) without needing external enforcement \u2014 peer-transfer penalties align self-interest with compliance even when monitoring is just public self-reporting.",
+          "The safety floor (halving quotas below S<40 until recovery to S\u226560) prevents collapse but still leaves some efficiency on the table (u=0.864, o=0.167>0): a residual ~17% over-usage suggests the 0.5\u00d7S harvest fraction or the S<40 trigger could be tuned tighter (e.g., lower harvest fraction or earlier floor trigger) to squeeze out more sustainable yield without sacrificing survival.",
+          "Stock-indexed proportional quotas (Q_i = 0.10\u00d7S per fisher, collective cap 0.50\u00d7S = sustainable yield) let the rule self-correct without renegotiation, sustaining 12/12 months survival, 0.971 efficiency, and only 0.083 over-usage\u2014far outperforming static tonnage caps that ignore stock fluctuations.",
+          "Building in an automatic tightened safety floor (0.08\u00d7S when S<50, reverting only after S\u226560) prevents collapse during downturns while avoiding permanent over-conservatism, keeping over-usage low without needing crisis renegotiation.",
+          "Self-enforcing peer restitution (overage docked from the cheater's next quota and redistributed equally to the other four) removes the need for external enforcement and makes cheating unprofitable, which combined with strict equality of quotas (equality e=0.980) made the norm robust enough that 0/5 fishers ever backed a change and it was kept unamended 100% of runs.",
+          "Stock-indexed quotas (Q_i = 0.10\u00d7S) with an automatic tightening floor (0.08\u00d7S when S<50, reverting at S\u226560) sustain high efficiency (u=0.947) and full 12/12 survival without needing renegotiation, because the rule self-corrects before collapse rather than relying on fishers to vote in a crisis.",
+          "Peer-enforced restitution (overage deducted from the cheater's next quota and redistributed equally to compliant fishers) makes cheating immediately unprofitable and produces near-perfect equality (e=0.963) and low over-usage (o=0.167), since punishment and reward happen automatically each month without external authority.",
+          "A residual over-usage of 0.167 despite a well-designed rule suggests even self-enforcing formulas leave some slack (e.g., rounding, one-off overages before restitution catches up); tightening the safety floor threshold or shortening the restitution lag could push efficiency/over-usage closer to optimal.",
+          "Built-in self-enforcement (overage docked from next month's quota, redistributed to compliant fishers, doubled penalty for detected underreporting) removes the incentive to defect even though catches are self-reported and unmonitored by an external authority \u2014 this is what let the norm survive unamended for all 12 months (0 rewrites, 0 failed amendment attempts).",
+          "Hard-wiring equal per-capita shares (no standing quota may deviate from 1/5 of the cap except via temporary restitution transfers) and restricting amendments to constant-retuning (not structural changes) preserves high equality (e=0.974) and removes the political fights over redistribution that typically destabilize commons norms."
+        ]
+      }
+    }
+  ]
+}

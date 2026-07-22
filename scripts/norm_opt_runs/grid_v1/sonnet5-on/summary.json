@@ -1,0 +1,23 @@
+{
+  "textgrad": {
+    "best_reward": 2.398469123811923,
+    "best_norm": "Each month, measure the lake's stock S before fishing:\n\n- If S \u2265 80: each fisher may catch up to S/10 (full sustainable share).\n- If 50 \u2264 S < 80: each fisher may catch up to S/13.5 (~7.4% of stock), keeping total catch close to the sustainable yield while still favoring rebuilding.\n- If S < 50: no fishing is allowed that month; all fishers must let the stock recover.\n\nAll shares are split equally among the 5 fishers. No fisher may exceed their allotted share.\n\nRenegotiation: the quota formula may be adjusted only if 4 of the 5 fishers agree, and any amendment must:\n1. Keep total catch \u2264 0.5\u00d7S for all S (sustainability cap, non-negotiable),\n2. Change any single tier's rate by no more than 10% at a time,\n3. Be reviewed again the following month to confirm it still supports rebuilding toward S=100.",
+    "final_reward": 2.125861837692824,
+    "llm_calls": 10,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sonnet5-on\\trajectory_textgrad.json"
+  },
+  "ace": {
+    "best_reward": 2.4004636475662355,
+    "best_norm": "LAKE HARVEST RULE (v1)\n\n1. CATCH CAP: Each month, each active fisher may catch at most 9% of the current stock (measured at month start). Total harvest thus \u226445% of stock, leaving \u226555% to regenerate.\n\n2. EQUAL SPLIT: The allowable total catch (up to 45% of stock) is split exactly evenly among all active fishers. No fisher may take another's unused share; unused shares are left in the lake, not redistributed.\n\n3. FLOOR TRIGGER: If stock at month start is below 20 fish, all catch stops (0 catch for everyone) until stock recovers to \u226540, at which point the 9%/fisher cap resumes automatically \u2014 no vote needed.\n\n4. SCALE-UP CLAUSE: If stock is \u226580 for two consecutive months, the per-fisher cap automatically rises to 10% (50% total) for as long as stock stays \u226580. If stock later falls below 80, the cap automatically reverts to 9% without requiring a vote.\n\n5. AMENDMENT CHANNEL: This rule may be changed only by 4-of-5 agreement, and any replacement rule must itself specify: (a) an exact percentage-of-current-stock cap per fisher, (b) an explicit equal-split clause, and (c) a numeric floor-trigger with a stock-based (not calendar-based) recovery condition. Vague or qualitative replacement rules (\"fair share,\" \"reasonable catch\") are not eligible for adoption.\n\n6. TRANSPARENCY: Stock level and each fisher's catch are reported publicly each month so compliance and triggers can be verified by all.",
+    "final_reward": 2.278391132572432,
+    "llm_calls": 9,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sonnet5-on\\trajectory_ace.json"
+  },
+  "baseline": {
+    "best_reward": 2.232379518072289,
+    "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+    "final_reward": 2.1641070191070195,
+    "llm_calls": 0,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\sonnet5-on\\trajectory_baseline.json"
+  }
+}

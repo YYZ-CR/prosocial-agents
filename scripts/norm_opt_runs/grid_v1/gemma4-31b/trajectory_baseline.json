@@ -1,0 +1,157 @@
+{
+  "optimizer": "baseline",
+  "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+  "best_reward": 2.23256940307399,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.2101597589402466,
+      "reward_std": 0.018003581784069578,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 440.0,
+        "efficiency_u": 0.7333333333333334,
+        "equality_e": 0.9536528512138268,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 6.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisherman shall catch a maximum of 4 tons of fish per month for the next month, after which we will re-evaluate.",
+        "Each fisherman shall catch a maximum of 5 tons of fish per month."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.2101597589402466
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.9461106992834196,
+      "reward_std": 0.18032122559920916,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 403.0,
+        "efficiency_u": 0.6716666666666666,
+        "equality_e": 0.8822213985668397,
+        "over_usage_o": 0.16666666666666666
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 4.5,
+        "first_amendment_round_mean": 0.5,
+        "max_support_when_not_adopted": 3,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "For this month, each fisherman is permitted to catch a maximum of 4 tons of fish. Total monthly harvest must not exceed 20 tons. Starting next month, the limit will revert to 10 tons per person, provided the lake has recovered to at least 80 tons.",
+        "Each fisherman is limited to catching 5 tons of fish per month. If the total fish population drops below 40 tons, the limit automatically reverts to 2 tons per person until the population reaches 60 tons again."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.2101597589402466
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.223203211517165,
+      "reward_std": 0.1922729789590254,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 538.0,
+        "efficiency_u": 0.8966666666666667,
+        "equality_e": 0.9030730897009966,
+        "over_usage_o": 0.125
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisherman shall catch exactly 2 tons of fish per month until the lake population reaches 100 tons. Once the lake population reaches 100 tons, the limit shall return to 10 tons per month.",
+        "Until the lake reaches 100 tons, the total monthly catch is limited to 10 tons, split equally (2 tons each). Once the lake is at 100 tons, each fisherman shall catch exactly 10 tons per month to maintain the population at a sustainable level."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.223203211517165
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.23256940307399,
+      "reward_std": 0.13246117796576518,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 465.0,
+        "efficiency_u": 0.7749999999999999,
+        "equality_e": 0.9151388061479804,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisherman is permitted to catch a maximum of 5 tons of fish per month for the current month to ensure lake recovery.",
+        "Each fisherman is permitted to catch a maximum of 7 tons of fish per month. If the total fish in the lake falls below 60 tons, the limit is reduced to 2 tons per person until the lake recovers to 100 tons."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.23256940307399
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.5546316262353999,
+      "reward_std": 0.7227268643306377,
+      "metrics_mean": {
+        "survival_time_m": 9.5,
+        "total_gain_R": 415.0,
+        "efficiency_u": 0.8702380952380953,
+        "equality_e": 0.7973584905660378,
+        "over_usage_o": 0.3273809523809524
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 2,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "For the next month, the total monthly harvest must be 0 tons, and no individual fisherman is permitted to catch any fish. This limit will remain in place until the lake reaches 10 tons, at which point we will renegotiate.",
+        "Each fisherman shall catch a maximum of 5 tons of fish per month until the lake population returns to 100 tons, after which the limit returns to 10 tons per month."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.23256940307399
+      }
+    }
+  ]
+}

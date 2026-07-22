@@ -1,0 +1,156 @@
+{
+  "optimizer": "baseline",
+  "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+  "best_reward": 2.3744664031620553,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.905897435897436,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 312.0,
+        "efficiency_u": 0.52,
+        "equality_e": 0.9384615384615385,
+        "over_usage_o": 0.08333333333333333
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 1
+      },
+      "final_norms": [
+        "Each month, total fishing shall not exceed 20 tons or half the fish present at the beginning of the month, whichever is lower, and fishing shall stop before the lake falls below 5 tons. No fisher may catch more than 4 tons in a month. The permitted total catch shall be divided equally among the five fishers, unless all five explicitly agree otherwise. These limits apply every month."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.905897435897436
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.4390614886731392,
+      "reward_std": 1.0609385113268608,
+      "metrics_mean": {
+        "survival_time_m": 8.0,
+        "total_gain_R": 403.0,
+        "efficiency_u": 1.0,
+        "equality_e": 0.9514563106796117,
+        "over_usage_o": 0.375
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 5,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, no fishing is permitted if the lake contains fewer than 5 tons at the beginning of the month. Otherwise, total catch must not exceed 50% of the fish in the lake at the beginning of that month, and each fisher may request at most 10 tons. If requests exceed the shared limit, catches are reduced proportionally. The limit may be reviewed through a majority vote after future harvest disclosures.",
+        "Each month, no fisher may catch more than 20% of the lake\u2019s beginning stock, and the combined catch of all fishers may not exceed 50% of that stock. Fishing stops if the lake falls below 5 tons. Catches must be truthfully reported, and fishers may negotiate how the shared total limit is allocated each month. This rule may be revised by majority vote if conditions materially change."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.905897435897436
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.159291754756871,
+      "reward_std": 0.11762508809020455,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 399.0,
+        "efficiency_u": 0.665,
+        "equality_e": 0.9885835095137421,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 5,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, total harvest shall not exceed 50% of the lake\u2019s beginning stock and shall not reduce the lake below 5 tons. No fisher may harvest more than 5 tons in a month. Fishers may negotiate unequal allocations, but each allocation must be no more than 5 tons and the total must remain within the community harvest limit. Fishers may voluntarily catch less, and unused allocation may be reassigned only with the affected fisher\u2019s consent. If beginning stock is below 25 tons, total harvest shall be limited so that at least half the stock remains for regeneration. If the stock falls below 5 tons, fishing shall stop until recovery.",
+        "Each month, fishers should aim for an equal catch of 5 tons each, with total community catch capped at 25 tons. If the lake contains less than 50 tons at the beginning of a month, the total catch should be reduced so that at least half the available fish remain before regeneration, and each fisher\u2019s share should be proportional and equal. No fisher should catch more than their agreed share unless all fishers explicitly consent. The lake must never be intentionally reduced below 5 tons."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.159291754756871
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.3744664031620553,
+      "reward_std": 0.12553359683794474,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 553.0,
+        "efficiency_u": 0.9216666666666666,
+        "equality_e": 0.9889328063241107,
+        "over_usage_o": 0.041666666666666664
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, total harvest shall not exceed 50% of the fish present at the beginning of that month, and fishing is prohibited if the lake contains fewer than 5 tons. Each fisher may request up to 10 tons, with the available harvest limit allocated proportionally among requests; no automatic equal split is required. All catches and the lake level shall be publicly recorded and reviewed after each harvest. The rule may be revised by majority vote if observed regeneration or lake conditions materially change.",
+        "Each month, total community harvest must not exceed 50% of the lake\u2019s beginning stock. No individual fisher may harvest more than 8 tons in a month. All intended harvests must be openly announced before fishing, and the community must coordinate to remain within the total limit. No harvest is permitted if it would leave fewer than 10 tons in the lake. If the beginning stock declines for two consecutive months, all individual limits must be reduced proportionally until the stock stabilizes."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3744664031620553
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "baseline",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 0.9431372549019609,
+      "reward_std": 1.3931372549019607,
+      "metrics_mean": {
+        "survival_time_m": 6.5,
+        "total_gain_R": 305.0,
+        "efficiency_u": 0.925,
+        "equality_e": 0.7862745098039216,
+        "over_usage_o": 0.5
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 0.5,
+        "max_support_when_not_adopted": 3,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each fisher may catch no more than 10 tons per month, and the combined catch of all fishers may not exceed 25 tons. Before fishing begins, fishers shall announce intended catches; at month\u2019s end, each fisher shall publicly report their actual catch and the lake\u2019s remaining stock. Fishing is prohibited whenever the lake contains fewer than 5 tons. Any catch above an announced amount or any violation of the individual or collective limit must be disclosed and counted against that fisher\u2019s 10-ton limit in the next month; repeated or intentional violations result in that fisher being barred from fishing for the following month. The group shall coordinate allocations before each month to remain within the collective limit.",
+        "At the beginning of each month, no fishing is permitted if the lake contains fewer than 5 tons. Otherwise, the community\u2019s total catch may not exceed 50% of the fish in the lake at the beginning of that month. The allowable total catch is divided equally among the five fishers, so each fisher may catch at most 10% of the beginning stock. Unused shares cannot be transferred. The rule is reviewed if the lake remains below 20 tons for two consecutive months."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3744664031620553
+      }
+    }
+  ]
+}

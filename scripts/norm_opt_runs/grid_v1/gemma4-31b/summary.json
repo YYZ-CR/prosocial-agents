@@ -1,0 +1,23 @@
+{
+  "textgrad": {
+    "best_reward": 2.4495828309621412,
+    "best_norm": "Each month, before fishing, observe the current stock (S).\n- Total allowable catch (TAC) = S/2 \u00d7 (S/100). This equals S\u00b2/200, so TAC = S/2 only when S=100, and scales down faster than linearly as S falls below 100 (e.g., S=100\u219250 total; S=80\u219232; S=50\u219212.5; S=20\u21922).\n- Each fisher's cap = floor(TAC/5), applied equally to all 5 fishers.\n- No fisher may exceed their cap, even if others take less. Unused amounts are not transferable that month.\n- Recheck stock and recompute TAC/caps at the start of every month.\n- If S \u2265 100, cap = 10 each (standard sustainable yield).\n- Any change to this rule requires agreement from at least 4 of the 5 fishers.",
+    "final_reward": 2.35854126265891,
+    "llm_calls": 10,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\gemma4-31b\\trajectory_textgrad.json"
+  },
+  "ace": {
+    "best_reward": 2.377536845983788,
+    "best_norm": "<NORM>\nMONTHLY STOCK-INDEXED QUOTA WITH EQUAL SHARES, EARLY SAFETY FLOOR, AND PEER RESTITUTION\n\n1. Measurement: At the start of each month, the five fishers jointly observe (or publicly self-report) the current lake stock S before any fishing.\n\n2. Base Quota (equal, stock-indexed): Each fisher's individual catch limit is\n   Q_i = 0.10 \u00d7 S (so the collective cap is 0.50 \u00d7 S, the sustainable yield).\n   All five quotas are identical \u2014 no fisher may claim more than another.\n\n3. Early Safety Floor (tighter trigger): If S < 50 (rather than waiting until S < 40), each fisher's quota is reduced to\n   Q_i = 0.08 \u00d7 S (collective cap 0.40 \u00d7 S)\n   and this reduced-harvest rule stays in force every month until S recovers to \u2265 60, at which point the normal 0.10\u00d7S quotas resume automatically.\n\n4. No Fixed Tonnage: Quotas are never stated as flat numbers; they always scale with the measured stock S, so the rule self-adjusts to shrinkage or recovery without needing renegotiation.\n\n5. Restitution for Overage: If any fisher catches more than their quota Q_i in a given month, the excess (\"overage\") must be paid back the following month: the offending fisher's next-month quota is reduced by the full overage amount, and that same amount is added in equal shares to the other four fishers' next-month quotas. This makes cheating self-defeating without external enforcement.\n\n6. Transparency: Each fisher reports their actual catch at month's end; reported catches and resulting quota adjustments (per Rule 5) are posted before the next month's fishing begins.\n\n7. Amendment: This norm remains in effect unless at least 4 of the 5 fishers agree to replace it. Any replacement must retain (a) explicit per-fisher numeric caps, (b) equality of individual quotas, and (c) stock-indexing, since these features are what has kept prior norms both survivable and self-enforcing.\n\nRationale: This norm combines the four proven levers \u2014 explicit enforceable caps,",
+    "final_reward": 2.3686671589027615,
+    "llm_calls": 9,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\gemma4-31b\\trajectory_ace.json"
+  },
+  "baseline": {
+    "best_reward": 2.23256940307399,
+    "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+    "final_reward": 1.5546316262353999,
+    "llm_calls": 0,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\gemma4-31b\\trajectory_baseline.json"
+  }
+}

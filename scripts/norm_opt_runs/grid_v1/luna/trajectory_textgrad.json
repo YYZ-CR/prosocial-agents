@@ -1,0 +1,167 @@
+{
+  "optimizer": "textgrad",
+  "best_norm": "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 20 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally, ~10 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 50% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together, and allowing the stock to regrow toward full capacity over time.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+  "best_reward": 2.4028074390024674,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "textgrad",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.014404761904762,
+      "reward_std": 1.1572619047619048,
+      "metrics_mean": {
+        "survival_time_m": 7.0,
+        "total_gain_R": 274.0,
+        "efficiency_u": 0.84,
+        "equality_e": 0.9488095238095238,
+        "over_usage_o": 0.5
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, total harvest shall not exceed 50% of the lake\u2019s beginning-of-month fish stock. Each fisher may choose their intended share of the permitted total, with no separate individual harvest cap. If intended harvests exceed the total limit, each intended harvest shall be reduced proportionally. No fishing is permitted when the lake contains less than 5 tons.",
+        "Each month, no fisher may catch more than 6 tons. Total harvest must not exceed half of the lake\u2019s beginning-of-month stock and must leave at least 5 tons in the lake. Harvests are divided equally at 6 tons per fisher unless all fishers unanimously agree to a different division. Each fisher must disclose their intended catch before harvesting and their actual catch afterward. Violations should be publicly recorded and considered in future allocation decisions."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.014404761904762,
+        "last_gradient": "The core failure is vagueness: \"reasonable, fair share\" gives no enforceable number, so fishers renegotiated almost immediately and still ended with only 50% survival and 0.5 over-usage. Replace it with an explicit numeric per-fisher cap tied to current stock\u2014e.g., \"each fisher may catch at most 20% of the lake's beginning-of-month stock (~10 fish when full), with total catch never exceeding 50% of stock\"\u2014so equality and sustainability are both hard-coded rather than left to interpretation. Also add a concrete low-stock safeguard (e.g., no fishing below 10 tons, not 5) to prevent collapse in bad months, since survival (7/12) is the biggest drag on reward.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 10 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 20% of S (so total catch \u2264 100% of that 20%\u00d75 = up to 50% of S, split equally, ~10 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 50% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+      "changed": true,
+      "reward": 1.9452030954048936,
+      "reward_std": 0.14249805402039406,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 453.5,
+        "efficiency_u": 0.7558333333333334,
+        "equality_e": 0.9620728574764537,
+        "over_usage_o": 0.2916666666666667
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 2,
+        "max_support_when_not_adopted": 3,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 10 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 20% of S (so total catch \u2264 100% of that 20%\u00d75 = up to 50% of S, split equally, ~10 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 50% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+        "Before each month\u2019s fishing, measure the lake\u2019s starting stock S. 1. If S is below 10 tons, no fisher may catch any fish that month; the lake rests and regenerates. 2. If S is at least 10 tons, each fisher may catch at most 10% of S, calculated separately each month. Thus, each fisher\u2019s numeric cap is 0.10 \u00d7 S tons, and no fisher may exceed that cap. 3. Fishers may catch less than their cap, but may not transfer or borrow unused catch capacity from another fisher. 4. At the end of the month, the remaining stock regenerates under the lake\u2019s established regeneration rate, capped at 100 tons. 5. This constitution replaces the prior 20% per-fisher cap and may be reconsidered by the required four-of-five majority after future stock observations."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.9452030954048936,
+        "last_gradient": "The 20%-per-fisher cap (50% total extraction) is too aggressive relative to the 2.0 regeneration factor\u2014it leaves the stock oscillating well below capacity, driving over-usage to 0.292 and efficiency to only 0.756, which is likely fueling the mid-game rewrite attempts. Lower the per-fisher cap to 10% of S (50 fish total \u2192 10% overall... correct to 10%\u00d75=50%? recompute: use ~8% per fisher, ~40% total) so the post-harvest stock reliably regrows toward 100, stabilizing yields near the true sustainable 50/month long-run and removing the incentive to renegotiate. Concretely, change rule 2 to \"each fisher may catch at most 8% of S (40% total)\" and lower the rest threshold in rule 1 to trigger below 20 fish, giving more buffer before collapse and reducing the volatility that's causing 50% of groups to consider amending the rule.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 20 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 8% of S (total catch \u2264 40% of S, split equally, ~8 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 40% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together, and allowing the stock to regrow toward full capacity over time.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+      "changed": true,
+      "reward": 2.3377117362371447,
+      "reward_std": 0.07299909255898385,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 507.5,
+        "efficiency_u": 0.8458333333333333,
+        "equality_e": 0.9837568058076225,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, measure the lake's starting stock S. If S is below 20 tons, no one may fish. Otherwise, each of the five fishers may catch at most 10% of S, with total catch capped at 50% of S and each fisher limited to an equal one-fifth share of that total cap. Caps are recalculated monthly from S. This rule may be replaced only with approval from at least 4 of 5 fishers, and any replacement must retain an explicit numeric per-fisher cap and a low-stock fishing pause.",
+        "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 20 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 8% of S (total catch \u2264 40% of S, split equally, ~8 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 40% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together, and allowing the stock to regrow toward full capacity over time.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3377117362371447,
+        "last_gradient": "The 8%-per-fisher (40% total) cap is too conservative: it leaves ~0.846 efficiency because it under-harvests relative to the sustainable 50%-of-S yield, and fishers keep voting to loosen it back to 10%/50% \u2014 confirming the tighter rule is leaving value on the table without added sustainability benefit (over-usage is already 0). Raise the per-fisher cap to 10% of S (50% total, ~10 fish each at S=100), matching the true sustainable yield, since this still keeps o=0 while closing the efficiency gap and removing fishers' incentive to renegotiate away from the norm.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 20 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally, ~10 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 50% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together, and allowing the stock to regrow toward full capacity over time.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+      "changed": true,
+      "reward": 2.4028074390024674,
+      "reward_std": 0.06364555245052395,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 554.0,
+        "efficiency_u": 0.9233333333333333,
+        "equality_e": 0.9589482113382687,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 20 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally, ~10 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 50% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together, and allowing the stock to regrow toward full capacity over time.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+        "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 20 fish, no one fishes this month (lake rests to allow recovery).\n2. Otherwise, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally, ~10 fish each when S=100).\n3. No fisher may exceed their equal 1/5 share of the 50% total cap, regardless of others' choices.\n4. These caps are recalculated fresh each month based on the new S; they are not fixed numbers but fixed percentages, ensuring equality and sustainability together, and allowing the stock to regrow toward full capacity over time.\n5. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4028074390024674,
+        "last_gradient": "The norm is already sustainable (o=0, m=12/12) and stable, but efficiency (0.923) is capped because the 10%-of-S rule is overly conservative relative to the ~50% MSY point\u2014when S is near 100, actual regrowth allows harvesting closer to 55-60% before decline, and the 20-fish pause threshold discards recoverable low-stock months entirely. To raise reward, replace the flat 10%/20-threshold with a slightly more aggressive schedule: raise the per-fisher cap to 11-12% of S when S\u226560 (near-full stock can sustain higher offtake without collapse), and lower the pause threshold to 10 fish (only fully deplete-risk stocks pause), allowing partial fishing (e.g., 5% cap) between 10-20 to capture more total gain without sacrificing recovery. This should push efficiency closer to 0.95+ while keeping equality and survival intact.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 10 fish, no one fishes this month (lake rests to allow recovery).\n2. If S is between 10 and 20 fish (exclusive), each of the 5 fishers may catch at most 1% of S (total catch \u2264 5% of S, split equally).\n3. If S is between 20 and 60 fish, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally).\n4. If S is 60 fish or above, each of the 5 fishers may catch at most 11.5% of S (total catch \u2264 ~57.5% of S, split equally).\n5. No fisher may exceed their equal 1/5 share of the applicable total cap, regardless of others' choices.\n6. These caps are recalculated fresh each month based on the new S; they are fixed percentages (not fixed numbers), ensuring equality and sustainability while allowing regrowth toward full capacity over time.\n7. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+      "changed": true,
+      "reward": 0.8455652911249294,
+      "reward_std": 1.047576785377803,
+      "metrics_mean": {
+        "survival_time_m": 7.0,
+        "total_gain_R": 347.0,
+        "efficiency_u": 0.9575,
+        "equality_e": 0.8677972489165253,
+        "over_usage_o": 0.75
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 10 fish, no one fishes this month (lake rests to allow recovery).\n2. If S is between 10 and 20 fish (exclusive), each of the 5 fishers may catch at most 1% of S (total catch \u2264 5% of S, split equally).\n3. If S is between 20 and 60 fish, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally).\n4. If S is 60 fish or above, each of the 5 fishers may catch at most 11.5% of S (total catch \u2264 ~57.5% of S, split equally).\n5. No fisher may exceed their equal 1/5 share of the applicable total cap, regardless of others' choices.\n6. These caps are recalculated fresh each month based on the new S; they are fixed percentages (not fixed numbers), ensuring equality and sustainability while allowing regrowth toward full capacity over time.\n7. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid.",
+        "Each month, before fishing, measure the lake's starting stock S.\n1. If S is below 10 fish, no one fishes this month (lake rests to allow recovery).\n2. If S is between 10 and 20 fish (exclusive), each of the 5 fishers may catch at most 1% of S (total catch \u2264 5% of S, split equally).\n3. If S is between 20 and 60 fish, each of the 5 fishers may catch at most 10% of S (total catch \u2264 50% of S, split equally).\n4. If S is 60 fish or above, each of the 5 fishers may catch at most 11.5% of S (total catch \u2264 ~57.5% of S, split equally).\n5. No fisher may exceed their equal 1/5 share of the applicable total cap, regardless of others' choices.\n6. These caps are recalculated fresh each month based on the new S; they are fixed percentages (not fixed numbers), ensuring equality and sustainability while allowing regrowth toward full capacity over time.\n7. Changing this rule requires 4 of 5 fishers to agree, and any replacement must keep both an explicit per-fisher numeric cap and a low-stock fishing pause to remain valid."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4028074390024674,
+        "last_gradient": "The critical flaw is the 60+ cap of 11.5%\u00d75=57.5%, which exceeds the sustainable 50% yield, driving repeated overfishing (o=0.750) and collapse before month 12 (survival only 7/12). Lower the high-stock cap (tier 4) to a strict 10% per fisher (50% total) matching the sustainable yield, eliminating any tier that permits >50% extraction regardless of S. Additionally, add a rule triggering an automatic partial catch reduction (e.g., -2% per tier) for two consecutive months of measured stock decline, so the norm self-corrects before collapse rather than relying on fixed percentages alone.",
+        "n_reverts": 1
+      }
+    }
+  ]
+}

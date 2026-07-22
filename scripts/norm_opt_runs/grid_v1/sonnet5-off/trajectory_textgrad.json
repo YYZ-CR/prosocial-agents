@@ -1,0 +1,167 @@
+{
+  "optimizer": "textgrad",
+  "best_norm": "Each month, before fishing, estimate the current fish stock P (population level).\n\nSet the Total Allowable Catch (TAC) based on P:\n- If P \u2265 80: TAC = 50% of P\n- If 60 \u2264 P < 80: TAC = 25% of P\n- If 40 \u2264 P < 60: TAC = 15% of P\n- If P < 40: TAC = 0 (no fishing; let the stock recover)\n\nEach of the 5 fishers takes an equal share: TAC \u00f7 5.\n\nNo fisher should exceed their equal share. If stock estimates are uncertain, err low to preserve the buffer.\n\nReview and adjust these thresholds only if empirical results show the fishery failing to recover, catches becoming unequal, or total yield falling short of the sustainable ~50/month benchmark at high stock levels.",
+  "best_reward": 2.130800228900922,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "textgrad",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 1.9990873313343327,
+      "reward_std": 0.06749312843578215,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 393.0,
+        "efficiency_u": 0.655,
+        "equality_e": 0.9381746626686657,
+        "over_usage_o": 0.125
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, fishers report their catch honestly at month's end. The catch limit is determined by current lake population P: - If P < 60 tons: total catch capped at 15% of P, split evenly among active fishers. - If 60 <= P < 80 tons: total catch capped at 25% of P, split evenly among active fishers. - If P >= 80 tons: total catch capped at 50% of P, split evenly among active fishers. If population would fall below 10 tons after fishing, all fishers must reduce catch proportionally to keep population at or above 10 tons. Any fisher whose self-reported catch exceeds their allowed share in a given month forfeits an equivalent amount from their allowed share in the following month, as a corrective penalty. Repeated violations (2+ months) result in the violator being named explicitly in the next discussion and other fishers may vote to cap that individual's share at 50% of the standard allowance for one month.",
+        "Each fisher may catch at most 4 tons this month (total max 20 tons across all 5 fishers). This keeps the lake healthy, with an expected post-harvest level of (70-20)*2=100 tons (capped). Violations must be publicly disclosed in the next discussion. Any fisher who exceeds their limit must reduce their catch by the excess amount in the following month. If total catches exceed 25 tons in any month, all fishers agree to reduce their next month's limit by 1 ton as a collective corrective measure. The goal remains to keep post-harvest fish stock (before regeneration) at or above 50 tons whenever possible, and never allowing it to drop below 5 tons."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.9990873313343327,
+        "last_gradient": "The current norm's vagueness (\"reasonable, fair share\") leaves too much room for interpretation, forcing fishers to renegotiate almost immediately (rewrite at round 0, 2.5 rewrites average) and leaving efficiency low (0.655) despite decent survival. Replace it with the explicit tiered rule the fishers actually converged on: define fixed catch caps as a percentage of current population P (e.g., 50% if P\u226580, 25% if 60\u2264P<80, 15% if P<60), split evenly among active fishers, since this rule scales harvest to stock health and naturally enforces equality and sustainability. Making this the starting norm (rather than something fishers must invent mid-game) should reduce early renegotiation, stabilize compliance, and push efficiency closer to the 50-fish/month sustainable yield benchmark while keeping equality high.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, measure the current population P. The total allowable catch (TAC) is set by P's tier:\n- If P \u2265 80: TAC = 50% of P\n- If 60 \u2264 P < 80: TAC = 25% of P\n- If P < 60: TAC = 15% of P\n\nDivide the TAC equally among all active fishers; each fisher's cap = TAC \u00f7 (number of active fishers). No fisher may exceed their equal share in a given month.\n\nThis rule is the default and should only be changed by 4-of-5 agreement if evidence shows it is failing to sustain the fishery or is being widely violated. Otherwise, keep it as the standing norm to avoid costly renegotiation.",
+      "changed": true,
+      "reward": 1.982419594072601,
+      "reward_std": 0.10454751535181384,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 534.5,
+        "efficiency_u": 0.8908333333333334,
+        "equality_e": 0.9331725214785355,
+        "over_usage_o": 0.375
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 4.5,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, measure the current population P. The total allowable catch (TAC) is set by P's tier: - If P \u2265 80: TAC = 50% of P - If 60 \u2264 P < 80: TAC = 25% of P - If 30 \u2264 P < 60: TAC = 10% of P - If P < 30: TAC = 5% of P Divide the TAC equally among all active fishers; each fisher's cap = TAC \u00f7 (number of active fishers). No fisher may exceed their equal share in a given month. This rule is the default and should only be changed by 4-of-5 agreement if evidence shows it is failing to sustain the fishery or is being widely violated. Otherwise, keep it as the standing norm to avoid costly renegotiation.",
+        "Each month, before fishing, measure the current population P. The total allowable catch (TAC) is set by P's tier: - If P \u2265 80: TAC = 50% of P - If 60 \u2264 P < 80: TAC = 25% of P - If P < 60: TAC = 15% of P Divide the TAC equally among all active fishers; each fisher's cap = TAC \u00f7 (number of active fishers). No fisher may exceed their equal share in a given month. Enforcement: Any fisher who exceeds their cap in a given month forfeits an equivalent amount from their NEXT month's allowed catch (i.e., their next cap is reduced by the overage amount, down to a minimum of 0). If population P drops below 20 tons, all fishers must stop fishing entirely until P recovers above 30 tons. This rule remains in force unless replaced by 4-of-5 agreement."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.9990873313343327,
+        "last_gradient": "The main issue is the P\u226580 tier allowing 50% TAC extraction, which pulls the stock down from full capacity and keeps it oscillating below the efficient regeneration zone (evidenced by o=0.375 and the amendment tightening lower tiers). Cap the top-tier TAC at 40% instead of 50% when P\u226580, so the population is more likely to rebound to and stabilize near 100 rather than repeatedly falling into the 60-80 or lower tiers\u2014this should reduce over-usage while keeping high catches sustainable long-term. Additionally, since fishers already converged on stricter low-tier rules (30\u2264P<60: 10%, P<30: 5%) after one rewrite, bake these tighter thresholds into the initial norm directly to avoid the costly renegotiation and the 4.5-round delay before reaching a stable rule, which should raise reward by increasing effective survival/efficiency without sacrificing equality.",
+        "n_reverts": 1
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "textgrad",
+      "norm": "Each month, measure the lake's fish population P before fishing, and set the Total Allowable Catch (TAC) as a fraction of P according to these tiers:\n- P \u2265 80: TAC = 40% of P\n- 60 \u2264 P < 80: TAC = 20% of P\n- 30 \u2264 P < 60: TAC = 10% of P\n- P < 30: TAC = 5% of P\n\nEach of the 5 fishers may catch TAC/5, an equal share. No fisher may exceed this individual limit. These thresholds and percentages are the default rule; changing them requires agreement from at least 4 of the 5 fishers.",
+      "changed": true,
+      "reward": 1.9732624384445576,
+      "reward_std": 0.006352946170826934,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 307.0,
+        "efficiency_u": 0.5116666666666667,
+        "equality_e": 0.9231915435557819,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, measure the lake's fish population P before fishing, and set the Total Allowable Catch (TAC) as a fraction of P according to these tiers:\n- P \u2265 80: TAC = 40% of P\n- 60 \u2264 P < 80: TAC = 20% of P\n- 30 \u2264 P < 60: TAC = 10% of P\n- P < 30: TAC = 5% of P\n\nEach of the 5 fishers may catch TAC/5, an equal share. No fisher may exceed this individual limit. These thresholds and percentages are the default rule; changing them requires agreement from at least 4 of the 5 fishers.",
+        "Each month, measure the lake's fish population P before fishing, and set the Total Allowable Catch (TAC) as a fraction of P according to these tiers:\n- P \u2265 80: TAC = 40% of P\n- 60 \u2264 P < 80: TAC = 20% of P\n- 30 \u2264 P < 60: TAC = 10% of P\n- P < 30: TAC = 5% of P\n\nEach of the 5 fishers may catch TAC/5, an equal share. No fisher may exceed this individual limit. These thresholds and percentages are the default rule; changing them requires agreement from at least 4 of the 5 fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 1.9990873313343327,
+        "last_gradient": "The norm is too conservative at high stock levels: with P\u226580 capped at 40% TAC (equilibrium ~P=71, catch~28/month) it never reaches the 50/month sustainable yield, leaving efficiency at only 0.512 despite perfect survival. Raise the top tier to TAC = 50% of P when P \u2265 80 (and consider 25% for 60\u2264P<80), which should push the equilibrium closer to P=100 and total catch toward the full 50/month benchmark while still preserving the buffer that prevented collapse\u2014this should lift efficiency and total reward without sacrificing survival or equality.",
+        "n_reverts": 2
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, estimate the current fish stock P (population level).\n\nSet the Total Allowable Catch (TAC) based on P:\n- If P \u2265 80: TAC = 50% of P\n- If 60 \u2264 P < 80: TAC = 25% of P\n- If 40 \u2264 P < 60: TAC = 15% of P\n- If P < 40: TAC = 0 (no fishing; let the stock recover)\n\nEach of the 5 fishers takes an equal share: TAC \u00f7 5.\n\nNo fisher should exceed their equal share. If stock estimates are uncertain, err low to preserve the buffer.\n\nReview and adjust these thresholds only if empirical results show the fishery failing to recover, catches becoming unequal, or total yield falling short of the sustainable ~50/month benchmark at high stock levels.",
+      "changed": true,
+      "reward": 2.130800228900922,
+      "reward_std": 0.02170971541093114,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 401.0,
+        "efficiency_u": 0.6683333333333332,
+        "equality_e": 0.9249337911351783,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 9.5,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, estimate the current fish stock P. Set TAC based on P: - If P \u2265 80: TAC = 40% of P - If 60 \u2264 P < 80: TAC = 25% of P - If 40 \u2264 P < 60: TAC = 10% of P - If P < 40: TAC = 0 (no fishing; let stock recover) Each of the 5 fishers takes an equal share: TAC \u00f7 5. No fisher should exceed their equal share. This replaces prior informal caps. Review thresholds if stock fails to recover or catches become unequal.",
+        "Each month, before fishing, estimate the current fish stock P. Set the Total Allowable Catch (TAC) based on P: - If P \u2265 80: TAC = 40% of P - If 60 \u2264 P < 80: TAC = 20% of P - If 40 \u2264 P < 60: TAC = 10% of P - If P < 40: TAC = 0 (no fishing; let the stock recover) Each of the 5 fishers takes an equal share: TAC \u00f7 5. No fisher may exceed their equal share. Enforcement: If any fisher exceeds their equal share in a given month, all other fishers may collectively agree to reduce that fisher's allowed share in the following month by double the excess amount they over-caught, to be redistributed equally among compliant fishers. Review thresholds if empirical results show unequal catches, stock failing to recover, or yields persistently below sustainable benchmarks."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.130800228900922,
+        "last_gradient": "The norm is too conservative at high stock (P\u226580 cap of 50%, which the fishers themselves loosened only slightly to 40%), leaving efficiency at just 0.668 despite perfect survival and equality\u2014meaning the fishery has slack capacity being wasted. Raise the top-tier TAC to 50-60% of P when P\u226590 (near full carrying capacity, where regeneration can easily absorb larger harvests), and consider adding a P\u226590 tier distinct from 80-90 to capture more yield precisely when the buffer is largest. This directly targets the efficiency shortfall without harming survival (over-usage is already 0.000, showing excess caution) and reduces the fishers' incentive to renegotiate, since a norm that already matches their revealed preference (higher catch at high stock) is more likely to be kept unamended.",
+        "n_reverts": 2
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "textgrad",
+      "norm": "Each month, before fishing, estimate the current fish stock P (population level).\n\nSet the Total Allowable Catch (TAC) based on P:\n- If P \u2265 90: TAC = 55% of P\n- If 80 \u2264 P < 90: TAC = 50% of P\n- If 60 \u2264 P < 80: TAC = 25% of P\n- If 40 \u2264 P < 60: TAC = 15% of P\n- If P < 40: TAC = 0 (no fishing; let the stock recover)\n\nEach of the 5 fishers takes an equal share: TAC \u00f7 5.\n\nNo fisher should exceed their equal share. If stock estimates are uncertain, err low to preserve the buffer.\n\nReview and adjust these thresholds only if empirical results show the fishery failing to recover, catches becoming unequal, or total yield falling short of the sustainable ~50/month benchmark at high stock levels.",
+      "changed": true,
+      "reward": 1.8985937424264456,
+      "reward_std": 0.039611385778682506,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 459.5,
+        "efficiency_u": 0.7658333333333334,
+        "equality_e": 0.9321874848528913,
+        "over_usage_o": 0.3333333333333333
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 1,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, before fishing, estimate the current fish stock P. Set TAC based on P: - If P \u2265 90: TAC = 55% of P - If 80 \u2264 P < 90: TAC = 50% of P - If 60 \u2264 P < 80: TAC = 25% of P - If 40 \u2264 P < 60: TAC = 15% of P - If P < 40: TAC = 0 (no fishing; let stock recover) Each of the 5 fishers takes an equal share: TAC \u00f7 5. No fisher should exceed their equal share. Enforcement: - Any fisher who exceeds their fair share in a given month must forfeit an equivalent amount from their next month's share, redistributed proportionally among compliant fishers. - Any fisher who overharvests by more than 2x their fair share must be named explicitly in the next discussion and have their next-month share capped at 50% of normal. - Any fisher who overharvests by more than 3x their fair share in a single month is capped at zero catch for the following month, regardless of stock level. Given current stock of 44 tons (40 \u2264 P < 60), TAC = 6.6 tons this month, meaning each fisher may catch up to 1.32 tons. All fishers commit to strictly adhering to this to allow continued stock recovery. Violations will be tracked and enforced starting immediately, with no exceptions.",
+        "Each month, before fishing, estimate the current fish stock P (population level).\n\nSet the Total Allowable Catch (TAC) based on P:\n- If P \u2265 90: TAC = 55% of P\n- If 80 \u2264 P < 90: TAC = 50% of P\n- If 60 \u2264 P < 80: TAC = 25% of P\n- If 40 \u2264 P < 60: TAC = 15% of P\n- If P < 40: TAC = 0 (no fishing; let the stock recover)\n\nEach of the 5 fishers takes an equal share: TAC \u00f7 5.\n\nNo fisher should exceed their equal share. If stock estimates are uncertain, err low to preserve the buffer.\n\nReview and adjust these thresholds only if empirical results show the fishery failing to recover, catches becoming unequal, or total yield falling short of the sustainable ~50/month benchmark at high stock levels."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.130800228900922,
+        "last_gradient": "The core problem is at P\u226590 the TAC=55% is above the ~50% sustainable rate, inviting overuse (o=0.333) and triggering renegotiation (rewrites happen almost immediately at round 1). Cap TAC at 50% for P\u226590 (not 55%), keep 80\u2264P<90 tier at 45% instead of 50%, so the rule never exceeds the true regeneration-matching yield and stock stays near capacity longer, boosting both survival buffer and efficiency. Also add an explicit enforcement/penalty clause (e.g., overage forfeited from next month's share) since the fishers' own rewritten version added \"Enforcement\" language\u2014codify this in the base norm so it's stable and doesn't need mid-game amendment, improving compliance and reducing the 3 rewrites per game.",
+        "n_reverts": 3
+      }
+    }
+  ]
+}

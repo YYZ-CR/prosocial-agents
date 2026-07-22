@@ -1,0 +1,167 @@
+{
+  "optimizer": "textgrad",
+  "best_norm": "1. Before fishing each month, measure the current stock S.\n2. If S \u2265 100 (lake at full capacity): each fisher may catch up to 10 fish (total cap 50), preserving the sustainable yield.\n3. If 50 < S < 100 (lake recovering): each fisher may catch up to (S-50)/20 fish (total cap (S-50)/4), ensuring at least 3/4 of the stock above 50 remains to regenerate.\n4. If S \u2264 50 (lake depleted): no fishing is allowed that month, so the stock can rebuild.\n5. Catches must be equal across all fishers in every month; no one takes another's unused share.\n6. Any change to these rules requires agreement from at least 4 of the 5 fishers.\n7. Fishers should recognize that following this graduated rule keeps the fishery productive and avoids the losses of shutdowns or collapse, making it in everyone's interest to keep it rather than renegotiate.",
+  "best_reward": 2.5,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "textgrad",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.4825570776255708,
+      "reward_std": 0.017442922374429237,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 592.0,
+        "efficiency_u": 0.9866666666666667,
+        "equality_e": 0.9917808219178081,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Recovery phase: In any month where the lake starts at S < 100 tons, total community catch must not exceed S/4 (each fisher's cap = S/20), so the stock grows quickly toward carrying capacity. Once the lake reaches 100 tons at the start of a month, each fisher may catch up to 10 tons per month (total 50), the sustainable steady-state under the 2.0 regeneration factor. Catching above one's cap is a violation. Unused shares may not be carried over. Any fisher who violates their cap must, in the following month, reduce their catch by twice the amount of the overage, to restore the shared stock.",
+        "Recovery and steady-state harvesting rule: 1. If the lake is at or above 100 tons at the start of a month, each fisher may catch at most 10 tons (max 50 total), leaving 50 which regenerates to 100. 2. If the lake is below 100 tons, all fishers restrain harvest to allow recovery. Specifically, the total combined catch that month must not exceed (current lake tons - 50) if current tons > 50, and must be 0 if current tons <= 50. This total is divided equally, so each fisher catches max((current tons - 50)/5, 0), rounded down. This guarantees at least 50 tons remain, so the lake regenerates back to 100 within one to two months. 3. Once the lake returns to 100 tons, the standard 10-ton-per-fisher cap resumes. 4. Any fisher who exceeds their limit must reduce their catch the following month by the excess amount to compensate, and repeated violations (two or more) require that fisher to catch 0 for the following month as a penalty."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4825570776255708,
+        "last_gradient": "The vague \"reasonable, fair share\" language is functionally worthless\u2014it triggered 5 renegotiations before converging on a concrete rule, wasting coordination effort even though outcomes were ultimately strong. Replace the qualitative language now with the exact numeric rule the fishers converged on: each fisher's cap = 10 tons/month when the lake is at full capacity (100), or S/20 per fisher (total S/4) when the lake starts below 100 to allow fast recovery, with explicit language that catching above the cap is a violation. Specifying these numbers and the recovery mechanism upfront should let the fishers adopt the efficient rule immediately rather than spending the first several rounds rediscovering it through costly rewrites.",
+        "n_reverts": 0
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "textgrad",
+      "norm": "Each month, let S = the fish stock at the start of the month (before regeneration).\n\n1. If S = 100 (full capacity): each fisher's catch cap is 10 tons (total cap 50 tons).\n2. If S < 100: each fisher's catch cap is S/20 tons (total cap S/4 tons), to allow faster recovery.\n3. Catching above your cap in any month is a violation of this norm.\n4. Caps apply equally to all 5 fishers\u2014no fisher may exceed their individual share even if others catch less.\n5. This rule remains in effect unless at least 4 of the 5 fishers agree to amend it.",
+      "changed": true,
+      "reward": 2.39323883161512,
+      "reward_std": 0.1067611683848797,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 542.5,
+        "efficiency_u": 0.9041666666666667,
+        "equality_e": 0.9781443298969072,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3,
+        "first_amendment_round_mean": 0.5,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, let S = fish stock at start of month (before regeneration, factor 2.0, cap 100). 1. RECOVERY PHASE: If S < 100, all fishers catch 0 this month so the stock regenerates fully toward 100 as fast as possible. (At S=50, catching 0 yields 100 next month.) 2. STEADY PHASE: Once S = 100, each fisher may catch exactly 10 tons (total 50), leaving 50 which regenerates back to 100. This is the sustainable maximum forever, shared equally. 3. Caps apply equally to all 5 fishers. 4. Catching above your cap is a violation, detectable via end-of-month revelation; repeated violations warrant collective response. 5. Amendable only by agreement of at least 4 of 5 fishers.",
+        "Each month, let S = the fish stock at the start of the month (before regeneration). 1. If S < 100 (recovery phase): total catch is capped at S/4 tons, divided equally so each fisher's cap is S/20 tons. This ensures the remaining 3/4 of stock regenerates (\u00d72) toward full capacity. 2. If S = 100 (full capacity): the sustainable total catch is 50 tons, so each fisher's cap is 10 tons. This keeps the lake at capacity indefinitely. 3. Catching above your individual cap in any month is a violation. 4. Caps apply equally to all 5 fishers\u2014no fisher may exceed their share even if others catch less. 5. This rule remains in effect unless at least 4 of the 5 fishers agree to amend it."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4825570776255708,
+        "last_gradient": "The current norm's proportional-cap rule (S/20 per fisher) under-restricts catches during recovery, allowing S to keep shrinking instead of rebounding\u2014this is why fishers rewrote it 3x to adopt a \"catch 0 while S<100, catch 10 each once S=100\" rule, which better matches the doubling dynamics (any S<100 with positive catch regenerates slower than a full stop-catch cycle). Replace rule 2 with an explicit zero-catch recovery phase: if S<100, cap = 0 for all fishers until S returns to 100, then revert to the 10-ton/fisher steady-state cap. This aligns the written rule with the equilibrium fishers actually converge to, removing the need for repeated renegotiation and stabilizing the norm as self-enforcing from round 1.",
+        "n_reverts": 1
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "textgrad",
+      "norm": "1. Measure the lake's fish stock (S) at the start of each month, before fishing.\n2. If S = 100 (full lake): each of the 5 fishers may catch up to 10 fish that month (total cap 50), leaving 50 to regrow back to 100.\n3. If S < 100 (lake not fully recovered): all fishers catch 0 that month. No fishing until the stock regenerates back to S = 100.\n4. Once S returns to 100, resume the 10-fish-per-fisher steady-state catch from rule 2.\n5. Catches must be equal across fishers in every month when fishing is allowed; no fisher may exceed their share.\n6. Any change to this rule requires agreement from at least 4 of the 5 fishers. Before proposing changes, compare against this zero-catch-recovery baseline, since deviating from it (fishing while S<100) shrinks future yields and has repeatedly proven worse in practice.",
+      "changed": true,
+      "reward": 2.4527536231884057,
+      "reward_std": 0.04724637681159427,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 576.0,
+        "efficiency_u": 0.96,
+        "equality_e": 0.9855072463768115,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 2.5,
+        "first_amendment_round_mean": 4.5,
+        "max_support_when_not_adopted": 3,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. Measure the lake's fish stock (S) at the start of each month, before fishing. 2. REBUILD PHASE: While S < 100, each fisher may catch up to S/20 tons (total S/4), leaving at least 3S/4 to regenerate. 3. STEADY STATE: Once the stock reaches 100 at the start of a month, each fisher may catch up to 10 tons (total 50), leaving 50 which regenerates back to 100, sustainable indefinitely. 4. Catches must be equal across all fishers; no fisher may exceed their allotted share. 5. If S ever drops below 20 tons, all fishers catch 0 until S returns to at least 50. 6. Any change to this law requires agreement from at least 4 of the 5 fishers.",
+        "1. Measure the lake's fish stock (S) at the start of each month, before fishing. 2. The total allowed catch each month is max(0, S - 50), split equally among the 5 fishers (each gets (S-50)/5, rounded down), so that at least 50 tons always remain to regenerate to 100. 3. Catches must be equal across fishers; no fisher may exceed their share. 4. If S <= 50, all fishers catch 0 that month to allow recovery. 5. Any change to this rule requires agreement from at least 4 of the 5 fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.4825570776255708,
+        "last_gradient": "The all-or-nothing rule (zero catch until S=100) is being rejected in practice because it wastes harvestable surplus during recovery months, which is exactly why fishers keep replacing it with a proportional rebuild rule. Replace rule 3 with a proportional harvest during recovery: allow each fisher to catch up to (S-50)/20 (total (S-50)/4) whenever S>50, leaving at least 3/4 of the stock above 50 to regenerate, and 0 catch only if S\u226450; this matches the self-organized amendment fishers converge on and removes the incentive to renegotiate. Also explicitly build this graduated rule into the initial norm (rather than the strict shutdown) so it doesn't need to be discovered and voted in mid-game, reducing renegotiation volatility and raising stability/reward.",
+        "n_reverts": 2
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "textgrad",
+      "norm": "1. Before fishing each month, measure the current stock S.\n2. If S \u2265 100 (lake at full capacity): each fisher may catch up to 10 fish (total cap 50), preserving the sustainable yield.\n3. If 50 < S < 100 (lake recovering): each fisher may catch up to (S-50)/20 fish (total cap (S-50)/4), ensuring at least 3/4 of the stock above 50 remains to regenerate.\n4. If S \u2264 50 (lake depleted): no fishing is allowed that month, so the stock can rebuild.\n5. Catches must be equal across all fishers in every month; no one takes another's unused share.\n6. Any change to these rules requires agreement from at least 4 of the 5 fishers.\n7. Fishers should recognize that following this graduated rule keeps the fishery productive and avoids the losses of shutdowns or collapse, making it in everyone's interest to keep it rather than renegotiate.",
+      "changed": true,
+      "reward": 2.5,
+      "reward_std": 0.0,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 600.0,
+        "efficiency_u": 1.0,
+        "equality_e": 1.0,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 3.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. Before fishing each month, measure current stock S. 2. Regeneration is 2.0 (applied after fishing). 3. If S < 50: no fishing this month; let the lake rebuild. 4. If S \u2265 50: each fisher may catch an equal share such that total catch leaves at least 50 tons in the lake before regeneration. With S\u2265100, this means 10 tons each (total 50). 5. Catches must be equal across all fishers; no one takes another's unused share. 6. Any change to these rules requires agreement from at least 4 of the 5 fishers.",
+        "1. Before fishing each month, measure the current stock S. 2. If S < 100: no fishing this month; let the stock regenerate toward 100. 3. If S \u2265 100: each fisher catches exactly 10 tons (total 50), leaving 50, which regenerates \u00d72 back to 100 for continuous monthly fishing of 10 tons each. 4. Catches must be equal across all fishers; no one takes another's unused share. 5. Never allow the stock to drop below 10 tons at any point. 6. Any change to these rules requires agreement from at least 4 of the 5 fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.5,
+        "last_gradient": "The norm's numeric outcomes are actually optimal (efficiency=1.0, equality=1.0, over-usage=0), but fishers still rewrote it 3.5 times on average starting at round 0 \u2014 meaning the complexity of the graduated (S-50)/20 formula in the 50<S<100 band is likely what triggers renegotiation, even though they converge to functionally the same rule (leave 50 in the lake, else no fishing). The single most important change: simplify rule 3 into the exact linear \"leave-50\" formula fishers actually adopted \u2014 i.e., replace the fractional (S-50)/20 per-fisher cap with \"each fisher may catch (S-50)/5 fish, so total catch = S-50, leaving exactly 50 in the lake\" \u2014 removing the awkward 3/4-buffer fraction that seems to invite disputes/renegotiation without changing the sustainable outcome. This should reduce the incentive/need to rewrite the rule while preserving the already-perfect reward profile.",
+        "n_reverts": 2
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "textgrad",
+      "norm": "1. Before fishing each month, measure the current stock S.\n2. If S \u2265 100 (lake at full capacity): each fisher may catch up to 10 fish (total cap 50), preserving the sustainable yield.\n3. If 50 < S < 100 (lake recovering): each fisher may catch up to (S-50)/5 fish (total cap S-50), leaving exactly 50 fish in the lake to regenerate.\n4. If S \u2264 50 (lake depleted): no fishing is allowed that month, so the stock can rebuild.\n5. Catches must be equal across all fishers in every month; no one takes another's unused share.\n6. Any change to these rules requires agreement from at least 4 of the 5 fishers.\n7. Fishers should recognize that following this simple, transparent rule keeps the fishery productive and avoids the losses of shutdowns or collapse, making it in everyone's interest to keep it rather than renegotiate.",
+      "changed": true,
+      "reward": 2.4813917525773195,
+      "reward_std": 0.018608247422680524,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 591.0,
+        "efficiency_u": 0.985,
+        "equality_e": 0.9927835051546392,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1,
+        "first_amendment_round_mean": 5,
+        "max_support_when_not_adopted": 3,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "1. Before fishing each month, measure the current stock S. 2. If S \u2265 100: each fisher may catch up to 10 fish (total cap 50), preserving the sustainable yield. 3. If 50 < S < 100: each fisher may catch up to (S-50)/5 fish (total cap S-50), leaving exactly 50 fish to regenerate. 4. If S \u2264 50: no fishing is allowed that month so the stock can rebuild (at S=50 with regeneration 2.0 this restores the lake to 100 next month). 5. Catches must be equal across all fishers each month; no one takes another's unused share. 6. Any change to these rules requires agreement from at least 4 of the 5 fishers. 7. Following this transparent rule keeps the fishery productive and avoids collapse, making it in everyone's interest.",
+        "1. Before fishing each month, measure the current stock S. 2. If S \u2265 100 (lake at full capacity): each fisher may catch up to 10 fish (total cap 50). 3. If 50 \u2264 S < 100 (lake recovering): each fisher may catch up to (S-50)/5 fish, and when S is exactly 50 each fisher may catch up to 5 fish (total cap 25), leaving at least 25 fish so that with 2.0 regeneration the lake returns toward full capacity. 4. If S < 50 (lake depleted): no fishing is allowed that month, so the stock can rebuild. 5. Catches must be equal across all fishers in every month; no one takes another's unused share. 6. Any change to these rules requires agreement from at least 4 of the 5 fishers. 7. Following this transparent rule keeps the fishery productive, avoids wasted idle months, and prevents collapse, making it in everyone's interest to keep it."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.5,
+        "last_gradient": "The norm's numbers are already near-optimal (efficiency .985, over-usage 0), so the loss is coming from stability, not the harvest formula: fishers rewrote it around round 5 despite it working well, indicating rule 7's \"trust me it's in your interest\" framing isn't enough to deter renegotiation attempts. Add a concrete self-enforcement/anti-tampering mechanism, e.g., a cooldown clause stating \"no amendment proposals may be raised more than once every 3 months\" and/or a rule that any fisher who catches above their allotted share in a given month forfeits an equivalent amount from their next month's quota \u2014 this gives the norm teeth and removes the incentive to renegotiate for short-term gain, which should raise stability and reward without sacrificing the already-strong efficiency/equality scores.",
+        "n_reverts": 3
+      }
+    }
+  ]
+}

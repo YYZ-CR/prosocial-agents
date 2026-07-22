@@ -1,0 +1,23 @@
+{
+  "baseline": {
+    "best_reward": 2.4775694061408347,
+    "best_norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+    "final_reward": 2.4639880952380953,
+    "llm_calls": 0,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\opus48\\trajectory_baseline.json"
+  },
+  "textgrad": {
+    "best_reward": 2.5,
+    "best_norm": "1. Before fishing each month, measure the current stock S.\n2. If S \u2265 100 (lake at full capacity): each fisher may catch up to 10 fish (total cap 50), preserving the sustainable yield.\n3. If 50 < S < 100 (lake recovering): each fisher may catch up to (S-50)/20 fish (total cap (S-50)/4), ensuring at least 3/4 of the stock above 50 remains to regenerate.\n4. If S \u2264 50 (lake depleted): no fishing is allowed that month, so the stock can rebuild.\n5. Catches must be equal across all fishers in every month; no one takes another's unused share.\n6. Any change to these rules requires agreement from at least 4 of the 5 fishers.\n7. Fishers should recognize that following this graduated rule keeps the fishery productive and avoids the losses of shutdowns or collapse, making it in everyone's interest to keep it rather than renegotiate.",
+    "final_reward": 2.4813917525773195,
+    "llm_calls": 10,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\opus48\\trajectory_textgrad.json"
+  },
+  "ace": {
+    "best_reward": 2.468828671328671,
+    "best_norm": "LAKE FISHERY RULE v1 (stock S = fish present at start of month, measured/announced publicly before fishing)\n\n1. Equal individual catch caps, same number for all 5 fishers, based on measured S:\n   - S \u2265 80 (near-full lake): cap = 9 fish/fisher (45 total) \u2014 slightly below MSY to keep post-harvest stock \u2265 55, favoring regrowth into the top tier.\n   - 60 \u2264 S < 80: cap = 7 fish/fisher (35 total) \u2014 keeps breeding stock \u2265 25, pushing S back toward \u226560 next month.\n   - 50 \u2264 S < 60: cap = 4 fish/fisher (20 total) \u2014 conservative harvest to rebuild buffer above the 50 threshold.\n   - 30 \u2264 S < 50: cap = 1 fish/fisher (5 total) \u2014 near-moratorium, allows fast rebound.\n   - S < 30: cap = 0 (full moratorium) until S \u2265 30 again.\n\n2. No fisher may exceed their tier's cap in a given month; catches are self-reported and publicly logged for verification.\n\n3. Amendment rule: any fisher may propose new numeric caps or thresholds at any month. Change adopted if \u22654 of 5 fishers agree. No supermajority needed to merely re-propose after a failed vote.\n\n4. Scheduled review: every 6 months, fishers must explicitly vote to keep, tighten, or loosen each tier's cap based on the prior 6 months' average end-of-month stock. If stock has stayed \u226580 for 3+ consecutive months, a loosening proposal (raise top-tier cap toward MSY) must be put to a vote, not just tightening \u2014 preventing one-way ratcheting toward excess caution.\n\n5. Default/fallback: if no amendment achieves 4/5 support, the last agreed tier schedule remains in force.\n\nGoal: maintain a buffer above each regeneration threshold (not fishing to the MSY edge), keep catch equal and simple to verify, and use the cheap 4/5 amendment path plus mandatory periodic review to let fishers tune caps toward maximum sustainable yield over time without risking collapse.",
+    "final_reward": 2.468828671328671,
+    "llm_calls": 9,
+    "log_path": "C:\\Users\\yyz10\\Documents\\projects\\prosocial-agents\\scripts\\norm_opt_runs\\grid_v1\\opus48\\trajectory_ace.json"
+  }
+}

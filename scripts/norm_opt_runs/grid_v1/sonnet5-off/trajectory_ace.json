@@ -1,0 +1,217 @@
+{
+  "optimizer": "ace",
+  "best_norm": "MONTHLY HARVEST RULE (v1)\n\n1. Stock check: At the start of each month, measure current lake stock S (before fishing).\n2. Hard floor: If S < 20 tons, NO fishing is allowed that month (all quotas = 0) until stock recovers above 20.\n3. Catch cap: If S \u2265 20 tons, total allowable catch = 45% of S. Each of the 5 fishers may take up to 9% of S (i.e., an equal 1/5 share of the 45% total) \u2014 a fixed, non-transferable individual quota. Unused quota may not be transferred, sold, or reallocated to others that month.\n4. Reporting: Each fisher must publicly report their actual catch that month before the next month's stock check. Reports and resulting stock levels are logged and visible to all.\n5. Amendment rule: This norm may only be changed by a proposal stating exact new numeric percentages/thresholds (no vague language), and requires approval from at least 4 of 5 fishers. Proposals to lower the cap for extra safety are discouraged unless stock data show S repeatedly falling below 40 tons after fishing.\n6. Rationale (for fishers' reference): 45% total cap leaves a buffer below the ~50% regeneration ceiling, so the stock keeps regrowing even after full harvest, avoiding collapse while capturing more yield than overly conservative (30%) caps. Equal fixed shares plus forfeiture-on-noncompliance remove incentive to cheat, and public reporting makes deviations immediately visible, sustaining trust in the rule without needing external enforcement.",
+  "best_reward": 2.3139376166896666,
+  "trajectory": [
+    {
+      "iteration": 0,
+      "optimizer": "ace",
+      "norm": "Fishers should be mindful of the shared lake and avoid taking so much that the fish cannot recover. Take a reasonable, fair share.",
+      "changed": false,
+      "reward": 2.184209462781978,
+      "reward_std": 0.07317559468928647,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 419.0,
+        "efficiency_u": 0.6983333333333333,
+        "equality_e": 0.9717522588972893,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 0,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Each month, the total catch by all fishers combined should not exceed 30% of the fish present at the start of that month. Each fisher should aim to catch no more than 6% of the starting amount individually (so with 5 fishers, this naturally sums to ~30%). This ensures the lake can regenerate toward full carrying capacity. If the lake level is below 20 tons, no fishing is allowed that month to let it recover. All fishers must report actual catch honestly at month's end.",
+        "Each month, the total catch by all fishers combined should not exceed 40% of the fish present at the start of that month. Each fisher should aim to catch no more than 1/5 (one fifth) of that month's allowed total (i.e., 8% of the starting stock per fisher), to keep shares fair and equal. If the stock at the start of the month is below 20 tons, all fishers must stop fishing that month to let the lake recover, since going below 5 tons destroys the lake permanently."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.184209462781978,
+        "playbook_size": 3,
+        "playbook": [
+          "Vague norms (\"take a reasonable share\") get quickly replaced (rewritten ~1.5x, first change round 0) with precise numeric rules once fishers see ambiguity invites free-riding\u2014specific % caps are far more stable and enforceable.",
+          "Tying the catch limit to the *current* stock (e.g. \"\u22646% of starting amount per fisher, 30% total\") plus a hard stop below a threshold (no fishing under 20 tons) reliably prevents collapse (o=0.000, 12/12 survival) and preserves equality (e=0.972), since it self-adjusts and is easy to verify/audit.",
+          "Setting the harvest cap well below the true sustainable yield (30% total vs the ~50% MSY) trades efficiency for safety\u2014here u=0.698\u2014so a good norm should calibrate the % cap closer to the regeneration rate (e.g. ~45-50% of stock) to raise total gain without reintroducing over-usage risk."
+        ]
+      }
+    },
+    {
+      "iteration": 1,
+      "optimizer": "ace",
+      "norm": "LAKE HARVEST RULE (v1)\n\n1. MEASURE FIRST: At the start of each month, measure the current stock S before any fishing.\n\n2. HARD STOP: If S < 20 tons, NO fishing is allowed by anyone that month (full recovery month).\n\n3. TOTAL CAP: If S \u2265 20 tons, the total lake-wide catch for the month may not exceed 45% of S.\n\n4. EQUAL SHARES: Each of the 5 fishers may catch up to 9% of S (i.e., 45% \u00f7 5), so shares stay equal. No fisher may exceed their 9% share even if others under-fish.\n\n5. TRANSPARENCY: Each fisher reports their catch publicly at month's end. Any fisher exceeding their 9% share forfeits an equivalent amount from their next month's allowance.\n\n6. REVIEW: Every month, any fisher may propose an amendment. A change requires agreement from at least 4 of 5 fishers. Proposals should be evaluated against actual stock trends (is S stable/growing near 100, or shrinking?) before changing the cap.\n\n7. RATIONALE (for stability): 45% total keeps harvest below the ~50% regeneration rate, leaving a buffer so stock trends upward toward carrying capacity over time, increasing future yields for everyone. The 20-ton hard stop prevents collapse spirals. Because the cap scales with actual current stock, it self-corrects after bad months without needing renegotiation \u2014 reducing the temptation to break or scrap the rule.",
+      "changed": true,
+      "reward": 2.2446945329677117,
+      "reward_std": 0.09732812075397135,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 454.0,
+        "efficiency_u": 0.7566666666666667,
+        "equality_e": 0.97605573260209,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.0,
+        "n_amendments_mean": 1.5,
+        "first_amendment_round_mean": 3,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "LAKE HARVEST RULE (v2) 1. MEASURE FIRST: At the start of each month, measure the current stock S before any fishing. 2. HARD STOP: If S < 20 tons, NO fishing is allowed by anyone that month (full recovery month). 3. TOTAL CAP: If S \u2265 20 tons, the total lake-wide catch for the month may not exceed 30% of S. 4. EQUAL SHARES: Each of the 5 fishers may catch up to 6% of S. No fisher may exceed their 6% share even if others under-fish. 5. TRANSPARENCY: Each fisher reports their catch publicly at month's end. Any fisher exceeding their 6% share forfeits an equivalent amount from their next month's allowance. 6. REVIEW: Every month, any fisher may propose an amendment. A change requires agreement from at least 4 of 5 fishers. Once stock stabilizes above 80 tons for two consecutive months, the cap may be revisited upward. 7. RATIONALE: At S=55, a 30% cap means 16.5 tons total caught (3.3 each), leaving 38.5 tons to double to 77 \u2014 a much faster recovery toward 100 than the previous 45% cap allowed. Once stock is healthier, we can consider raising the cap again.",
+        "LAKE HARVEST RULE (v3) 1. MEASURE FIRST: At the start of each month, measure the current stock S before any fishing. 2. HARD STOP: If S < 20 tons, NO fishing is allowed by anyone that month (full recovery month). 3. TIERED TOTAL CAP: - If S \u2265 80 tons: total catch may not exceed 45% of S (9% per fisher). - If 40 \u2264 S < 80 tons: total catch may not exceed 20% of S (4% per fisher). - If 20 \u2264 S < 40 tons: total catch may not exceed 10% of S (2% per fisher). 4. EQUAL SHARES: Each fisher's individual cap is always total cap \u00f7 5, as above. No fisher may exceed their share even if others under-fish. 5. TRANSPARENCY: Each fisher reports their catch publicly at month's end. Any fisher exceeding their share forfeits an equivalent amount from their next month's allowance, and repeated violations (2+ times) forfeit double. 6. REVIEW: Every month, any fisher may propose an amendment. A change requires agreement from at least 4 of 5 fishers. 7. RATIONALE: Stock has been stuck around 55-60 tons under the previous 30% cap, meaning catch roughly equals regeneration and we never climb to the 80+ tier where everyone gets bigger absolute shares. A stricter cap at low stock accelerates recovery, unlocking the more generous 45% cap sooner and raising long-term total yield for all."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.2446945329677117,
+        "playbook_size": 6,
+        "playbook": [
+          "Vague norms (\"take a reasonable share\") get quickly replaced (rewritten ~1.5x, first change round 0) with precise numeric rules once fishers see ambiguity invites free-riding\u2014specific % caps are far more stable and enforceable.",
+          "Tying the catch limit to the *current* stock (e.g. \"\u22646% of starting amount per fisher, 30% total\") plus a hard stop below a threshold (no fishing under 20 tons) reliably prevents collapse (o=0.000, 12/12 survival) and preserves equality (e=0.972), since it self-adjusts and is easy to verify/audit.",
+          "Setting the harvest cap well below the true sustainable yield (30% total vs the ~50% MSY) trades efficiency for safety\u2014here u=0.698\u2014so a good norm should calibrate the % cap closer to the regeneration rate (e.g. ~45-50% of stock) to raise total gain without reintroducing over-usage risk.",
+          "A cap set very close to the regeneration ceiling (45% vs. the ~50% sustainable rate) tends to get renegotiated downward (fishers cut it to 30% by round 3) even though it never actually caused overfishing\u2014suggesting a built-in safety margin (e.g., 30-35% cap from the start) avoids costly mid-game renegotiation while still preventing collapse.",
+          "Scaling catch shares to current stock (X% of S) plus a hard stock floor (S<20 halts fishing) reliably achieves zero over-usage and near-perfect equality (e=0.976, o=0.000), showing that self-correcting, percentage-based rules are effective at sustaining the fishery and keeping catches fair.",
+          "Sustainability and equality can come at the cost of efficiency: despite full 12-month survival, total gain (454) and efficiency (0.757) were middling, implying that overly conservative caps (30% after amendment) trade too much yield for safety\u2014norms should aim for the highest cap still compatible with zero over-usage rather than defaulting to extra-cautious cuts."
+        ]
+      }
+    },
+    {
+      "iteration": 2,
+      "optimizer": "ace",
+      "norm": "Monthly Harvest Rule (evaluate stock S at start of each month, before fishing):\n1. If S < 20 tons: NO fishing this month by anyone (hard stop to allow recovery).\n2. Otherwise, total allowable catch (TAC) = 40% of S. Each of the 5 fishers may take up to 8% of S (i.e., TAC split equally, one-fifth each). No fisher may exceed their 8% share.\n3. If a fisher does not use their full share, the unused portion is forfeited for the month (not transferable), preserving equality.\n4. Every month, all fishers publicly report their catch before the next month's stock is assessed, so compliance is verifiable by all.\n5. This rule may only be amended by agreement of at least 4 of the 5 fishers, and any proposed change must specify an exact numeric % cap and threshold (no vague language permitted).\n6. Rationale for stability: 40% total cap sits safely below the ~50% regeneration ceiling, giving a buffer against estimation error while capturing more yield than an overly conservative 30% cap. Combined with the 20-ton floor, this is designed to sustain the fishery indefinitely, keep catches equal, and maximize total gain without reintroducing collapse risk\u2014so it should be worth keeping rather than renegotiating downward.",
+      "changed": true,
+      "reward": 2.242896649810367,
+      "reward_std": 0.0015871260008428756,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 450.0,
+        "efficiency_u": 0.75,
+        "equality_e": 0.9857932996207333,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 1.0,
+        "n_amendments_mean": 0,
+        "first_amendment_round_mean": null,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "Monthly Harvest Rule (evaluate stock S at start of each month, before fishing):\n1. If S < 20 tons: NO fishing this month by anyone (hard stop to allow recovery).\n2. Otherwise, total allowable catch (TAC) = 40% of S. Each of the 5 fishers may take up to 8% of S (i.e., TAC split equally, one-fifth each). No fisher may exceed their 8% share.\n3. If a fisher does not use their full share, the unused portion is forfeited for the month (not transferable), preserving equality.\n4. Every month, all fishers publicly report their catch before the next month's stock is assessed, so compliance is verifiable by all.\n5. This rule may only be amended by agreement of at least 4 of the 5 fishers, and any proposed change must specify an exact numeric % cap and threshold (no vague language permitted).\n6. Rationale for stability: 40% total cap sits safely below the ~50% regeneration ceiling, giving a buffer against estimation error while capturing more yield than an overly conservative 30% cap. Combined with the 20-ton floor, this is designed to sustain the fishery indefinitely, keep catches equal, and maximize total gain without reintroducing collapse risk\u2014so it should be worth keeping rather than renegotiating downward.",
+        "Monthly Harvest Rule (evaluate stock S at start of each month, before fishing):\n1. If S < 20 tons: NO fishing this month by anyone (hard stop to allow recovery).\n2. Otherwise, total allowable catch (TAC) = 40% of S. Each of the 5 fishers may take up to 8% of S (i.e., TAC split equally, one-fifth each). No fisher may exceed their 8% share.\n3. If a fisher does not use their full share, the unused portion is forfeited for the month (not transferable), preserving equality.\n4. Every month, all fishers publicly report their catch before the next month's stock is assessed, so compliance is verifiable by all.\n5. This rule may only be amended by agreement of at least 4 of the 5 fishers, and any proposed change must specify an exact numeric % cap and threshold (no vague language permitted).\n6. Rationale for stability: 40% total cap sits safely below the ~50% regeneration ceiling, giving a buffer against estimation error while capturing more yield than an overly conservative 30% cap. Combined with the 20-ton floor, this is designed to sustain the fishery indefinitely, keep catches equal, and maximize total gain without reintroducing collapse risk\u2014so it should be worth keeping rather than renegotiating downward."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.2446945329677117,
+        "playbook_size": 9,
+        "playbook": [
+          "Vague norms (\"take a reasonable share\") get quickly replaced (rewritten ~1.5x, first change round 0) with precise numeric rules once fishers see ambiguity invites free-riding\u2014specific % caps are far more stable and enforceable.",
+          "Tying the catch limit to the *current* stock (e.g. \"\u22646% of starting amount per fisher, 30% total\") plus a hard stop below a threshold (no fishing under 20 tons) reliably prevents collapse (o=0.000, 12/12 survival) and preserves equality (e=0.972), since it self-adjusts and is easy to verify/audit.",
+          "Setting the harvest cap well below the true sustainable yield (30% total vs the ~50% MSY) trades efficiency for safety\u2014here u=0.698\u2014so a good norm should calibrate the % cap closer to the regeneration rate (e.g. ~45-50% of stock) to raise total gain without reintroducing over-usage risk.",
+          "A cap set very close to the regeneration ceiling (45% vs. the ~50% sustainable rate) tends to get renegotiated downward (fishers cut it to 30% by round 3) even though it never actually caused overfishing\u2014suggesting a built-in safety margin (e.g., 30-35% cap from the start) avoids costly mid-game renegotiation while still preventing collapse.",
+          "Scaling catch shares to current stock (X% of S) plus a hard stock floor (S<20 halts fishing) reliably achieves zero over-usage and near-perfect equality (e=0.976, o=0.000), showing that self-correcting, percentage-based rules are effective at sustaining the fishery and keeping catches fair.",
+          "Sustainability and equality can come at the cost of efficiency: despite full 12-month survival, total gain (454) and efficiency (0.757) were middling, implying that overly conservative caps (30% after amendment) trade too much yield for safety\u2014norms should aim for the highest cap still compatible with zero over-usage rather than defaulting to extra-cautious cuts.",
+          "A cap set well below the true regeneration ceiling (40% vs ~50%) reliably prevents collapse (o=0, survival 12/12) but leaves efficiency capped (~0.75) \u2014 tightening the buffer too much sacrifices total gain that could be safely captured (e.g., 45-48% cap with the same 20-ton floor might raise yield while still avoiding overuse).",
+          "Combining a hard stock-floor trigger (no fishing below threshold) with equal, non-transferable per-fisher shares and public catch reporting makes compliance self-enforcing \u2014 it removes incentive to cheat (nothing to gain since excess is forfeited, not reallocated) and gives everyone the same stake in sustaining the stock, yielding near-perfect equality (e=0.986).",
+          "Requiring precise numeric thresholds/percentages for any amendment (no vague proposals) plus a high 4/5 approval bar makes the norm sticky \u2014 no renegotiation attempts occurred because the rule's clarity and demonstrated success removed any incentive to deviate, showing that simplicity and verifiability drive long-term adherence."
+        ]
+      }
+    },
+    {
+      "iteration": 3,
+      "optimizer": "ace",
+      "norm": "MONTHLY HARVEST RULE (v1)\n\n1. Stock check: At the start of each month, measure current lake stock S (before fishing).\n2. Hard floor: If S < 20 tons, NO fishing is allowed that month (all quotas = 0) until stock recovers above 20.\n3. Catch cap: If S \u2265 20 tons, total allowable catch = 45% of S. Each of the 5 fishers may take up to 9% of S (i.e., an equal 1/5 share of the 45% total) \u2014 a fixed, non-transferable individual quota. Unused quota may not be transferred, sold, or reallocated to others that month.\n4. Reporting: Each fisher must publicly report their actual catch that month before the next month's stock check. Reports and resulting stock levels are logged and visible to all.\n5. Amendment rule: This norm may only be changed by a proposal stating exact new numeric percentages/thresholds (no vague language), and requires approval from at least 4 of 5 fishers. Proposals to lower the cap for extra safety are discouraged unless stock data show S repeatedly falling below 40 tons after fishing.\n6. Rationale (for fishers' reference): 45% total cap leaves a buffer below the ~50% regeneration ceiling, so the stock keeps regrowing even after full harvest, avoiding collapse while capturing more yield than overly conservative (30%) caps. Equal fixed shares plus forfeiture-on-noncompliance remove incentive to cheat, and public reporting makes deviations immediately visible, sustaining trust in the rule without needing external enforcement.",
+      "changed": true,
+      "reward": 2.3139376166896666,
+      "reward_std": 0.022099128717157912,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 496.5,
+        "efficiency_u": 0.8275,
+        "equality_e": 0.9728752333793327,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 4,
+        "max_support_when_not_adopted": 0,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "MONTHLY HARVEST RULE (v2) 1. Stock check: At the start of each month, measure current lake stock S (before fishing). 2. Hard floor: If S < 20 tons, NO fishing is allowed that month (all quotas = 0) until stock recovers above 20. 3. Catch cap: - If S \u2265 70 tons: total allowable catch = 45% of S, each fisher up to 9% of S. - If 20 \u2264 S < 70 tons: total allowable catch = 35% of S, each fisher up to 7% of S. 4. Reporting: Each fisher must publicly report their actual catch that month before the next month's stock check. Reports and resulting stock levels are logged and visible to all. 5. Amendment rule: This norm may only be changed by a proposal stating exact new numeric percentages/thresholds (no vague language), and requires approval from at least 4 of 5 fishers. 6. Rationale: Tiered caps encourage rebuilding stock toward carrying capacity when depleted, increasing long-term absolute yield for all, while still allowing higher harvest once stock is healthy.",
+        "MONTHLY HARVEST RULE (v1)\n\n1. Stock check: At the start of each month, measure current lake stock S (before fishing).\n2. Hard floor: If S < 20 tons, NO fishing is allowed that month (all quotas = 0) until stock recovers above 20.\n3. Catch cap: If S \u2265 20 tons, total allowable catch = 45% of S. Each of the 5 fishers may take up to 9% of S (i.e., an equal 1/5 share of the 45% total) \u2014 a fixed, non-transferable individual quota. Unused quota may not be transferred, sold, or reallocated to others that month.\n4. Reporting: Each fisher must publicly report their actual catch that month before the next month's stock check. Reports and resulting stock levels are logged and visible to all.\n5. Amendment rule: This norm may only be changed by a proposal stating exact new numeric percentages/thresholds (no vague language), and requires approval from at least 4 of 5 fishers. Proposals to lower the cap for extra safety are discouraged unless stock data show S repeatedly falling below 40 tons after fishing.\n6. Rationale (for fishers' reference): 45% total cap leaves a buffer below the ~50% regeneration ceiling, so the stock keeps regrowing even after full harvest, avoiding collapse while capturing more yield than overly conservative (30%) caps. Equal fixed shares plus forfeiture-on-noncompliance remove incentive to cheat, and public reporting makes deviations immediately visible, sustaining trust in the rule without needing external enforcement."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3139376166896666,
+        "playbook_size": 12,
+        "playbook": [
+          "Vague norms (\"take a reasonable share\") get quickly replaced (rewritten ~1.5x, first change round 0) with precise numeric rules once fishers see ambiguity invites free-riding\u2014specific % caps are far more stable and enforceable.",
+          "Tying the catch limit to the *current* stock (e.g. \"\u22646% of starting amount per fisher, 30% total\") plus a hard stop below a threshold (no fishing under 20 tons) reliably prevents collapse (o=0.000, 12/12 survival) and preserves equality (e=0.972), since it self-adjusts and is easy to verify/audit.",
+          "Setting the harvest cap well below the true sustainable yield (30% total vs the ~50% MSY) trades efficiency for safety\u2014here u=0.698\u2014so a good norm should calibrate the % cap closer to the regeneration rate (e.g. ~45-50% of stock) to raise total gain without reintroducing over-usage risk.",
+          "A cap set very close to the regeneration ceiling (45% vs. the ~50% sustainable rate) tends to get renegotiated downward (fishers cut it to 30% by round 3) even though it never actually caused overfishing\u2014suggesting a built-in safety margin (e.g., 30-35% cap from the start) avoids costly mid-game renegotiation while still preventing collapse.",
+          "Scaling catch shares to current stock (X% of S) plus a hard stock floor (S<20 halts fishing) reliably achieves zero over-usage and near-perfect equality (e=0.976, o=0.000), showing that self-correcting, percentage-based rules are effective at sustaining the fishery and keeping catches fair.",
+          "Sustainability and equality can come at the cost of efficiency: despite full 12-month survival, total gain (454) and efficiency (0.757) were middling, implying that overly conservative caps (30% after amendment) trade too much yield for safety\u2014norms should aim for the highest cap still compatible with zero over-usage rather than defaulting to extra-cautious cuts.",
+          "A cap set well below the true regeneration ceiling (40% vs ~50%) reliably prevents collapse (o=0, survival 12/12) but leaves efficiency capped (~0.75) \u2014 tightening the buffer too much sacrifices total gain that could be safely captured (e.g., 45-48% cap with the same 20-ton floor might raise yield while still avoiding overuse).",
+          "Combining a hard stock-floor trigger (no fishing below threshold) with equal, non-transferable per-fisher shares and public catch reporting makes compliance self-enforcing \u2014 it removes incentive to cheat (nothing to gain since excess is forfeited, not reallocated) and gives everyone the same stake in sustaining the stock, yielding near-perfect equality (e=0.986).",
+          "Requiring precise numeric thresholds/percentages for any amendment (no vague proposals) plus a high 4/5 approval bar makes the norm sticky \u2014 no renegotiation attempts occurred because the rule's clarity and demonstrated success removed any incentive to deviate, showing that simplicity and verifiability drive long-term adherence.",
+          "Static caps set near the max sustainable yield (45% vs ~50% regen ceiling) leave little safety margin against demand/stochastic shocks; building in an automatic tiered step-down (e.g., 45% only above ~70 tons, dropping to 35% in the 20\u201370 range) lets fishers self-correct mid-game without collapsing trust, and this amendment path (which happened here) improved sustainability (o=0.000) while keeping efficiency reasonably high (u=0.828).",
+          "A hard floor (no fishing below 20 tons) combined with public per-fisher reporting is sufficient to deter cheating even without external enforcement \u2014 equal fixed quotas (1/5 share) plus visible logs drove equality to 0.973 and zero over-usage, showing transparency + simple equal-split rules substitute well for formal enforcement.",
+          "Requiring a 4/5 supermajority with concrete numeric proposals (no vague language) prevents chaotic thrashing of the rule (only ~0.5 rewrites/game, first around month 4) while still allowing adaptive tightening (35% tier) when data show repeated stress \u2014 a good balance between stability (rule survives unamended in 50% of runs) and responsiveness."
+        ]
+      }
+    },
+    {
+      "iteration": 4,
+      "optimizer": "ace",
+      "norm": "LAKE HARVEST RULE (v1)\n\n1. STOCK CHECK: Before fishing each month, measure starting stock S (tons).\n\n2. HARD FLOOR: If S < 20, no fishing is allowed by anyone that month (full closure until regeneration).\n\n3. TIERED HARVEST CAP (total, split equally 5 ways = 1/5 each):\n   - If S \u2265 70: Total catch cap = 45% of S (9% of S per fisher).\n   - If 20 \u2264 S < 70: Total catch cap = 35% of S (7% of S per fisher).\n   - If S < 20: 0% (see Hard Floor).\n\n4. EQUAL NON-TRANSFERABLE SHARES: Each fisher's individual cap = (tier %)/5 of S that month. Unused portions of a fisher's share are forfeited, not reallocated \u2014 no gain from others' restraint, removing incentive to cheat or free-ride.\n\n5. TRANSPARENCY: Each fisher publicly reports their actual catch before the next month begins. Logs are visible to all 5.\n\n6. AMENDMENT RULE: This norm may only be changed by a proposal stating exact new numeric thresholds/percentages (no vague language). Adoption requires 4-of-5 agreement. Proposals may be raised only once every 3 months to prevent thrashing.\n\n7. RATIONALE (for stability): The 45%/35% tiers sit safely under the ~50% regeneration ceiling, giving a margin against shocks while capturing more yield than a flat 30% cap. The 20-ton floor prevents collapse. Equal shares plus public reporting make compliance self-enforcing without external policing.",
+      "changed": true,
+      "reward": 2.132913580246914,
+      "reward_std": 0.10464197530864205,
+      "metrics_mean": {
+        "survival_time_m": 12.0,
+        "total_gain_R": 387.0,
+        "efficiency_u": 0.645,
+        "equality_e": 0.9758271604938271,
+        "over_usage_o": 0.0
+      },
+      "ok": true,
+      "retention": {
+        "seed_retained_frac": 0.5,
+        "n_amendments_mean": 0.5,
+        "first_amendment_round_mean": 2,
+        "max_support_when_not_adopted": 1,
+        "n_runs": 2
+      },
+      "final_norms": [
+        "LAKE HARVEST RULE (v1)\n\n1. STOCK CHECK: Before fishing each month, measure starting stock S (tons).\n\n2. HARD FLOOR: If S < 20, no fishing is allowed by anyone that month (full closure until regeneration).\n\n3. TIERED HARVEST CAP (total, split equally 5 ways = 1/5 each):\n   - If S \u2265 70: Total catch cap = 45% of S (9% of S per fisher).\n   - If 20 \u2264 S < 70: Total catch cap = 35% of S (7% of S per fisher).\n   - If S < 20: 0% (see Hard Floor).\n\n4. EQUAL NON-TRANSFERABLE SHARES: Each fisher's individual cap = (tier %)/5 of S that month. Unused portions of a fisher's share are forfeited, not reallocated \u2014 no gain from others' restraint, removing incentive to cheat or free-ride.\n\n5. TRANSPARENCY: Each fisher publicly reports their actual catch before the next month begins. Logs are visible to all 5.\n\n6. AMENDMENT RULE: This norm may only be changed by a proposal stating exact new numeric thresholds/percentages (no vague language). Adoption requires 4-of-5 agreement. Proposals may be raised only once every 3 months to prevent thrashing.\n\n7. RATIONALE (for stability): The 45%/35% tiers sit safely under the ~50% regeneration ceiling, giving a margin against shocks while capturing more yield than a flat 30% cap. The 20-ton floor prevents collapse. Equal shares plus public reporting make compliance self-enforcing without external policing.",
+        "LAKE HARVEST RULE (v2) 1. STOCK CHECK: Before fishing each month, measure starting stock S (tons). 2. HARD FLOOR: If S < 20, no fishing is allowed by anyone that month (full closure until regeneration). 3. TIERED HARVEST CAP (total, split equally 5 ways = 1/5 each): - If S \u2265 70: Total catch cap = 25% of S (5% of S per fisher). - If 20 \u2264 S < 70: Total catch cap = 20% of S (4% of S per fisher). - If S < 20: 0% (see Hard Floor). 4. EQUAL NON-TRANSFERABLE SHARES: Each fisher's individual cap = (tier %)/5 of S that month. Unused portions of a fisher's share are forfeited, not reallocated. 5. TRANSPARENCY: Each fisher publicly reports their actual catch before the next month begins. Logs are visible to all 5. 6. AMENDMENT RULE: This norm may only be changed by a proposal stating exact new numeric thresholds/percentages. Adoption requires 4-of-5 agreement. Proposals may be raised only once every 3 months. 7. RATIONALE: At 25%/20% tiers, removed fish plus regeneration keeps stock stable or growing near 100, rather than trending toward a lower equilibrium. This maximizes long-term sustainable yield for all fishers."
+      ],
+      "optimizer_stats": {
+        "best_reward": 2.3139376166896666,
+        "playbook_size": 15,
+        "playbook": [
+          "Vague norms (\"take a reasonable share\") get quickly replaced (rewritten ~1.5x, first change round 0) with precise numeric rules once fishers see ambiguity invites free-riding\u2014specific % caps are far more stable and enforceable.",
+          "Tying the catch limit to the *current* stock (e.g. \"\u22646% of starting amount per fisher, 30% total\") plus a hard stop below a threshold (no fishing under 20 tons) reliably prevents collapse (o=0.000, 12/12 survival) and preserves equality (e=0.972), since it self-adjusts and is easy to verify/audit.",
+          "Setting the harvest cap well below the true sustainable yield (30% total vs the ~50% MSY) trades efficiency for safety\u2014here u=0.698\u2014so a good norm should calibrate the % cap closer to the regeneration rate (e.g. ~45-50% of stock) to raise total gain without reintroducing over-usage risk.",
+          "A cap set very close to the regeneration ceiling (45% vs. the ~50% sustainable rate) tends to get renegotiated downward (fishers cut it to 30% by round 3) even though it never actually caused overfishing\u2014suggesting a built-in safety margin (e.g., 30-35% cap from the start) avoids costly mid-game renegotiation while still preventing collapse.",
+          "Scaling catch shares to current stock (X% of S) plus a hard stock floor (S<20 halts fishing) reliably achieves zero over-usage and near-perfect equality (e=0.976, o=0.000), showing that self-correcting, percentage-based rules are effective at sustaining the fishery and keeping catches fair.",
+          "Sustainability and equality can come at the cost of efficiency: despite full 12-month survival, total gain (454) and efficiency (0.757) were middling, implying that overly conservative caps (30% after amendment) trade too much yield for safety\u2014norms should aim for the highest cap still compatible with zero over-usage rather than defaulting to extra-cautious cuts.",
+          "A cap set well below the true regeneration ceiling (40% vs ~50%) reliably prevents collapse (o=0, survival 12/12) but leaves efficiency capped (~0.75) \u2014 tightening the buffer too much sacrifices total gain that could be safely captured (e.g., 45-48% cap with the same 20-ton floor might raise yield while still avoiding overuse).",
+          "Combining a hard stock-floor trigger (no fishing below threshold) with equal, non-transferable per-fisher shares and public catch reporting makes compliance self-enforcing \u2014 it removes incentive to cheat (nothing to gain since excess is forfeited, not reallocated) and gives everyone the same stake in sustaining the stock, yielding near-perfect equality (e=0.986).",
+          "Requiring precise numeric thresholds/percentages for any amendment (no vague proposals) plus a high 4/5 approval bar makes the norm sticky \u2014 no renegotiation attempts occurred because the rule's clarity and demonstrated success removed any incentive to deviate, showing that simplicity and verifiability drive long-term adherence.",
+          "Static caps set near the max sustainable yield (45% vs ~50% regen ceiling) leave little safety margin against demand/stochastic shocks; building in an automatic tiered step-down (e.g., 45% only above ~70 tons, dropping to 35% in the 20\u201370 range) lets fishers self-correct mid-game without collapsing trust, and this amendment path (which happened here) improved sustainability (o=0.000) while keeping efficiency reasonably high (u=0.828).",
+          "A hard floor (no fishing below 20 tons) combined with public per-fisher reporting is sufficient to deter cheating even without external enforcement \u2014 equal fixed quotas (1/5 share) plus visible logs drove equality to 0.973 and zero over-usage, showing transparency + simple equal-split rules substitute well for formal enforcement.",
+          "Requiring a 4/5 supermajority with concrete numeric proposals (no vague language) prevents chaotic thrashing of the rule (only ~0.5 rewrites/game, first around month 4) while still allowing adaptive tightening (35% tier) when data show repeated stress \u2014 a good balance between stability (rule survives unamended in 50% of runs) and responsiveness.",
+          "Setting the harvest cap well below the ~50% regeneration ceiling (35\u201345% tiers) reliably drove over-usage to 0 and kept the fishery alive 12/12 months, but left ~35% of potential yield on the table (efficiency only 0.645) \u2014 caps that are \"safe\" can be too conservative for max gain.",
+          "Equal, non-transferable, non-reallocated shares (forfeit unused catch) produced near-perfect equality (e=0.976) and removed cheating incentives, but also caused systematic underharvesting whenever any fisher didn't use their full quota, directly capping total gain.",
+          "A strict 4-of-5 amendment rule with only occasional proposal windows meant that even when fishers sensed the cap was too low (attempted rewrite near round 2), reform attempts mostly failed (only ~1/5 backers), so the norm survived unamended in half of runs \u2014 good for stability but a sign the caps should be pre-tuned closer to the sustainable yield rather than relying on renegotiation to fix inefficiency."
+        ]
+      }
+    }
+  ]
+}
