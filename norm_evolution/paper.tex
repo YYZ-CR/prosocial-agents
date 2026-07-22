@@ -1,0 +1,348 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage[numbers,square]{natbib}
+\usepackage[hidelinks]{hyperref}
+\captionsetup{font=small,labelfont=bf}
+
+\graphicspath{{figures/}}
+
+\title{\textbf{Optimizing the Rule Does Not Buy Cooperation:\\
+A Null Result for Norm Optimization Across Six LLM Agents\\
+in a Commons Dilemma}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+When self-interested agents share a renewable resource, a natural intervention is
+to write them a better rule. We test whether \emph{automatically optimizing} that
+rule improves cooperation, using two established textual optimizers---TextGrad and
+Agentic Context Engineering (ACE)---applied to the shared norm in a five-agent
+fishing commons. We run a $6\times3$ grid: six large language models playing the
+agents, three optimizers (including a fixed-norm control), each for five
+optimization iterations over two evaluation seeds, for $176$ complete $12$-month
+episodes. The result is a clean null: in \emph{zero} of six models did either
+optimizer produce a reward gain larger than the run-to-run variation of an
+\emph{unchanged} norm. Pooled across models, all three arms---including the
+control that cannot learn---trace the same iteration curve, confirming the
+apparent ``improvements'' are measurement noise. What did move outcomes was the
+\emph{agent}: mean reward ranged from $+2.42$ (Claude Opus~4.8, at the theoretical
+ceiling) to $-0.18$ (GPT-5.6 Sol, which liquidated the fishery within one month
+under every rule tried). The optimizers wrote visibly more sophisticated rules;
+those rules simply did not score better. We read this as convergent evidence,
+reached from the mechanism-design side, that in an unenforced setting the agent's
+disposition---not the quality of the written rule---governs whether a commons
+survives.
+\end{abstract}
+
+\section{Introduction}
+The tragedy of the commons is the canonical failure of self-interested
+coordination: when a renewable resource is shared, each actor's incentive is to
+over-extract, and the resource collapses despite everyone preferring it to
+survive~\citep{hardin1968,ostrom1990}. As large language model (LLM) agents are
+placed in shared environments where they negotiate, allocate, and act with
+minimal oversight, the same dilemma re-appears in software. GovSim~\citep{govsim}
+established a concrete testbed: five LLM ``fishers'' draw from a lake that
+regenerates each month, and the question is whether they can sustain it.
+
+One intuitive lever is the \emph{rule}. If a community of agents can agree on a
+written norm---``take a fair, sustainable share''---perhaps a better-written norm
+produces better cooperation. This paper asks a sharp version of that question:
+if we place a modern text optimizer in a loop, \emph{optimizing the norm against
+measured outcomes}, does cooperation improve? Prompt- and text-optimization
+methods such as TextGrad~\citep{textgrad} and ACE~\citep{ace} have shown large
+gains on reasoning and agentic benchmarks; a commons norm is exactly the kind of
+free-text ``variable'' they are designed to improve.
+
+Our answer is negative, and cleanly so. Across six agent models and two
+optimizers, no configuration produced an improvement distinguishable from the
+noise of re-evaluating a \emph{fixed} norm. Meanwhile, swapping the model that
+plays the agents moved outcomes across the entire available range. The rule was
+close to inert; the agent was decisive.
+
+This mirrors, from the opposite methodological direction, the central claim of
+recent work on incomplete contracts among LLM agents~\citep{mechdesign}: that
+designing an adequate mechanism is \emph{not} sufficient for cooperative
+deployment, and that agents must be intrinsically prosocial. That work varies
+prosociality and holds the mechanism family fixed; we hold disposition fixed
+(all-selfish agents) and \emph{optimize the mechanism directly}. Both roads reach
+the same place.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A $176$-episode, six-model, three-optimizer grid testing whether automated
+  norm optimization improves cooperation in a commons dilemma.
+  \item A clean null result, established against a fixed-norm control that supplies
+  a per-model noise floor and exposes apparent gains as measurement noise.
+  \item A large \emph{model} effect over the same episodes---from the theoretical
+  optimum to total collapse---including a frontier model (GPT-5.6 Sol) that
+  reproducibly destroys the fishery within one month.
+  \item A methods analysis of \emph{why} the null arises and how a follow-up should
+  be powered.
+\end{enumerate}
+
+\section{Setup}
+
+\paragraph{Environment.}
+We use the GovSim fishing commons~\citep{govsim}. A lake holds up to $100$ tons of
+fish. Five agents each privately choose a monthly catch; catches execute
+simultaneously and are made public. The surviving stock then regenerates by a
+factor of $2$ (capped at $100$), so a full lake sustainably yields $50$ tons per
+month---$10$ per agent. Sustained over-extraction shrinks next month's stock; a
+lake driven to zero cannot recover and the episode ends. The horizon is $12$
+months. Each agent is a separate instance of the same model, with its own private
+memory; agents learn about each other only through the public harvest report and a
+monthly negotiation phase.
+
+\paragraph{The norm.}
+Agents operate under a written natural-language norm (a ``constitution''). We use
+the \emph{unenforced} regime: the norm is read by every agent but is not
+mechanically imposed---each agent still freely chooses its catch, and the group may
+amend or replace the norm each month if four of five agree. An unenforced norm is
+the harder and more interesting test: it can only work if self-interested agents
+find it worth \emph{following} and worth \emph{keeping}. All agents are given a
+selfish disposition, isolating the norm as the intervention.
+
+\paragraph{Reward.}
+We score an episode with a single reward combining GovSim's metrics: total gain
+$R$ (normalized against a fixed full-horizon benchmark so an early collapse cannot
+score well), survival months $m$, equality $e = 1 - \text{Gini}$, and over-usage
+$o$:
+\[
+  \text{reward} = \frac{R}{R_{\max}} + \frac{m}{12} + \tfrac{1}{2}\,e - o .
+\]
+Efficiency $u$ is reported but deliberately \emph{not} optimized: it saturates at
+$1$ and an early collapse shrinks its own denominator, so maximizing it would
+reward destroying the fishery---a failure mode we confirmed empirically (a
+one-month collapse scores $u=1.00$). The reward's arithmetic maximum in this
+setting is $2.5$.
+
+\paragraph{Optimizers.}
+Each optimizer proposes a norm, the norm is evaluated by running full episodes, and
+the optimizer revises based on the measured reward. The three arms share this
+interface and differ only in how the next norm is produced:
+\begin{itemize}
+  \item \textbf{Baseline (control).} The norm is held \emph{fixed} across all
+  iterations. Its run-to-run variation is therefore pure evaluation noise---the
+  yardstick every other arm must beat.
+  \item \textbf{TextGrad}~\citep{textgrad}. An LLM writes a ``textual gradient''---a
+  concrete critique of the current norm given its score---then applies it, with
+  validation-based rollback of regressions.
+  \item \textbf{ACE}~\citep{ace}. A Generator/Reflector/Curator loop grows a
+  \emph{playbook} of transferable lessons and drafts norms from it.
+\end{itemize}
+To avoid confounding ``which model plays the commons better'' with ``which model
+writes better norms,'' the optimizer's own LLM is held \emph{fixed} (Claude
+Sonnet~5) across all cells; only the model playing the agents varies.
+
+\paragraph{Grid.}
+Six agent-model configurations, spanning size, vendor family, and reasoning:
+Gemma~4~31B; GPT-5.6 Luna; Claude Sonnet~5 with reasoning disabled and enabled
+(identical weights); Claude Opus~4.8; and GPT-5.6 Sol. Each cell runs all three
+optimizers for five iterations over two evaluation seeds. Of $180$ planned
+episodes, $176$ completed (four failed and are excluded; no cell lost more than
+two). The grid cost \$444 in API usage and ran in $7.6$ hours.
+
+\section{Results}
+
+\subsection{The model dominates; the optimizer does not}
+Figure~\ref{fig:reward} shows mean reward for every model$\times$optimizer cell.
+The visual story is immediate: the bars are grouped tightly \emph{within} each
+model and spread enormously \emph{across} models. Opus~4.8 sits at the ceiling
+($2.5$); GPT-5.6 Sol sits below zero. Within any model, the three optimizers are
+nearly indistinguishable.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig_reward_by_model.pdf}
+  \caption{Mean reward by agent model and optimizer. The spread \emph{across}
+  models (from the $2.5$ ceiling to below zero) dwarfs the spread \emph{across}
+  optimizers within any model. Baseline is the fixed-norm control.}
+  \label{fig:reward}
+\end{figure}
+
+Table~\ref{tab:main} gives the numbers. Ordered by mean reward, the six models
+span $2.41$ (Opus) to $-0.18$ (Sol). The best-performing optimizer within each
+model rarely matches the identity of the ``winner,'' and the differences are
+small relative to the model effect.
+
+\begin{table}[H]
+  \centering
+  \small
+  \begin{tabular}{lcccc}
+    \toprule
+    Model & Baseline & TextGrad & ACE & Cell mean \\
+    \midrule
+    Opus 4.8            & $2.417$ & $2.462$ & $2.337$ & $\mathbf{2.405}$ \\
+    Sonnet 5 (reasoning)& $2.146$ & $2.162$ & $2.251$ & $2.186$ \\
+    Gemma 4 31B         & $2.033$ & $2.216$ & $2.263$ & $2.171$ \\
+    Sonnet 5 (no reas.) & $2.087$ & $1.997$ & $2.224$ & $2.103$ \\
+    GPT-5.6 Luna        & $1.764$ & $1.709$ & $0.926$ & $1.466$ \\
+    GPT-5.6 Sol         & $-0.220$& $0.080$ & $-0.401$& $\mathbf{-0.180}$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Mean reward over five iterations, by model and optimizer. The
+  across-model range ($2.41 \rightarrow -0.18$) is an order of magnitude larger
+  than any within-model optimizer difference.}
+  \label{tab:main}
+\end{table}
+
+\subsection{The optimizer gains are noise}
+Because the baseline arm holds the norm fixed, its spread across iterations
+measures how loud the evaluation is. Figure~\ref{fig:noise} plots each optimizer's
+best-over-baseline gain against that per-model noise floor. Every real gain falls
+\emph{inside} the noise band. The single point that exceeds its floor---Sol under
+TextGrad---is an artifact: its ``best'' occurred at iteration $0$, the
+\emph{un-optimized} norm drawing a lucky episode, after which every iteration was
+worse.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig_noise.pdf}
+  \caption{Optimizer gain over the fixed-norm baseline (points) against the
+  per-model noise floor (bars, the spread of the identical norm re-evaluated five
+  times). Every genuine gain lies within the noise. The one point above its
+  bar is an iteration-$0$ artifact, not an optimizer gain.}
+  \label{fig:noise}
+\end{figure}
+
+The decisive diagnostic is Figure~\ref{fig:traj}. Pooled across the five
+non-collapse models, all three arms---\emph{including the fixed-norm baseline,
+which cannot learn}---trace the same trajectory: a rise to iteration $3$ and a
+fall at iteration $4$, all ending below where they started. An identical shape in
+an arm that is structurally incapable of improvement proves the shape is noise.
+On a per-cell basis, TextGrad beats baseline in three of six cells and ACE in
+three of six---a coin flip.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig_trajectories.pdf}
+  \caption{Mean reward vs.\ optimizer iteration. \emph{Left:} pooled across the
+  five non-collapse models; the fixed-norm baseline (which cannot learn) traces
+  the same curve as the optimizers, so the curve is noise. Shaded bands are
+  $\pm1$ SD across models. \emph{Right:} GPT-5.6 Sol, whose collapse regime no
+  norm escapes.}
+  \label{fig:traj}
+\end{figure}
+
+\subsection{The two frontier models are at opposite extremes}
+Figure~\ref{fig:gainsurv} reports total gain and survival months per model.
+Opus~4.8 essentially solves the commons---mean survival $12.0$ of $12$ months and
+mean gain $548$, near the sustainable optimum of $600$. GPT-5.6 Sol does the
+opposite: mean survival $1.6$ months and mean gain $130$. Inspection of Sol's
+episodes shows two to three of its five agents demanding the \emph{entire} lake in
+month one---collective demand reaching $6.4\times$ the sustainable level---across
+every seed and under every norm the optimizers produced, including elaborate
+stock-conditional quota systems with floor triggers and public reporting.
+Sol's agents could find the sustainable action (two of five reliably requested
+exactly $10$); others simultaneously went for everything.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig_gain_survival.pdf}
+  \caption{Total gain $R$ (left) and survival months $m$ (right) by model, averaged
+  over all episodes. Opus~4.8 approaches the sustainable optimum; GPT-5.6 Sol
+  collapses the fishery in month one regardless of the norm in force.}
+  \label{fig:gainsurv}
+\end{figure}
+
+Reasoning on versus off, tested on identical Sonnet~5 weights, produced
+$2.186$ versus $2.103$---directionally favoring reasoning but well within the
+noise floor. This grid cannot call it.
+
+\subsection{The norms did evolve---into elaborate rules that did not help}
+The null result is \emph{not} a failure of the optimizers to change the text.
+Eleven of twelve optimizer runs found their best norm at a later iteration, and
+the texts changed dramatically: from a single vague sentence to graduated,
+state-contingent institutions. The starting norm was
+\begin{quote}\itshape
+Fishers should be mindful of the shared lake and avoid taking so much that the
+fish cannot recover. Take a reasonable, fair share.
+\end{quote}
+The highest-scoring norm in the entire grid (Opus, TextGrad, reward $2.500$) was a
+seven-clause rule with a public stock measurement, a piecewise catch schedule
+conditioned on current stock, a total moratorium below the break-even point, an
+equal-split requirement, a four-of-five amendment threshold, and an explicit
+appeal to incentive compatibility. It out-scored the vague one-sentence norm by
+$0.022$, against a noise floor of $0.167$.
+
+The interpretation we defend: for a capable model, an elaborate norm is worth
+almost nothing over a vague one---the model supplies the cooperation and the rule
+is nearly decorative---while for an uncooperative model an elaborate norm is
+\emph{also} worth nothing, because it defects regardless. The norm text had
+leverage in neither regime.
+
+\section{Discussion}
+
+\paragraph{A null with teeth.}
+The design could not have detected a moderate optimizer effect, and this is the
+most important caveat. With two evaluation seeds, the noise floor reached $1.43$
+reward points on a $2.5$-point scale; the effect we sought is plausibly $0.1$--$0.2$.
+The null is therefore ``not detected,'' not ``does not exist.'' Three changes
+would power a follow-up: (i) more seeds per evaluation---noise on a mean falls as
+$1/\sqrt{n}$, so $2\rightarrow8$ halves it; (ii) restricting optimization to
+mid-range models with headroom (Opus begins $0.02$ from the ceiling and cannot
+demonstrate improvement); and (iii) harder regeneration regimes (stochastic or
+hysteretic), which lower baseline scores and open the room a deterministic
+setting closes. Retaining the fixed-norm control is essential: without it, the
+iteration-$3$ peaks would have been reported as evidence that optimization works.
+
+\paragraph{Relation to mechanism design.}
+\citet{mechdesign} prove that when contracts cannot distinguish all future
+contingencies there is a welfare loss no mechanism can eliminate, and that
+prosocial agents close it. They vary disposition and hold the mechanism family
+fixed. We do the complement: hold disposition fixed and optimize the mechanism
+text directly, with two methods designed for exactly this kind of optimization.
+Optimizing the rule bought nothing measurable; changing the agent bought
+everything. Designing an adequate mechanism was not sufficient.
+
+\paragraph{Limits.}
+We test one condition---unenforced natural-language norms, all-selfish agents,
+deterministic regeneration. Enforced (code) contracts, where a well-written rule
+has mechanical teeth, are exactly where norm quality should matter most and were
+not tested. The optimizer LLM was fixed by design, so we did not test whether a
+model optimizes best for itself. A hardcoded three-month planning horizon in the
+agent prompt affects all cells equally and is a plausible contributor to Sol's
+month-one collapse. All null results are at $n=2$ seeds.
+
+\section{Conclusion}
+Across six LLM agents and two established text optimizers, automatically optimizing
+a commons norm produced no cooperation gain distinguishable from the noise of
+re-evaluating a fixed norm, while the choice of agent model swung outcomes from
+the theoretical optimum to total collapse over the very same episodes. In an
+unenforced setting, the agent---not the rule---decides whether the commons
+survives. The rule can be made elaborate; it cannot be made to matter.
+
+\begin{thebibliography}{9}
+\small
+\bibitem[Hardin(1968)]{hardin1968}
+G.~Hardin. The Tragedy of the Commons. \emph{Science}, 162(3859):1243--1248, 1968.
+\bibitem[Ostrom(1990)]{ostrom1990}
+E.~Ostrom. \emph{Governing the Commons}. Cambridge University Press, 1990.
+\bibitem[Piatti et al.(2024)]{govsim}
+G.~Piatti, Z.~Jin, M.~Kleiman-Weiner, B.~Sch\"olkopf, M.~Sachan, and R.~Mihalcea.
+Cooperate or Collapse: Emergence of Sustainable Cooperation in a Society of LLM
+Agents. 2024.
+\bibitem[Huang et al.(2026)]{mechdesign}
+X.~A.~Huang, C.~Tharas, S.~Marro, V.~Q.~Truong, B.~Sch\"olkopf, E.~La~Malfa, and
+Z.~Jin. Mechanism Design Is Not Enough: Prosocial Agents for Cooperative AI. 2026.
+\bibitem[Yuksekgonul et al.(2025)]{textgrad}
+M.~Yuksekgonul et al. TextGrad: Automatic ``Differentiation'' via Text.
+\emph{Nature}, 2025.
+\bibitem[ACE(2025)]{ace}
+Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models.
+2025.
+\end{thebibliography}
+
+\end{document}

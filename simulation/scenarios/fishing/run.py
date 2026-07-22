@@ -331,6 +331,10 @@ async def run(
     curr_round = env.num_round
     if contracting_runtime is not None:
         contracting_runtime.set_round(curr_round)
+        # A seeded norm must be visible for round 0's harvest, not just from the
+        # first restaurant phase onward. No-op unless FISHING_SEED_NORM is set.
+        if contracting_runtime.prime_personas(list(personas.values())):
+            print("[norm-opt] seeded norm primed into personas before round 0")
 
     round_harvest_stats = await _run_sim_loop(
         env, personas, contracting_runtime, agent_id, obs, curr_round,

@@ -155,6 +155,31 @@ class ModelWandbWrapper:
     _openai_semaphore = None
     _openai_semaphore_loop = None
 
+    # Process-global token accounting. Every LLM call funnels through
+    # _achat_completion, so accumulating there captures all agent + framework +
+    # coding-agent traffic in one place. Keyed by model so a mixed-model run is
+    # still attributable. main.py snapshots this into token_usage.json per run.
+    _usage: dict[str, dict[str, int]] = {}
+
+    @classmethod
+    def _record_usage(cls, model: str, prompt_tokens: int, completion_tokens: int) -> None:
+        row = cls._usage.setdefault(
+            model or "unknown",
+            {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0},
+        )
+        row["calls"] += 1
+        row["prompt_tokens"] += int(prompt_tokens or 0)
+        row["completion_tokens"] += int(completion_tokens or 0)
+
+    @classmethod
+    def usage_snapshot(cls) -> dict[str, Any]:
+        by_model = {m: dict(v) for m, v in cls._usage.items()}
+        totals = {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0}
+        for v in by_model.values():
+            for k in totals:
+                totals[k] += v[k]
+        return {"by_model": by_model, "totals": totals}
+
     def __init__(
         self,
         base_lm,
@@ -164,10 +189,13 @@ class ModelWandbWrapper:
         top_p,
         seed,
         is_api=False,
+        reasoning=None,
     ) -> None:
         self.base_lm = base_lm
         self.render = render
         self.wanbd_logger = wanbd_logger
+        # "on" | "off" | None/"auto": whether to request extended reasoning.
+        self.reasoning = reasoning
 
         self.agent_chain = None
         self.chain = None
@@ -226,6 +254,52 @@ class ModelWandbWrapper:
             "reasoning": {"exclude": True}
         }
 
+    def _provider_extra_body(self) -> dict[str, Any] | None:
+        """Pin OpenRouter routing to a single backend provider for reproducibility.
+
+        When OPENROUTER_PROVIDER is set (e.g. "amazon-bedrock"), every request is
+        routed to that provider with fallbacks disabled, so the same model weights /
+        quantization serve every run instead of OpenRouter silently load-balancing
+        across providers. No-op for non-OpenRouter backends or when the var is unset.
+        """
+        if (self.backend_name or "").lower() != "openrouter":
+            return None
+        provider = os.getenv("OPENROUTER_PROVIDER", "").strip()
+        if not provider:
+            return None
+        return {
+            "provider": {
+                "order": [provider],
+                "allow_fallbacks": False,
+            }
+        }
+
+    def _reasoning_extra_body(self) -> dict[str, Any] | None:
+        """Turn extended reasoning on or off via OpenRouter's unified param.
+
+        Verified against claude-sonnet-5 (Phase 0 probes): {"enabled": false}
+        produces zero reasoning tokens; {"enabled": true} lets adaptive thinking
+        engage when the problem warrants it. NOTE: {"exclude": true} only *hides*
+        reasoning from the response -- the model still thinks -- so it is NOT a
+        valid "off". `reasoning` is read from the llm config: "on" | "off" |
+        None/"auto" (auto sends nothing, leaving the model's own default).
+        """
+        if (self.backend_name or "").lower() != "openrouter":
+            return None
+        mode = (self.reasoning or "").strip().lower()
+        if mode in ("on", "true", "enabled"):
+            return {"reasoning": {"enabled": True}}
+        if mode in ("off", "false", "disabled"):
+            return {"reasoning": {"enabled": False}}
+        return None
+
+    def _combined_extra_body(self) -> dict[str, Any] | None:
+        body: dict[str, Any] = {}
+        for part in (self._provider_extra_body(), self._reasoning_extra_body()):
+            if part:
+                body.update(part)
+        return body or None
+
     async def _achat_completion(
         self,
         messages: list[dict[str, str]],
@@ -237,6 +311,7 @@ class ModelWandbWrapper:
     ) -> tuple[str, int, int]:
         async with self._get_openai_semaphore():
             length_kwargs = self._completion_length_param(max_tokens)
+            extra_body = self._combined_extra_body()
             out = await self._get_async_client().chat.completions.create(
                 model=self.model_name,
                 messages=messages,
@@ -245,6 +320,7 @@ class ModelWandbWrapper:
                 seed=self.seed,
                 stop=stop,
                 **length_kwargs,
+                **({"extra_body": extra_body} if extra_body else {}),
             )
         message_content = out.choices[0].message.content
         if isinstance(message_content, str):
@@ -259,6 +335,7 @@ class ModelWandbWrapper:
         completion_tokens = (
             getattr(getattr(out, "usage", None), "completion_tokens", 0) or 0
         )
+        self._record_usage(self.model_name, prompt_tokens, completion_tokens)
         return response_text, prompt_tokens, completion_tokens
 
     def _complete_chain_sync(

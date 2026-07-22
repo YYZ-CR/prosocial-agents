@@ -9,6 +9,7 @@ llm:
   temperature: 0.0
   top_p: 1.0
   iter: 0
+  reasoning: null  # on | off | null(=model default). Requires OpenRouter backend.
 
 mix_llm: [] # disable
 debug: false

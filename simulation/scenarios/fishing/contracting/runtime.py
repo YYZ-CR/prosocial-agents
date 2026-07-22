@@ -70,6 +70,13 @@ class ContractingOrchestrator:
     self.framework_identity = PersonaIdentity("framework", "Framework")
     self.coding_identity = PersonaIdentity("coding_agent", "CodingAgent")
     self._contract_history: list[dict[str, Any]] = []
+    # Norm-optimization hooks (see simulation/scenarios/fishing/optimization/).
+    # FISHING_SEED_NORM: install this NL law as the active contract at round 0.
+    # FISHING_FREEZE_NORM=1: skip all renegotiation so the seeded norm is held
+    # fixed for the whole episode -- lets an outer optimizer cleanly attribute the
+    # episode's outcome to exactly one norm, and skips (paid) negotiation calls.
+    self._seed_norm = (os.getenv("FISHING_SEED_NORM") or "").strip() or None
+    self._freeze_norm = os.getenv("FISHING_FREEZE_NORM", "0") == "1"
     self._manager = self._build_manager()
     self._coding_agent = CodingAgent(
         coding_model,
@@ -132,6 +139,9 @@ class ContractingOrchestrator:
       sustainability_threshold: int,
       agent_resource_num: dict[str, int],
   ) -> tuple[list[tuple[PersonaIdentity, str]], str, int | None, list[str]]:
+    if self._freeze_norm:
+      return self._frozen_negotiation(personas)
+
     named_resource_num = self._normalize_agent_resource_num(personas, agent_resource_num)
     existing_contract = self._manager.get_contract()
     active_law_text = ""
@@ -311,6 +321,65 @@ class ContractingOrchestrator:
                 else None
             ),
         },
+    )
+    return transcript, summary, resource_limit, html_interactions
+
+  def prime_personas(self, personas: list[PersonaAgent]) -> bool:
+    """Push a seeded norm into the personas BEFORE round 0's harvest decisions.
+
+    Without this, a seeded/frozen norm only reaches agents via
+    ``_sync_persona_contract_state`` during the restaurant phase -- i.e. AFTER they
+    have already fished in round 0 -- so round 0 is effectively norm-free anarchy.
+    That is correct for a normal run (nothing is negotiated yet at round 0), but it
+    silently invalidates seeded-norm evaluation, where the whole point is that the
+    norm governs every round. Only primes when a norm was explicitly seeded.
+    """
+    if self._seed_norm is None:
+      return False
+    contract = self._manager.get_contract()
+    if contract is None:
+      return False
+    active_nl = str(contract.metadata.get("nl_contract", contract.content))
+    self._sync_persona_contract_state(personas, active_nl)
+    self._log("norm_primed", {"round": self.current_round, "nl_contract": active_nl})
+    return True
+
+  def _frozen_negotiation(
+      self,
+      personas: list[PersonaAgent],
+  ) -> tuple[list[tuple[PersonaIdentity, str]], str, int | None, list[str]]:
+    """Held-fixed norm: no renegotiation. Keep the active (seeded) law in force.
+
+    Returns the same 4-tuple as ``aconduct_negotiation`` so the env loop is
+    unchanged, but makes zero negotiation LLM calls.
+    """
+    active = self._manager.get_contract()
+    active_nl = ""
+    if active is not None:
+      active_nl = str(active.metadata.get("nl_contract", active.content))
+    self._sync_persona_contract_state(personas, active_nl)
+    summary = (
+        "Norm frozen for evaluation (no renegotiation). Active law in force: "
+        f"{active_nl}" if active_nl else
+        "Norm frozen for evaluation; no formal law in force."
+    )
+    resource_limit = self._extract_resource_limit(active_nl)
+    limit_text = (
+        f"Detected negotiated resource limit: {resource_limit}"
+        if resource_limit is not None
+        else "Detected negotiated resource limit: N/A"
+    )
+    transcript = [
+        (self.framework_identity, summary),
+        (self.framework_identity, limit_text),
+    ]
+    html_interactions = [
+        f"<div><strong>FRAMEWORK</strong>: {summary}</div>",
+        f"<div><strong>FRAMEWORK</strong>: {limit_text}</div>",
+    ]
+    self._log(
+        "negotiation_frozen",
+        {"round": self.current_round, "summary": summary, "resource_limit": resource_limit},
     )
     return transcript, summary, resource_limit, html_interactions
 
@@ -515,6 +584,8 @@ class ContractingOrchestrator:
     })
 
   def _default_nl_law(self) -> str:
+    if self._seed_norm is not None:
+      return self._seed_norm
     return (
         "Unless and until replaced by a duly adopted law, each fisher shall remain "
         "free to choose and act according to their own judgment regarding harvest."

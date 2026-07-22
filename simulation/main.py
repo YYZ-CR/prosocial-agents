@@ -50,6 +50,7 @@ def main(cfg: DictConfig):
             top_p=llm_cfg.top_p,
             seed=cfg.seed,
             is_api=True,
+            reasoning=OmegaConf.select(llm_cfg, "reasoning", default=None),
         )
 
     if len(cfg.mix_llm) == 0:
@@ -124,6 +125,15 @@ def main(cfg: DictConfig):
             await close_wrappers()
 
     asyncio.run(run_and_close())
+
+    # Persist per-run token usage next to the env log for cost accounting.
+    try:
+        import json as _json
+
+        with open(os.path.join(experiment_storage, "token_usage.json"), "w") as _f:
+            _json.dump(ModelWandbWrapper.usage_snapshot(), _f, indent=2)
+    except Exception as _e:  # noqa: BLE001 - usage logging must never fail a run
+        print(f"[token-usage] failed to write usage snapshot: {_e}")
 
     hydra_log_path = hydra.core.hydra_config.HydraConfig.get().runtime.output_dir
     shutil.copytree(f"{hydra_log_path}/.hydra/", f"{experiment_storage}/.hydra/")
