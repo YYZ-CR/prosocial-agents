@@ -384,6 +384,57 @@ is nearly decorative---while for an uncooperative model an elaborate norm is
 \emph{also} worth nothing, because it defects regardless. The norm text had
 leverage in neither regime.
 
+\subsection{Vagueness, made quantitative}
+``Vague'' should be a measurement, not an impression. We operationalize it with a
+\emph{specificity index}: the $z$-scored sum of five norm features---clause count,
+number of explicit numeric caps, number of stock-conditional clauses, log length,
+and a count of institutional flags (moratorium, amendment rule, enforcement,
+rotation). The vague seed sits at the bottom of this scale; the seven-clause Opus
+institution sits near the top. If specificity bought cooperation, reward would rise
+with it.
+
+It does not (Figure~\ref{fig:spec}). Across the five non-collapse models, reward is
+flat in specificity: Pearson $r = -0.03$ ($R^2 \approx 0\%$), and every per-model
+OLS slope is below $0.035$ reward points per index unit---so sweeping a norm across
+the entire observed specificity range shifts predicted reward by less than the
+fixed-norm noise floor. The per-model correlations are small and \emph{flip sign}
+across models ($-0.36$ to $+0.54$), the signature of noise rather than a systematic
+effect, and the near-zero pooled association is unchanged under length-only,
+clause-only, and caps-plus-conditionals index definitions
+(Table~\ref{tab:specrobust}). What the scatter shows instead is horizontal banding
+by \emph{model}: Opus points sit at $2.4$--$2.5$ and Sol points below zero at every
+level of specificity. A norm's vagueness does not decide the outcome; the agent does.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig_specificity.pdf}
+  \caption{\emph{Left:} episode reward against the norm specificity index, one point
+  per evaluated norm, colored by agent model; the dashed line is the pooled
+  non-collapse fit (slope $-0.004$). Points band horizontally by model, not by
+  specificity. \emph{Right:} the per-model regression slope of reward on
+  specificity---all near zero and mixed in sign.}
+  \label{fig:spec}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \small
+  \begin{tabular}{lcc}
+    \toprule
+    Specificity index definition & Pearson $r$ & Spearman $\rho$ \\
+    \midrule
+    Full ($5$ components)                & $-0.03$ & $+0.16$ \\
+    Length only                          & $-0.06$ & $+0.16$ \\
+    Clause count only                    & $-0.01$ & $+0.22$ \\
+    Numeric caps $+$ stock-conditionals  & $+0.00$ & $+0.28$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Robustness of the reward--specificity (non-)association to how
+  specificity is defined, pooled over the five non-collapse models ($75$ norms).
+  Every definition yields a near-zero Pearson correlation.}
+  \label{tab:specrobust}
+\end{table}
+
 \section{Discussion}
 
 \paragraph{A null with teeth.}
